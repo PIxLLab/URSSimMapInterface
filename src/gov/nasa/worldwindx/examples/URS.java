@@ -43,6 +43,7 @@ import gov.nasa.worldwind.event.SelectListener;
 import gov.nasa.worldwind.event.SelectEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.ListIterator;
 
 
 import gov.nasa.worldwind.event.*;
@@ -90,15 +91,11 @@ import gov.nasa.worldwind.geom.LatLon;
  */
 public class URS extends ApplicationTemplate
 {
-
     // An inner class is used rather than directly subclassing JFrame in the main class so
     // that the main can configure system properties prior to invoking Swing. This is
     // necessary for instance on OS X (Macs) so that the application name can be specified.
 	static boolean LBArm = false;
-	
-	
-    
-    
+	  
 	private static class LinePanel extends JPanel
     {
         private final WorldWindow wwd;
@@ -226,10 +223,6 @@ public class URS extends ApplicationTemplate
 	
 	
 	
-	
-	
-	
-	
     private static class AppFrame extends ApplicationTemplate.AppFrame   //javax.swing.JFrame
     {
     	private static final MarkerAttributes[] attrs = new BasicMarkerAttributes[]
@@ -244,19 +237,12 @@ public class URS extends ApplicationTemplate
         private BasicMarkerAttributes lastAttrs;
         
         public AppFrame()
-        {         
-        	
-        	
-        	super(false, false, false);
-        	
-        	
-            
-           
-            
+        {                	
+        	super(true, true, false);
+        	        	                                   
         	double lon = -106.7500946, lat = 32.2787745, droneElevation = 1d;  // drone location, elevation is in meters
-        	double elevationOffset=6.5e3d;						 // camera height from surface (meters)
-        	
-        	
+        	double elevationOffset=2.5e3d;						 // camera height from surface (meters)
+        	      	
         	// create the markers for the drones 
         	ArrayList<Marker> markers = new ArrayList<Marker>();
         	Marker marker = new BasicMarker(Position.fromDegrees(lat, lon, droneElevation), attrs[0]);
@@ -267,9 +253,9 @@ public class URS extends ApplicationTemplate
             
             // put 4 markers on the corners of the permitted region around nmsu
             double minlat=32.284841;
-            	double maxlat = 32.270353 ;
-            	double minlon = -106.761522 ;
-            	double maxlon = -106.736765;
+            double maxlat = 32.270353 ;
+            double minlon = -106.761522 ;
+            double maxlon = -106.736765;
             Marker marker1 = new BasicMarker(Position.fromDegrees(minlat, minlon, droneElevation), attrs[3]);
             marker1.setPosition(Position.fromDegrees(minlat, minlon, droneElevation));
             marker1.setHeading(Angle.fromDegrees(0));
@@ -292,9 +278,7 @@ public class URS extends ApplicationTemplate
             markers.add(marker4);
             
             final MarkerLayer layer = new MarkerLayer();
-            
-            
-            
+                                 
             // highlight selected drones
             this.getWwd().addSelectListener(new SelectListener()
             {
@@ -325,19 +309,11 @@ public class URS extends ApplicationTemplate
                         highliteAttrs.setMarkerPixels(lastAttrs.getMarkerPixels() * 1.4);
                         highliteAttrs.setMinMarkerSize(lastAttrs.getMinMarkerSize() * 1.4);
                         lastHighlit.setAttributes(highliteAttrs);
-                    }
-                    
-                    
-                    
+                    }                   
                 }
             });
             
-           
-
-            
-
-
-            
+              
             // get coordinates of the selected drone
             this.getWwd().addSelectListener(new SelectListener()
             {
@@ -363,15 +339,8 @@ public class URS extends ApplicationTemplate
             });
                     
            
-            
-            
-            
-            
-            
-            
-            
-            
-            	// add new drone by LEFT_CLICK
+     
+           // add new pine by LEFT_CLICK
             this.getWwd().getInputHandler().addMouseListener(new MouseAdapter()
             {
                 public void mousePressed(MouseEvent mouseEvent)
@@ -388,7 +357,6 @@ public class URS extends ApplicationTemplate
                 				System.out.printf("New Drone OUT of permitted region, try again within the range of NMSU!\n");
                 			} else {
                 			System.out.printf("New Drone ADDED!\n");
-                			
                 			
                 			
                 			Marker marker = new BasicMarker(Position.fromDegrees(lat, lon, droneElevation), attrs[1]);
@@ -414,17 +382,12 @@ public class URS extends ApplicationTemplate
                 	            attrs.setImageAddress("images/pushpins/plain-red.png");
                 	            pp.setAttributes(attrs);
                 	            layer.addRenderable(pp);
-                	            
-                	         
+                	                                    
                 	            // Add the layer to the model.
                 	            insertBeforeCompass(getWwd(), layer);
-                	            
-                	            
-                	            
-                	     
+    
                 			//sam
-                	            
-                	            
+                	                     
                 			markers.add(marker);
                         
                 			View view = getWwd().getView();
@@ -435,32 +398,27 @@ public class URS extends ApplicationTemplate
                                 // so we ignore it when specifying the view center position.
                 				//view.goTo(new Position(targetPos, 0), targetPos.getElevation() + elevationOffset);
                 			}
-                			}
+                		}
                 	}
                 	}    
                 //}
                 //}
             });
             
-            
-            
-            
-            
+               
 
-            WorldWindowGLCanvas wwd = new WorldWindowGLCanvas();
-            wwd.setPreferredSize(new java.awt.Dimension(1000, 800));
-            this.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-            this.getContentPane().add(wwd, java.awt.BorderLayout.EAST);
-            this.pack();
+            //WorldWindowGLCanvas wwd = new WorldWindowGLCanvas();
+            //wwd.setPreferredSize(new java.awt.Dimension(1000, 800));
+            //this.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+            //this.getContentPane().add(wwd, java.awt.BorderLayout.WEST);
+            //this.pack(); 
             // Adjust the view on the drones locations
             View view = getWwd().getView();
             view.setEyePosition(Position.fromDegrees(lat, lon, elevationOffset));
             insertBeforeCompass(this.getWwd(), layer);
-            wwd.setModel(new BasicModel());
+            //wwd.setModel(new BasicModel());
             
-            
-            
-            
+  
 
      layer.setOverrideMarkerElevation(true);
      layer.setKeepSeparated(false);
@@ -469,20 +427,26 @@ public class URS extends ApplicationTemplate
      insertBeforePlacenames(this.getWwd(), layer);
      
      LineBuilder lineBuilder = new LineBuilder(this.getWwd(), null, null);
-     this.getContentPane().add(new LinePanel(this.getWwd(), lineBuilder), BorderLayout.WEST);
+     this.getContentPane().add(new LinePanel(this.getWwd(), lineBuilder), BorderLayout.EAST);
      
-     
+     this.enableNAIPLayer();
   }
+        public void enableNAIPLayer()
+        {
+            LayerList list = this.getWwd().getModel().getLayers();
+            ListIterator iterator = list.listIterator();
+            while (iterator.hasNext())
+            {
+                Layer layer = (Layer) iterator.next();
+                if (layer.getName().contains("NAIP"))
+                {
+                    layer.setEnabled(true);
+                    break;
+                }
+            }
+        }
 }
 
-    
-    
-   
-    	
-        
-    
-
-    
     
     
     public static void main(String[] args)
