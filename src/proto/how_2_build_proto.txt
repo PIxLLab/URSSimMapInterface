@@ -1,0 +1,7 @@
+protoc -I=/home/spakrava/WorldWind/src/proto --java_out=/home/spakrava/WorldWind/src/proto /home/spakrava/WorldWind/src/proto/URS_Wearable.proto
+
+run the above command at the installation folder for protoc:
+/home/spakrava/Documents/protobuf-3.4.1
+
+now in the gov folder run:
+javac -cp /home/spakrava/Documents/protobuf-3.4.1/java/core/target/protobuf-java-3.4.1.jar URSProto.java

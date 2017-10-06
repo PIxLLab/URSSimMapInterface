@@ -3,6 +3,8 @@
  * National Aeronautics and Space Administration.
  * All Rights Reserved.
  */
+
+
 package gov.nasa.worldwindx.examples;
 
 import gov.nasa.worldwind.*;
@@ -84,10 +86,13 @@ import java.util.*;
 import gov.nasa.worldwind.layers.RenderableLayer;
 import gov.nasa.worldwind.render.*;
 import gov.nasa.worldwind.geom.LatLon;
+
+import URSWearable.*;
+
 /**
- * This is the most basic World Wind program.
- *
- * @version $Id: HelloWorldWind.java 1971 2014-04-29 21:31:28Z dcollins $
+ * This is the URS map based user interface using the NASA WorldWind platform.
+ * author: Samira Pakravan
+ * email: samira90@nmsu.edu
  */
 public class URS extends ApplicationTemplate
 {
