@@ -31,6 +31,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.text.html.parser.ParserDelegator;
+
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Cursor;
@@ -47,12 +49,17 @@ import java.util.List;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 
 import pb_wearable.Wearable.GetStatus;
 import pb_wearable.Wearable.GetStatus.Builder;
+import pb_wearable.Wearable.GotoRequest;
+import pb_wearable.Wearable.GotoResponse;
 import pb_wearable.Wearable.Status;
 
 
@@ -66,10 +73,16 @@ public class URSSimulationMapInterface extends ApplicationTemplate{
 	// that the main can configure system properties prior to invoking Swing. This is
 	// necessary for instance on OS X (Macs) so that the application name can be specified.
 	static boolean LBArm = false;
-	static List <Integer> droneid = new ArrayList<Integer>();
+	
+	/*static List <Integer> droneid = new ArrayList<Integer>();
 	static List <Double> dronelatitude = new ArrayList<Double>();
 	static List <Double> dronelongitude = new ArrayList<Double>();
-	static List <Double> droneelevation = new ArrayList<Double>();
+	static List <Double> droneelevation = new ArrayList<Double>();*/
+	
+	static int droneid;
+	static double dronelatitude;
+	static double dronelongitude;
+	static double droneelevation;
  
     private static class LinePanel extends JPanel
 	{
@@ -157,137 +170,58 @@ public class URSSimulationMapInterface extends ApplicationTemplate{
 			
 			//.....Connects to the exec_monitor.....//
 			sendButton.addActionListener( new ActionListener()
-			{		
-				 public void actionPerformed(ActionEvent actionEvent)	
-				 {
-					 
-					 try { 
-						 
-						 InetAddress host = InetAddress.getLocalHost();
-					     Socket socket = null;
-					     ObjectOutputStream oos = null;
-					     
-					     //.....Connecting with the Server........//
-					     socket = new Socket(host.getHostName(),8080);
-					     oos = new ObjectOutputStream(socket.getOutputStream());
-					     
-					    System.out.println("......Communication Starts......."); 
-					    
-						//System.out.println("......Protocol Buffer Starts......."); 
-						//....Message for Drone ID........//
-					    //FileOutputStream output = new FileOutputStream("URS_Wearable.txt"); 
-						Builder droneidbuild = pb_wearable.Wearable.GetStatus.newBuilder();
-						
-						for (Integer elementid : droneid) {
-							   
-							 droneidbuild.setUavId(elementid);
-							//.....Object Build for Drone ID...//
-							 GetStatus objdroneid = droneidbuild.build();
-							 //objdroneid.writeTo(output);
-							 String[] requiredpartid=objdroneid.toString().split(":");
-							 
-							 int value= Integer.parseInt(requiredpartid[1].trim()); 
-							 
-							 //oos.write(value);
-							 
-							 oos.writeByte(value);
-							 
-							 System.out.println(value);
-							 
-							 //oos.writeObject(objdroneid);
-							
-							 //System.out.println(Integer.parseInt(requiredpartid[1]));
-							 
-							}
-											 
-					//....Message for Latitude..........//
-				   //.... Writing into the File..............................//
-						
-					    for (Double elementlat : dronelatitude) {
-							
-					    	Status objlatStatus= pb_wearable.Wearable.Status.newBuilder().setX(elementlat).build();
-					    	//objlatStatus.writeTo(output);
-					    	String[] requiredpartlat=objlatStatus.toString().split(":");
-					    	
-					    	Double value=Double.parseDouble(requiredpartlat[1]);
-					    	
-					    	oos.writeBytes(value.toString());
-					    	
-					    	//oos.writeDouble(Double.parseDouble(requiredpartlat[1]));
-					    	
-					    	//oos.writeObject(objlatStatus);
-					    	
-					    	System.out.println(Double.parseDouble(requiredpartlat[1]));
-						 }
-					    
-				 //....Message for Longitude..........//
-				 //.... Writing into the File..............................//
-								
-					    for (Double elementlon : dronelongitude) {
-							
-					    	Status objlonStatus= pb_wearable.Wearable.Status.newBuilder().setY(elementlon).build();
-					    	//objlonStatus.writeTo(output);
-					    	String[] requiredpartlon=objlonStatus.toString().split(":");
-					    	
-							Double value=Double.parseDouble(requiredpartlon[1]);
-					    	
-					    	oos.writeBytes(value.toString());
-					    	
-					    	
-					    	//oos.writeDouble(Double.parseDouble(requiredpartlon[1]));
-					    	
-					    	//oos.writeObject(objlonStatus);
-					    	
-					    	System.out.println(Double.parseDouble(requiredpartlon[1]));
-						 }
-							    
-			    //....Message for Elevation..........//
-			   //.... Writing into the File..............................//
-										
-					    for (Double elementele : droneelevation) {
-							
-					    	Status objeleStatus= pb_wearable.Wearable.Status.newBuilder().setZ(elementele).build();
-					    	//objeleStatus.writeTo(output);
-					    	String[] requiredpartele=objeleStatus.toString().split(":");
-					    	
-		                    Double value=Double.parseDouble(requiredpartele[1]);
-					    	
-					    	oos.writeBytes(value.toString());
-					    	
-					    	
-					    	//oos.writeDouble(Double.parseDouble(requiredpartele[1]));
-					    	
-					    	//oos.writeObject(objeleStatus);
-					    	
-					    	System.out.println(Double.parseDouble(requiredpartele[1]));
-						 }
-					    
-					
-					    socket.close(); //....Closing the Socket....//
-					    
-					    //output.close();
-					    
-					 //.... Reading from the File..............................//
-				     /*GetStatus showgetstatus = GetStatus.parseFrom(new FileInputStream("URS_Wearable.txt"));  
-				     System.out.println(showgetstatus);
-				     
-				     Status showstatus = Status.parseFrom(new FileInputStream("URS_Wearable.txt"));  
-				     System.out.println(showstatus);
-				     
-				     JOptionPane.showMessageDialog(null,"A Text File has been Created...!!!","Message", JOptionPane.INFORMATION_MESSAGE);
-					 System.out.println("......Protocol Buffer Ends.......");*/	    
-					    
-					 System.out.println("......Communication Ends......."); 
-				
-					}
-					
-					catch(IOException e)
-					{
-						e.printStackTrace();
-					}
-			  
-				 }
-			});
+      {
+        public void actionPerformed(ActionEvent actionEvent) {
+
+          try {
+            InetAddress host = InetAddress.getLocalHost();
+            Socket socket = new Socket(host.getHostName(), 8080);
+            OutputStream oos = socket.getOutputStream();
+
+            System.out.println("......Communication Starts.......");
+            GotoRequest.Builder objgotorequest = GotoRequest.newBuilder();
+            objgotorequest.setUavId(1);// ...Set Drone ID...//
+            objgotorequest.setX(2); // ....Set Drone Latitude...//
+            objgotorequest.setY(3); // ....Set Drone Longitude...//
+            objgotorequest.setZ(4); // ....Set Drone Elevation...//
+
+            System.out.println("......Sending Data.......");
+            objgotorequest.build().writeDelimitedTo(oos);
+
+            System.out.println("......Receaving Data.......");
+            InputStream ois = socket.getInputStream();
+            GotoResponse objgotoresponse = null;
+            objgotoresponse = GotoResponse.parseDelimitedFrom(ois);
+            System.out.println(objgotoresponse);
+
+            socket.close(); // ....Closing the Socket....//
+
+            // .... Reading from the File..............................//
+            /*
+             * GetStatus showgetstatus = GetStatus.parseFrom(new
+             * FileInputStream("URS_Wearable.txt"));
+             * System.out.println(showgetstatus);
+             * 
+             * Status showstatus = Status.parseFrom(new
+             * FileInputStream("URS_Wearable.txt"));
+             * System.out.println(showstatus);
+             * 
+             * JOptionPane.showMessageDialog(
+             * null,"A Text File has been Created...!!!","Message",
+             * JOptionPane.INFORMATION_MESSAGE);
+             * System.out.println("......Protocol Buffer Ends.......");
+             */
+
+            System.out.println("......Communication Ends.......");
+
+          }
+
+          catch (IOException e) {
+            e.printStackTrace();
+          }
+
+        }
+      });
 			
 			buttonPanel.add(sendButton);
 			sendButton.setEnabled(false);
@@ -361,37 +295,37 @@ public class URSSimulationMapInterface extends ApplicationTemplate{
 		
 			// create the markers for the drones
 			ArrayList<Marker> markers = new ArrayList<Marker>();
-			Marker marker = new BasicMarker(Position.fromDegrees(lat, lon, droneElevation), attrs[0]);
-			marker.setPosition(Position.fromDegrees(lat, lon, droneElevation));
-			marker.setHeading(Angle.fromDegrees(0));
-			marker.setPitch(Angle.fromDegrees(90));
-			markers.add(marker);
-		
+//			Marker marker = new BasicMarker(Position.fromDegrees(lat, lon, droneElevation), attrs[0]);
+//			marker.setPosition(Position.fromDegrees(lat, lon, droneElevation));
+//			marker.setHeading(Angle.fromDegrees(0));
+//			marker.setPitch(Angle.fromDegrees(90));
+//			markers.add(marker);
+//		
 			// put 4 markers on the corners of the permitted region around nmsu
 			double minlat=32.284841;
 			double maxlat = 32.270353 ;
 			double minlon = -106.761522 ;
 			double maxlon = -106.736765;
-			Marker marker1 = new BasicMarker(Position.fromDegrees(minlat, minlon, droneElevation), attrs[3]);
-			marker1.setPosition(Position.fromDegrees(minlat, minlon, droneElevation));
-			marker1.setHeading(Angle.fromDegrees(0));
-			marker1.setPitch(Angle.fromDegrees(90));
-			markers.add(marker1);
-			Marker marker2 = new BasicMarker(Position.fromDegrees(minlat, maxlon, droneElevation), attrs[3]);
-			marker2.setPosition(Position.fromDegrees(minlat, maxlon, droneElevation));
-			marker2.setHeading(Angle.fromDegrees(0));
-			marker2.setPitch(Angle.fromDegrees(90));
-			markers.add(marker2);
-			Marker marker3 = new BasicMarker(Position.fromDegrees(maxlat, minlon, droneElevation), attrs[3]);
-			marker3.setPosition(Position.fromDegrees(maxlat, minlon, droneElevation));
-			marker3.setHeading(Angle.fromDegrees(0));
-			marker3.setPitch(Angle.fromDegrees(90));
-			markers.add(marker3);
-			Marker marker4 = new BasicMarker(Position.fromDegrees(maxlat, maxlon, droneElevation), attrs[3]);
-			marker4.setPosition(Position.fromDegrees(maxlat, maxlon, droneElevation));
-			marker4.setHeading(Angle.fromDegrees(0));
-			marker4.setPitch(Angle.fromDegrees(90));
-			markers.add(marker4);
+//			Marker marker1 = new BasicMarker(Position.fromDegrees(minlat, minlon, droneElevation), attrs[3]);
+//			marker1.setPosition(Position.fromDegrees(minlat, minlon, droneElevation));
+//			marker1.setHeading(Angle.fromDegrees(0));
+//			marker1.setPitch(Angle.fromDegrees(90));
+//			markers.add(marker1);
+//			Marker marker2 = new BasicMarker(Position.fromDegrees(minlat, maxlon, droneElevation), attrs[3]);
+//			marker2.setPosition(Position.fromDegrees(minlat, maxlon, droneElevation));
+//			marker2.setHeading(Angle.fromDegrees(0));
+//			marker2.setPitch(Angle.fromDegrees(90));
+//			markers.add(marker2);
+//			Marker marker3 = new BasicMarker(Position.fromDegrees(maxlat, minlon, droneElevation), attrs[3]);
+//			marker3.setPosition(Position.fromDegrees(maxlat, minlon, droneElevation));
+//			marker3.setHeading(Angle.fromDegrees(0));
+//			marker3.setPitch(Angle.fromDegrees(90));
+//			markers.add(marker3);
+//			Marker marker4 = new BasicMarker(Position.fromDegrees(maxlat, maxlon, droneElevation), attrs[3]);
+//			marker4.setPosition(Position.fromDegrees(maxlat, maxlon, droneElevation));
+//			marker4.setHeading(Angle.fromDegrees(0));
+//			marker4.setPitch(Angle.fromDegrees(90));
+//			markers.add(marker4);
 		
 			final MarkerLayer layer = new MarkerLayer();
 		
@@ -441,28 +375,32 @@ public class URSSimulationMapInterface extends ApplicationTemplate{
 						if (event.getTopPickedObject().getParentLayer() instanceof MarkerLayer)
 						{
 							PickedObject po = event.getTopPickedObject();
-							//noinspection RedundantCast
-							//System.out.printf("Track position %s, %s, size = %f\n",
-							// po.getValue(AVKey.PICKED_OBJECT_ID).toString(),
-							// po.getPosition(), (Double) po.getValue(AVKey.PICKED_OBJECT_SIZE));
 							
-							int id= Integer.parseInt(po.getValue(AVKey.PICKED_OBJECT_ID).toString()); 
-							droneid.add(id); //.....Adding Drone ID...//
+							/*int id= Integer.parseInt(po.getValue(AVKey.PICKED_OBJECT_ID).toString()); 
+							droneid.add(id); //.....Adding Drone ID...//*/
+							
+							droneid= Integer.parseInt(po.getValue(AVKey.PICKED_OBJECT_ID).toString()); 
 							
 							//System.out.println("Drone ID:"+id);
 							
-							double latitude = po.getPosition().getLatitude().degrees;
-							dronelatitude.add(latitude); //....Adding Drone Latitude...//
+							/*double latitude = po.getPosition().getLatitude().degrees;
+							dronelatitude.add(latitude); //....Adding Drone Latitude...//*/
+							
+							dronelatitude = po.getPosition().getLatitude().degrees;
 							
 							//System.out.println("Latitude:"+latitude);
 							
-							double longitude = po.getPosition().getLongitude().degrees;
-							dronelongitude.add(longitude); //....Adding Drone Longitude...//
+							/*double longitude = po.getPosition().getLongitude().degrees;
+							dronelongitude.add(longitude); //....Adding Drone Longitude...//*/
+							
+							dronelongitude = po.getPosition().getLongitude().degrees;
 							
 							//System.out.println("Longitude:"+longitude);
 							
-							double elevation = po.getPosition().getElevation();
-							droneelevation.add(elevation); //....Adding Drone Elevation...//
+							/*double elevation = po.getPosition().getElevation();
+							droneelevation.add(elevation); //....Adding Drone Elevation...//*/
+							
+							droneelevation = po.getPosition().getElevation();
 							
 							//System.out.println("Elevation:"+elevation);
 							
@@ -471,8 +409,10 @@ public class URSSimulationMapInterface extends ApplicationTemplate{
 							po.getPosition());
 						}
 					}
-			
+					
 				}
+				
+				
 			});
 		
 			// add new pine by LEFT_CLICK

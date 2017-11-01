@@ -6,7 +6,7 @@ package pb_wearable;
 message WearableRequest {
   required WearableRequestType type = 1;
   
- oneof wearablerequest_oneof {
+  oneof wearablerequest_oneof {
     GetStatus getStatus = 2;
   }
   
@@ -18,6 +18,14 @@ message WearableRequest {
 
 message GetStatus {
   required int32 uav_id = 1;
+}
+
+message GotoRequest {
+  required int32 uav_id = 1;
+  optional double x = 2;
+  optional double y = 3;
+  optional double z = 4;
+  optional double yaw = 5;
 }
 
 // A response message to a wearable device
@@ -39,4 +47,12 @@ message Status {
   optional double y = 2;
   optional double z = 3;
   optional double yaw = 4;
+}
+
+message GotoResponse {
+  required int32 uav_id = 1;
+  optional double x = 2;
+  optional double y = 3;
+  optional double z = 4;
+  optional double yaw = 5;
 }

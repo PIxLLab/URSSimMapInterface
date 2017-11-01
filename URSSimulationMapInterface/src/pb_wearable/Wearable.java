@@ -1185,6 +1185,747 @@ public final class Wearable {
     // @@protoc_insertion_point(class_scope:pb_wearable.GetStatus)
   }
 
+  public interface GotoRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:pb_wearable.GotoRequest)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>required int32 uav_id = 1;</code>
+     */
+    boolean hasUavId();
+    /**
+     * <code>required int32 uav_id = 1;</code>
+     */
+    int getUavId();
+
+    /**
+     * <code>required double x = 2;</code>
+     */
+    boolean hasX();
+    /**
+     * <code>required double x = 2;</code>
+     */
+    double getX();
+
+    /**
+     * <code>required double y = 3;</code>
+     */
+    boolean hasY();
+    /**
+     * <code>required double y = 3;</code>
+     */
+    double getY();
+
+    /**
+     * <code>required double z = 4;</code>
+     */
+    boolean hasZ();
+    /**
+     * <code>required double z = 4;</code>
+     */
+    double getZ();
+
+    /**
+     * <code>optional double yaw = 5;</code>
+     */
+    boolean hasYaw();
+    /**
+     * <code>optional double yaw = 5;</code>
+     */
+    double getYaw();
+  }
+  /**
+   * Protobuf type {@code pb_wearable.GotoRequest}
+   */
+  public static final class GotoRequest extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:pb_wearable.GotoRequest)
+      GotoRequestOrBuilder {
+    // Use GotoRequest.newBuilder() to construct.
+    private GotoRequest(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private GotoRequest(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final GotoRequest defaultInstance;
+    public static GotoRequest getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public GotoRequest getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private GotoRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              uavId_ = input.readInt32();
+              break;
+            }
+            case 17: {
+              bitField0_ |= 0x00000002;
+              x_ = input.readDouble();
+              break;
+            }
+            case 25: {
+              bitField0_ |= 0x00000004;
+              y_ = input.readDouble();
+              break;
+            }
+            case 33: {
+              bitField0_ |= 0x00000008;
+              z_ = input.readDouble();
+              break;
+            }
+            case 41: {
+              bitField0_ |= 0x00000010;
+              yaw_ = input.readDouble();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return pb_wearable.Wearable.internal_static_pb_wearable_GotoRequest_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return pb_wearable.Wearable.internal_static_pb_wearable_GotoRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              pb_wearable.Wearable.GotoRequest.class, pb_wearable.Wearable.GotoRequest.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<GotoRequest> PARSER =
+        new com.google.protobuf.AbstractParser<GotoRequest>() {
+      public GotoRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new GotoRequest(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<GotoRequest> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    public static final int UAV_ID_FIELD_NUMBER = 1;
+    private int uavId_;
+    /**
+     * <code>required int32 uav_id = 1;</code>
+     */
+    public boolean hasUavId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 uav_id = 1;</code>
+     */
+    public int getUavId() {
+      return uavId_;
+    }
+
+    public static final int X_FIELD_NUMBER = 2;
+    private double x_;
+    /**
+     * <code>required double x = 2;</code>
+     */
+    public boolean hasX() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required double x = 2;</code>
+     */
+    public double getX() {
+      return x_;
+    }
+
+    public static final int Y_FIELD_NUMBER = 3;
+    private double y_;
+    /**
+     * <code>required double y = 3;</code>
+     */
+    public boolean hasY() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required double y = 3;</code>
+     */
+    public double getY() {
+      return y_;
+    }
+
+    public static final int Z_FIELD_NUMBER = 4;
+    private double z_;
+    /**
+     * <code>required double z = 4;</code>
+     */
+    public boolean hasZ() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>required double z = 4;</code>
+     */
+    public double getZ() {
+      return z_;
+    }
+
+    public static final int YAW_FIELD_NUMBER = 5;
+    private double yaw_;
+    /**
+     * <code>optional double yaw = 5;</code>
+     */
+    public boolean hasYaw() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional double yaw = 5;</code>
+     */
+    public double getYaw() {
+      return yaw_;
+    }
+
+    private void initFields() {
+      uavId_ = 0;
+      x_ = 0D;
+      y_ = 0D;
+      z_ = 0D;
+      yaw_ = 0D;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      if (!hasUavId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasX()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasY()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasZ()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, uavId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeDouble(2, x_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeDouble(3, y_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeDouble(4, z_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeDouble(5, yaw_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, uavId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(2, x_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(3, y_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(4, z_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(5, yaw_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static pb_wearable.Wearable.GotoRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static pb_wearable.Wearable.GotoRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static pb_wearable.Wearable.GotoRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static pb_wearable.Wearable.GotoRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static pb_wearable.Wearable.GotoRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static pb_wearable.Wearable.GotoRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static pb_wearable.Wearable.GotoRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static pb_wearable.Wearable.GotoRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static pb_wearable.Wearable.GotoRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static pb_wearable.Wearable.GotoRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(pb_wearable.Wearable.GotoRequest prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code pb_wearable.GotoRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:pb_wearable.GotoRequest)
+        pb_wearable.Wearable.GotoRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return pb_wearable.Wearable.internal_static_pb_wearable_GotoRequest_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return pb_wearable.Wearable.internal_static_pb_wearable_GotoRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                pb_wearable.Wearable.GotoRequest.class, pb_wearable.Wearable.GotoRequest.Builder.class);
+      }
+
+      // Construct using pb_wearable.Wearable.GotoRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        uavId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        x_ = 0D;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        y_ = 0D;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        z_ = 0D;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        yaw_ = 0D;
+        bitField0_ = (bitField0_ & ~0x00000010);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return pb_wearable.Wearable.internal_static_pb_wearable_GotoRequest_descriptor;
+      }
+
+      public pb_wearable.Wearable.GotoRequest getDefaultInstanceForType() {
+        return pb_wearable.Wearable.GotoRequest.getDefaultInstance();
+      }
+
+      public pb_wearable.Wearable.GotoRequest build() {
+        pb_wearable.Wearable.GotoRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public pb_wearable.Wearable.GotoRequest buildPartial() {
+        pb_wearable.Wearable.GotoRequest result = new pb_wearable.Wearable.GotoRequest(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.uavId_ = uavId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.x_ = x_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.y_ = y_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.z_ = z_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.yaw_ = yaw_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof pb_wearable.Wearable.GotoRequest) {
+          return mergeFrom((pb_wearable.Wearable.GotoRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(pb_wearable.Wearable.GotoRequest other) {
+        if (other == pb_wearable.Wearable.GotoRequest.getDefaultInstance()) return this;
+        if (other.hasUavId()) {
+          setUavId(other.getUavId());
+        }
+        if (other.hasX()) {
+          setX(other.getX());
+        }
+        if (other.hasY()) {
+          setY(other.getY());
+        }
+        if (other.hasZ()) {
+          setZ(other.getZ());
+        }
+        if (other.hasYaw()) {
+          setYaw(other.getYaw());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasUavId()) {
+          
+          return false;
+        }
+        if (!hasX()) {
+          
+          return false;
+        }
+        if (!hasY()) {
+          
+          return false;
+        }
+        if (!hasZ()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        pb_wearable.Wearable.GotoRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (pb_wearable.Wearable.GotoRequest) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private int uavId_ ;
+      /**
+       * <code>required int32 uav_id = 1;</code>
+       */
+      public boolean hasUavId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 uav_id = 1;</code>
+       */
+      public int getUavId() {
+        return uavId_;
+      }
+      /**
+       * <code>required int32 uav_id = 1;</code>
+       */
+      public Builder setUavId(int value) {
+        bitField0_ |= 0x00000001;
+        uavId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 uav_id = 1;</code>
+       */
+      public Builder clearUavId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        uavId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private double x_ ;
+      /**
+       * <code>required double x = 2;</code>
+       */
+      public boolean hasX() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required double x = 2;</code>
+       */
+      public double getX() {
+        return x_;
+      }
+      /**
+       * <code>required double x = 2;</code>
+       */
+      public Builder setX(double value) {
+        bitField0_ |= 0x00000002;
+        x_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required double x = 2;</code>
+       */
+      public Builder clearX() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        x_ = 0D;
+        onChanged();
+        return this;
+      }
+
+      private double y_ ;
+      /**
+       * <code>required double y = 3;</code>
+       */
+      public boolean hasY() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required double y = 3;</code>
+       */
+      public double getY() {
+        return y_;
+      }
+      /**
+       * <code>required double y = 3;</code>
+       */
+      public Builder setY(double value) {
+        bitField0_ |= 0x00000004;
+        y_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required double y = 3;</code>
+       */
+      public Builder clearY() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        y_ = 0D;
+        onChanged();
+        return this;
+      }
+
+      private double z_ ;
+      /**
+       * <code>required double z = 4;</code>
+       */
+      public boolean hasZ() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>required double z = 4;</code>
+       */
+      public double getZ() {
+        return z_;
+      }
+      /**
+       * <code>required double z = 4;</code>
+       */
+      public Builder setZ(double value) {
+        bitField0_ |= 0x00000008;
+        z_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required double z = 4;</code>
+       */
+      public Builder clearZ() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        z_ = 0D;
+        onChanged();
+        return this;
+      }
+
+      private double yaw_ ;
+      /**
+       * <code>optional double yaw = 5;</code>
+       */
+      public boolean hasYaw() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional double yaw = 5;</code>
+       */
+      public double getYaw() {
+        return yaw_;
+      }
+      /**
+       * <code>optional double yaw = 5;</code>
+       */
+      public Builder setYaw(double value) {
+        bitField0_ |= 0x00000010;
+        yaw_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional double yaw = 5;</code>
+       */
+      public Builder clearYaw() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        yaw_ = 0D;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:pb_wearable.GotoRequest)
+    }
+
+    static {
+      defaultInstance = new GotoRequest(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:pb_wearable.GotoRequest)
+  }
+
   public interface WearableResponseOrBuilder extends
       // @@protoc_insertion_point(interface_extends:pb_wearable.WearableResponse)
       com.google.protobuf.MessageOrBuilder {
@@ -2576,6 +3317,747 @@ public final class Wearable {
     // @@protoc_insertion_point(class_scope:pb_wearable.Status)
   }
 
+  public interface GotoResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:pb_wearable.GotoResponse)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>required int32 uav_id = 1;</code>
+     */
+    boolean hasUavId();
+    /**
+     * <code>required int32 uav_id = 1;</code>
+     */
+    int getUavId();
+
+    /**
+     * <code>required double x = 2;</code>
+     */
+    boolean hasX();
+    /**
+     * <code>required double x = 2;</code>
+     */
+    double getX();
+
+    /**
+     * <code>required double y = 3;</code>
+     */
+    boolean hasY();
+    /**
+     * <code>required double y = 3;</code>
+     */
+    double getY();
+
+    /**
+     * <code>required double z = 4;</code>
+     */
+    boolean hasZ();
+    /**
+     * <code>required double z = 4;</code>
+     */
+    double getZ();
+
+    /**
+     * <code>optional double yaw = 5;</code>
+     */
+    boolean hasYaw();
+    /**
+     * <code>optional double yaw = 5;</code>
+     */
+    double getYaw();
+  }
+  /**
+   * Protobuf type {@code pb_wearable.GotoResponse}
+   */
+  public static final class GotoResponse extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:pb_wearable.GotoResponse)
+      GotoResponseOrBuilder {
+    // Use GotoResponse.newBuilder() to construct.
+    private GotoResponse(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private GotoResponse(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final GotoResponse defaultInstance;
+    public static GotoResponse getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public GotoResponse getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private GotoResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              uavId_ = input.readInt32();
+              break;
+            }
+            case 17: {
+              bitField0_ |= 0x00000002;
+              x_ = input.readDouble();
+              break;
+            }
+            case 25: {
+              bitField0_ |= 0x00000004;
+              y_ = input.readDouble();
+              break;
+            }
+            case 33: {
+              bitField0_ |= 0x00000008;
+              z_ = input.readDouble();
+              break;
+            }
+            case 41: {
+              bitField0_ |= 0x00000010;
+              yaw_ = input.readDouble();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return pb_wearable.Wearable.internal_static_pb_wearable_GotoResponse_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return pb_wearable.Wearable.internal_static_pb_wearable_GotoResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              pb_wearable.Wearable.GotoResponse.class, pb_wearable.Wearable.GotoResponse.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<GotoResponse> PARSER =
+        new com.google.protobuf.AbstractParser<GotoResponse>() {
+      public GotoResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new GotoResponse(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<GotoResponse> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    public static final int UAV_ID_FIELD_NUMBER = 1;
+    private int uavId_;
+    /**
+     * <code>required int32 uav_id = 1;</code>
+     */
+    public boolean hasUavId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 uav_id = 1;</code>
+     */
+    public int getUavId() {
+      return uavId_;
+    }
+
+    public static final int X_FIELD_NUMBER = 2;
+    private double x_;
+    /**
+     * <code>required double x = 2;</code>
+     */
+    public boolean hasX() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required double x = 2;</code>
+     */
+    public double getX() {
+      return x_;
+    }
+
+    public static final int Y_FIELD_NUMBER = 3;
+    private double y_;
+    /**
+     * <code>required double y = 3;</code>
+     */
+    public boolean hasY() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required double y = 3;</code>
+     */
+    public double getY() {
+      return y_;
+    }
+
+    public static final int Z_FIELD_NUMBER = 4;
+    private double z_;
+    /**
+     * <code>required double z = 4;</code>
+     */
+    public boolean hasZ() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>required double z = 4;</code>
+     */
+    public double getZ() {
+      return z_;
+    }
+
+    public static final int YAW_FIELD_NUMBER = 5;
+    private double yaw_;
+    /**
+     * <code>optional double yaw = 5;</code>
+     */
+    public boolean hasYaw() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional double yaw = 5;</code>
+     */
+    public double getYaw() {
+      return yaw_;
+    }
+
+    private void initFields() {
+      uavId_ = 0;
+      x_ = 0D;
+      y_ = 0D;
+      z_ = 0D;
+      yaw_ = 0D;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      if (!hasUavId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasX()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasY()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasZ()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, uavId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeDouble(2, x_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeDouble(3, y_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeDouble(4, z_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeDouble(5, yaw_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, uavId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(2, x_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(3, y_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(4, z_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(5, yaw_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static pb_wearable.Wearable.GotoResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static pb_wearable.Wearable.GotoResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static pb_wearable.Wearable.GotoResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static pb_wearable.Wearable.GotoResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static pb_wearable.Wearable.GotoResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static pb_wearable.Wearable.GotoResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static pb_wearable.Wearable.GotoResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static pb_wearable.Wearable.GotoResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static pb_wearable.Wearable.GotoResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static pb_wearable.Wearable.GotoResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(pb_wearable.Wearable.GotoResponse prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code pb_wearable.GotoResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:pb_wearable.GotoResponse)
+        pb_wearable.Wearable.GotoResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return pb_wearable.Wearable.internal_static_pb_wearable_GotoResponse_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return pb_wearable.Wearable.internal_static_pb_wearable_GotoResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                pb_wearable.Wearable.GotoResponse.class, pb_wearable.Wearable.GotoResponse.Builder.class);
+      }
+
+      // Construct using pb_wearable.Wearable.GotoResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        uavId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        x_ = 0D;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        y_ = 0D;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        z_ = 0D;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        yaw_ = 0D;
+        bitField0_ = (bitField0_ & ~0x00000010);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return pb_wearable.Wearable.internal_static_pb_wearable_GotoResponse_descriptor;
+      }
+
+      public pb_wearable.Wearable.GotoResponse getDefaultInstanceForType() {
+        return pb_wearable.Wearable.GotoResponse.getDefaultInstance();
+      }
+
+      public pb_wearable.Wearable.GotoResponse build() {
+        pb_wearable.Wearable.GotoResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public pb_wearable.Wearable.GotoResponse buildPartial() {
+        pb_wearable.Wearable.GotoResponse result = new pb_wearable.Wearable.GotoResponse(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.uavId_ = uavId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.x_ = x_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.y_ = y_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.z_ = z_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.yaw_ = yaw_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof pb_wearable.Wearable.GotoResponse) {
+          return mergeFrom((pb_wearable.Wearable.GotoResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(pb_wearable.Wearable.GotoResponse other) {
+        if (other == pb_wearable.Wearable.GotoResponse.getDefaultInstance()) return this;
+        if (other.hasUavId()) {
+          setUavId(other.getUavId());
+        }
+        if (other.hasX()) {
+          setX(other.getX());
+        }
+        if (other.hasY()) {
+          setY(other.getY());
+        }
+        if (other.hasZ()) {
+          setZ(other.getZ());
+        }
+        if (other.hasYaw()) {
+          setYaw(other.getYaw());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasUavId()) {
+          
+          return false;
+        }
+        if (!hasX()) {
+          
+          return false;
+        }
+        if (!hasY()) {
+          
+          return false;
+        }
+        if (!hasZ()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        pb_wearable.Wearable.GotoResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (pb_wearable.Wearable.GotoResponse) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private int uavId_ ;
+      /**
+       * <code>required int32 uav_id = 1;</code>
+       */
+      public boolean hasUavId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 uav_id = 1;</code>
+       */
+      public int getUavId() {
+        return uavId_;
+      }
+      /**
+       * <code>required int32 uav_id = 1;</code>
+       */
+      public Builder setUavId(int value) {
+        bitField0_ |= 0x00000001;
+        uavId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 uav_id = 1;</code>
+       */
+      public Builder clearUavId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        uavId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private double x_ ;
+      /**
+       * <code>required double x = 2;</code>
+       */
+      public boolean hasX() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required double x = 2;</code>
+       */
+      public double getX() {
+        return x_;
+      }
+      /**
+       * <code>required double x = 2;</code>
+       */
+      public Builder setX(double value) {
+        bitField0_ |= 0x00000002;
+        x_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required double x = 2;</code>
+       */
+      public Builder clearX() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        x_ = 0D;
+        onChanged();
+        return this;
+      }
+
+      private double y_ ;
+      /**
+       * <code>required double y = 3;</code>
+       */
+      public boolean hasY() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required double y = 3;</code>
+       */
+      public double getY() {
+        return y_;
+      }
+      /**
+       * <code>required double y = 3;</code>
+       */
+      public Builder setY(double value) {
+        bitField0_ |= 0x00000004;
+        y_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required double y = 3;</code>
+       */
+      public Builder clearY() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        y_ = 0D;
+        onChanged();
+        return this;
+      }
+
+      private double z_ ;
+      /**
+       * <code>required double z = 4;</code>
+       */
+      public boolean hasZ() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>required double z = 4;</code>
+       */
+      public double getZ() {
+        return z_;
+      }
+      /**
+       * <code>required double z = 4;</code>
+       */
+      public Builder setZ(double value) {
+        bitField0_ |= 0x00000008;
+        z_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required double z = 4;</code>
+       */
+      public Builder clearZ() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        z_ = 0D;
+        onChanged();
+        return this;
+      }
+
+      private double yaw_ ;
+      /**
+       * <code>optional double yaw = 5;</code>
+       */
+      public boolean hasYaw() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional double yaw = 5;</code>
+       */
+      public double getYaw() {
+        return yaw_;
+      }
+      /**
+       * <code>optional double yaw = 5;</code>
+       */
+      public Builder setYaw(double value) {
+        bitField0_ |= 0x00000010;
+        yaw_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional double yaw = 5;</code>
+       */
+      public Builder clearYaw() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        yaw_ = 0D;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:pb_wearable.GotoResponse)
+    }
+
+    static {
+      defaultInstance = new GotoResponse(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:pb_wearable.GotoResponse)
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_pb_wearable_WearableRequest_descriptor;
   private static
@@ -2587,6 +4069,11 @@ public final class Wearable {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_pb_wearable_GetStatus_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_pb_wearable_GotoRequest_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_pb_wearable_GotoRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_pb_wearable_WearableResponse_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -2596,6 +4083,11 @@ public final class Wearable {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_pb_wearable_Status_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_pb_wearable_GotoResponse_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_pb_wearable_GotoResponse_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -2611,13 +4103,17 @@ public final class Wearable {
       "Status\030\002 \001(\0132\026.pb_wearable.GetStatusH\000\"%" +
       "\n\023WearableRequestType\022\016\n\nGET_STATUS\020\000B\027\n" +
       "\025wearablerequest_oneof\"\033\n\tGetStatus\022\016\n\006u" +
-      "av_id\030\001 \002(\005\"\271\001\n\020WearableResponse\022@\n\004type" +
-      "\030\001 \002(\01622.pb_wearable.WearableResponse.We" +
-      "arableResponseType\022%\n\006status\030\002 \001(\0132\023.pb_" +
-      "wearable.StatusH\000\"\"\n\024WearableResponseTyp",
-      "e\022\n\n\006STATUS\020\000B\030\n\026wearableresponse_oneof\"" +
-      "6\n\006Status\022\t\n\001x\030\001 \001(\001\022\t\n\001y\030\002 \001(\001\022\t\n\001z\030\003 \001" +
-      "(\001\022\013\n\003yaw\030\004 \001(\001"
+      "av_id\030\001 \002(\005\"K\n\013GotoRequest\022\016\n\006uav_id\030\001 \002" +
+      "(\005\022\t\n\001x\030\002 \002(\001\022\t\n\001y\030\003 \002(\001\022\t\n\001z\030\004 \002(\001\022\013\n\003y" +
+      "aw\030\005 \001(\001\"\271\001\n\020WearableResponse\022@\n\004type\030\001 " +
+      "\002(\01622.pb_wearable.WearableResponse.Weara",
+      "bleResponseType\022%\n\006status\030\002 \001(\0132\023.pb_wea" +
+      "rable.StatusH\000\"\"\n\024WearableResponseType\022\n" +
+      "\n\006STATUS\020\000B\030\n\026wearableresponse_oneof\"6\n\006" +
+      "Status\022\t\n\001x\030\001 \001(\001\022\t\n\001y\030\002 \001(\001\022\t\n\001z\030\003 \001(\001\022" +
+      "\013\n\003yaw\030\004 \001(\001\"L\n\014GotoResponse\022\016\n\006uav_id\030\001" +
+      " \002(\005\022\t\n\001x\030\002 \002(\001\022\t\n\001y\030\003 \002(\001\022\t\n\001z\030\004 \002(\001\022\013\n" +
+      "\003yaw\030\005 \001(\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -2643,18 +4139,30 @@ public final class Wearable {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_pb_wearable_GetStatus_descriptor,
         new java.lang.String[] { "UavId", });
-    internal_static_pb_wearable_WearableResponse_descriptor =
+    internal_static_pb_wearable_GotoRequest_descriptor =
       getDescriptor().getMessageTypes().get(2);
+    internal_static_pb_wearable_GotoRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_pb_wearable_GotoRequest_descriptor,
+        new java.lang.String[] { "UavId", "X", "Y", "Z", "Yaw", });
+    internal_static_pb_wearable_WearableResponse_descriptor =
+      getDescriptor().getMessageTypes().get(3);
     internal_static_pb_wearable_WearableResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_pb_wearable_WearableResponse_descriptor,
         new java.lang.String[] { "Type", "Status", "WearableresponseOneof", });
     internal_static_pb_wearable_Status_descriptor =
-      getDescriptor().getMessageTypes().get(3);
+      getDescriptor().getMessageTypes().get(4);
     internal_static_pb_wearable_Status_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_pb_wearable_Status_descriptor,
         new java.lang.String[] { "X", "Y", "Z", "Yaw", });
+    internal_static_pb_wearable_GotoResponse_descriptor =
+      getDescriptor().getMessageTypes().get(5);
+    internal_static_pb_wearable_GotoResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_pb_wearable_GotoResponse_descriptor,
+        new java.lang.String[] { "UavId", "X", "Y", "Z", "Yaw", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)
