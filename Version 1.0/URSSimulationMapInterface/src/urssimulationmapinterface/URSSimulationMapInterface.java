@@ -31,6 +31,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.text.html.parser.ParserDelegator;
+
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Cursor;
@@ -47,16 +49,20 @@ import java.util.List;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 import pb_wearable.Wearable.GetStatus;
 import pb_wearable.Wearable.GetStatus.Builder;
 import pb_wearable.Wearable.GotoRequest;
 import pb_wearable.Wearable.GotoResponse;
 import pb_wearable.Wearable.Status;
+import pb_wearable.Wearable.WearableRequest;
 
 
 /**
@@ -79,7 +85,10 @@ public class URSSimulationMapInterface extends ApplicationTemplate{
 	static double dronelatitude;
 	static double dronelongitude;
 	static double droneelevation;
- 
+	
+	static InetAddress host = null;
+    static Socket socket =null;
+    
     private static class LinePanel extends JPanel
 	{
 	/**
@@ -166,75 +175,72 @@ public class URSSimulationMapInterface extends ApplicationTemplate{
 			
 			//.....Connects to the exec_monitor.....//
 			sendButton.addActionListener( new ActionListener()
-			{		
-				 public void actionPerformed(ActionEvent actionEvent)	
-				 {
-	                
-					 
-					 try { 
-						 
-						 InetAddress host = InetAddress.getLocalHost();
-					     Socket socket = null;
-					     ObjectOutputStream oos = null;
-					     ObjectInputStream ois = null;
-					     
-					     //.....Connecting with the Server........//
-					     socket = new Socket(host.getHostName(),8080);
-					     oos = new ObjectOutputStream(socket.getOutputStream());
-					     ois = new ObjectInputStream(socket.getInputStream());
-					     
-					    System.out.println("......Communication Starts......."); 
-					    System.out.println("......Sending Data......."); 
-					    
-					    //.....Sending Part..........//
-					    
-						//System.out.println("......Protocol Buffer Starts......."); 
-						//....Message for Drone ID........//
-					    //FileOutputStream output = new FileOutputStream("URS_Wearable.txt"); 
-					    
-					    GotoRequest.Builder objgotorequest= GotoRequest.newBuilder();
-					    objgotorequest.setUavId(droneid);//...Set Drone ID...//
-					    objgotorequest.setX(dronelatitude); //....Set Drone Latitude...//
-					    objgotorequest.setY(dronelongitude); //....Set Drone Longitude...//
-					    objgotorequest.setZ(droneelevation); //....Set Drone Elevation...//
-					    
-					    objgotorequest.build().writeDelimitedTo(oos); //....Writing into the Socket's Output Stream...// 
-					    
-					
-					    //............Receiving Part..............................//
-					    
-					    GotoResponse objgotoresponse = GotoResponse.parseFrom(ois);
-					    System.out.println("Drone ID:"+objgotoresponse.getUavId());
-					    System.out.println("Latitude:"+objgotoresponse.getX());
-					    System.out.println("Longitude:"+objgotoresponse.getY());
-					    System.out.println("Elevation:"+objgotoresponse.getZ());
-					    
-					
-					    socket.close(); //....Closing the Socket....//
-					    
-					    //output.close();
-					    
-					 //.... Reading from the File..............................//
-				     /*GetStatus showgetstatus = GetStatus.parseFrom(new FileInputStream("URS_Wearable.txt"));  
-				     System.out.println(showgetstatus);
-				     
-				     Status showstatus = Status.parseFrom(new FileInputStream("URS_Wearable.txt"));  
-				     System.out.println(showstatus);
-				     
-				     JOptionPane.showMessageDialog(null,"A Text File has been Created...!!!","Message", JOptionPane.INFORMATION_MESSAGE);
-					 System.out.println("......Protocol Buffer Ends.......");*/	    
-					    
-					 System.out.println("......Communication Ends......."); 
-				
-					}
-					
-					catch(IOException e)
-					{
-						e.printStackTrace();
-					}
-			  
-				 }
-			});
+      {
+        public void actionPerformed(ActionEvent actionEvent) {
+
+          try {
+           
+            OutputStream oos = socket.getOutputStream();
+
+            System.out.println("......Communication Starts.......");
+            GotoRequest.Builder objgotorequest = GotoRequest.newBuilder();
+
+            
+            System.out.println ("Drone ID:"+ droneid);
+            System.out.println ("Latitude:"+ dronelatitude);
+            System.out.println ("Lon:"+ dronelongitude);
+            System.out.println ("Ele:"+ droneelevation);
+            
+            
+//            objgotorequest.setUavId(droneid);// ...Set Drone ID...//
+//            objgotorequest.setX(dronelatitude); // ....Set Drone Latitude...//
+//            objgotorequest.setY(dronelongitude); // ....Set Drone Longitude...//
+//            objgotorequest.setZ(droneelevation); // ....Set Drone Elevation...//
+            
+            objgotorequest.setUavId(1);// ...Set Drone ID...//
+            objgotorequest.setX(2); // ....Set Drone Latitude...//
+            objgotorequest.setY(3); // ....Set Drone Longitude...//
+            objgotorequest.setZ(4); // ....Set Drone Longitude...//
+
+            System.out.println("......Sending Data.......");
+            objgotorequest.build().writeDelimitedTo(oos);
+
+            System.out.println("......Receaving Data.......");
+            InputStream ois = socket.getInputStream();
+            GotoResponse objgotoresponse = null;
+            objgotoresponse = GotoResponse.parseDelimitedFrom(ois);
+            System.out.println(objgotoresponse);
+
+            socket.close(); // ....Closing the Socket....//
+
+            // .... Reading from the File..............................//
+            /*
+             * GetStatus showgetstatus = GetStatus.parseFrom(new
+             * FileInputStream("URS_Wearable.txt"));
+             * System.out.println(showgetstatus);
+             * 
+             * Status showstatus = Status.parseFrom(new
+             * FileInputStream("URS_Wearable.txt"));
+             * System.out.println(showstatus);
+             * 
+             * JOptionPane.showMessageDialog(
+             * null,"A Text File has been Created...!!!","Message",
+             * JOptionPane.INFORMATION_MESSAGE);
+             * System.out.println("......Protocol Buffer Ends.......");
+             */
+
+            System.out.println("......Communication Ends.......");
+            
+            SocketConnection(); //....Calling the Socket Connection Method...//
+
+          }
+
+          catch (IOException e) {
+            e.printStackTrace();
+          }
+
+        }
+      });
 			
 			buttonPanel.add(sendButton);
 			sendButton.setEnabled(false);
@@ -512,6 +518,9 @@ public class URSSimulationMapInterface extends ApplicationTemplate{
 			this.getContentPane().add(new LinePanel(this.getWwd(), lineBuilder), BorderLayout.EAST);
 		
 			this.enableNAIPLayer();
+			
+			SocketConnection();  //....Calling the Socket Connection Method...//
+			   
 		}
 		
 		public void enableNAIPLayer()
@@ -530,10 +539,26 @@ public class URSSimulationMapInterface extends ApplicationTemplate{
 			}
 		}
 	}
+    
+    static private void SocketConnection()
+    {
+    	try {
+			host = InetAddress.getLocalHost();
+			socket=new Socket(host.getHostName(), 8080);
+		} 
+    	
+    	catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	
+    }
 
    public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		if (Configuration.isMacOS())
+	   
+	    if (Configuration.isMacOS())
 		{
 		System.setProperty("com.apple.mrj.application.apple.menu.about.name", "Hello World Wind");
 		}
