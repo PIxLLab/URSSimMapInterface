@@ -2,7 +2,6 @@
  * 
  */
 package urssimulationmapinterface;
-
 import gov.nasa.worldwind.*;
 import gov.nasa.worldwind.layers.*;
 import gov.nasa.worldwind.avlist.AVKey;
@@ -46,6 +45,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import gov.nasa.worldwind.layers.RenderableLayer;
 import java.util.List;
+import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -55,17 +55,18 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
-import pb_wearable.Wearable.GetStatus;
-import pb_wearable.Wearable.GetStatus.Builder;
-import pb_wearable.Wearable.GotoRequest;
-import pb_wearable.Wearable.GotoResponse;
-import pb_wearable.Wearable.Status;
-
-
+import pb_wearable.Wearable.WearableRequest;
+import pb_wearable.Wearable.WearableRequest.Builder;
+import pb_wearable.Wearable.WearableResponse;
+import pb_wearable.Wearable.GetPoseRepeated;
+import pb_wearable.Wearable.SetDestRepeated;
+import pb_wearable.Wearable.SetDestRepeated.SetDest;
+import pb_wearable.Wearable.PoseRepeated;
+import pb_wearable.Wearable.Region;
 /**
- * @author Nasim
- *
+ * @author Skyforce
  */
 public class URSSimulationMapInterface extends ApplicationTemplate{
 	
@@ -78,18 +79,16 @@ public class URSSimulationMapInterface extends ApplicationTemplate{
 	static List <Double> dronelatitude = new ArrayList<Double>();
 	static List <Double> dronelongitude = new ArrayList<Double>();
 	static List <Double> droneelevation = new ArrayList<Double>();*/
-	
 	static int droneid;
 	static double dronelatitude;
 	static double dronelongitude;
 	static double droneelevation;
- 
+	static InetAddress host = null;
+    static Socket socket =null;
+    
     private static class LinePanel extends JPanel
 	{
-	/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
+    	private static final long serialVersionUID = 1L;
 		private final WorldWindow wwd;
 		private final LineBuilder lineBuilder;
 		private JButton newButton;
@@ -174,45 +173,82 @@ public class URSSimulationMapInterface extends ApplicationTemplate{
         public void actionPerformed(ActionEvent actionEvent) {
 
           try {
-            InetAddress host = InetAddress.getLocalHost();
-            Socket socket = new Socket(host.getHostName(), 8080);
             OutputStream oos = socket.getOutputStream();
-
             System.out.println("......Communication Starts.......");
-            GotoRequest.Builder objgotorequest = GotoRequest.newBuilder();
-            objgotorequest.setUavId(1);// ...Set Drone ID...//
-            objgotorequest.setX(2); // ....Set Drone Latitude...//
-            objgotorequest.setY(3); // ....Set Drone Longitude...//
-            objgotorequest.setZ(4); // ....Set Drone Elevation...//
-
+            //sending request for getting Gazebo region
+            WearableRequest.Builder objgotorequest = WearableRequest.newBuilder();           
+            objgotorequest.setType(WearableRequest.WearableRequestType.GET_REGION);
             System.out.println("......Sending Data.......");
+            System.out.println(objgotorequest);
             objgotorequest.build().writeDelimitedTo(oos);
-
-            System.out.println("......Receaving Data.......");
+          //Receiving Gazebo region 
+            System.out.println("......Receiving Data.......");
             InputStream ois = socket.getInputStream();
-            GotoResponse objgotoresponse = null;
-            objgotoresponse = GotoResponse.parseDelimitedFrom(ois);
+            WearableResponse objgotoresponse = null;
+            objgotoresponse = WearableResponse.parseDelimitedFrom(ois);
             System.out.println(objgotoresponse);
+          //Translating the ww coordinates to gazebo            
+            double wwx0=32.2833;
+            double wwx1=32.2743;		
+            double pinx=dronelatitude;                  
+            double Xsim =(((pinx - wwx0)/(wwx1 - wwx0))*(objgotoresponse.getRegion().getX1() - objgotoresponse.getRegion().getX0()))+objgotoresponse.getRegion().getX0();
+            System.out.println("Pin Latitude in WW: "+pinx);
+            System.out.println("Pin Longitude in Gazebo: "+Xsim);            
+            double wwy0=-106.7557;
+            double wwy1=-106.7447;		
+            double piny=dronelongitude;                  
+            double Ysim =(((piny - wwy0)/(wwy1 - wwy0))*(objgotoresponse.getRegion().getY1() - objgotoresponse.getRegion().getY0()))+objgotoresponse.getRegion().getY0();
+            System.out.println("Pin Longitude in WW: "+piny);
+            System.out.println("Pin Longitude in Gazebo: "+Ysim);           
+            System.out.println();
+          //sending translated pin coordinates 
+            System.out.println("......Sending Data.......");
+            WearableRequest.Builder objrequest = WearableRequest.newBuilder();
+            objrequest.setType(WearableRequest.WearableRequestType.SET_DEST_REPEATED);
+            objrequest.setSetDestRepeated(SetDestRepeated.newBuilder()
+        		                              .addSetDest(SetDestRepeated.SetDest.newBuilder()
+        				                                                          .setUavId(droneid)
+        				                                                          .setX(Xsim)
+        				                                                          .setY(Ysim)
+        				                                                          .setZ(droneelevation)));
+          System.out.println(objrequest);
+          objrequest.build().writeDelimitedTo(oos);
+        
+        	//	  .addSetDestBuilder().setUavId(1).setX(40.00).setY(40.00).setZ(5.00).build());
+                  
+//          SetDestRepeated.Builder objgotoSetDest = SetDestRepeated.newBuilder();
+//          objgotoSetDest.setSetDest(SetDestRepeated.SetDest.UAV_ID_FIELD_NUMBER, 1);
+//          objgotoSetDest.setSetDest(SetDestRepeated.SetDest.X_FIELD_NUMBER, 40.00);
+//          objgotoSetDest.setSetDest(SetDestRepeated.SetDest.Y_FIELD_NUMBER, 40.00);
+//          objgotoSetDest.setSetDest(SetDestRepeated.SetDest.Z_FIELD_NUMBER, 5.00);
+          
+         //objrequest.setSetDestRepeated(objgotoSetDest.build());
 
+//          System.out.println("......Sending Data.......");
+//          System.out.println(objgotorequest);
+//          objgotorequest.build().writeDelimitedTo(oos); 
+
+//            Region objgotoregion = null;
+//            objgotoregion = Region.parseDelimitedFrom(ois);
+//            System.out.println(objgotoregion);
+         
+//            System.out.println ("Drone ID:"+ droneid);
+//            System.out.println ("Latitude:"+ dronelatitude);
+//            System.out.println ("Lon:"+ dronelongitude);
+//            System.out.println ("Ele:"+ droneelevation);
+         
+//            objgotorequest.setUavId(droneid);// ...Set Drone ID...//
+//            objgotorequest.setX(dronelatitude); // ....Set Drone Latitude...//
+//            objgotorequest.setY(dronelongitude); // ....Set Drone Longitude...//
+//            objgotorequest.setZ(droneelevation); // ....Set Drone Elevation...//
+            
+//            objgotorequest.setUavId(1);// ...Set Drone ID...//
+//            objgotorequest.setX(2); // ....Set Drone Latitude...//
+//            objgotorequest.setY(3); // ....Set Drone Longitude...//
+//            objgotorequest.setZ(4); // ....Set Drone Longitude...//
             socket.close(); // ....Closing the Socket....//
-
-            // .... Reading from the File..............................//
-            /*
-             * GetStatus showgetstatus = GetStatus.parseFrom(new
-             * FileInputStream("URS_Wearable.txt"));
-             * System.out.println(showgetstatus);
-             * 
-             * Status showstatus = Status.parseFrom(new
-             * FileInputStream("URS_Wearable.txt"));
-             * System.out.println(showstatus);
-             * 
-             * JOptionPane.showMessageDialog(
-             * null,"A Text File has been Created...!!!","Message",
-             * JOptionPane.INFORMATION_MESSAGE);
-             * System.out.println("......Protocol Buffer Ends.......");
-             */
-
             System.out.println("......Communication Ends.......");
+            SocketConnection(); //....Calling the Socket Connection Method...//
 
           }
 
@@ -362,9 +398,7 @@ public class URSSimulationMapInterface extends ApplicationTemplate{
 					}
 				}
 			});
-		
-		
-			// get coordinates of the selected drone
+		   // get coordinates of the selected drone
 			this.getWwd().addSelectListener(new SelectListener()
 			{
 				public void selected(SelectEvent event)
@@ -458,10 +492,8 @@ public class URSSimulationMapInterface extends ApplicationTemplate{
 					
 						// Add the layer to the model.
 						insertBeforeCompass(getWwd(), layer);
-					
-						//sam
-					
-						markers.add(marker);
+		     			//sam
+				    	markers.add(marker);
 					
 						View view = getWwd().getView();
 						// Use a PanToIterator to iterate view to target position
@@ -499,6 +531,9 @@ public class URSSimulationMapInterface extends ApplicationTemplate{
 			this.getContentPane().add(new LinePanel(this.getWwd(), lineBuilder), BorderLayout.EAST);
 		
 			this.enableNAIPLayer();
+			
+			SocketConnection();  //....Calling the Socket Connection Method...//
+			   
 		}
 		
 		public void enableNAIPLayer()
@@ -517,10 +552,26 @@ public class URSSimulationMapInterface extends ApplicationTemplate{
 			}
 		}
 	}
+    
+    static private void SocketConnection()
+    {
+    	try {
+			host = InetAddress.getLocalHost();
+			socket=new Socket(host.getHostName(), 8080);
+		} 
+    	
+    	catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	
+    }
 
    public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		if (Configuration.isMacOS())
+	   
+	    if (Configuration.isMacOS())
 		{
 		System.setProperty("com.apple.mrj.application.apple.menu.about.name", "Hello World Wind");
 		}
