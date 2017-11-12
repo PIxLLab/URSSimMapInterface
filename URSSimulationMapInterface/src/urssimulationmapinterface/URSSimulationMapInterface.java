@@ -241,11 +241,6 @@ public class URSSimulationMapInterface extends ApplicationTemplate{
 //            objgotorequest.setX(dronelatitude); // ....Set Drone Latitude...//
 //            objgotorequest.setY(dronelongitude); // ....Set Drone Longitude...//
 //            objgotorequest.setZ(droneelevation); // ....Set Drone Elevation...//
-            
-//            objgotorequest.setUavId(1);// ...Set Drone ID...//
-//            objgotorequest.setX(2); // ....Set Drone Latitude...//
-//            objgotorequest.setY(3); // ....Set Drone Longitude...//
-//            objgotorequest.setZ(4); // ....Set Drone Longitude...//
             socket.close(); // ....Closing the Socket....//
             System.out.println("......Communication Ends.......");
             SocketConnection(); //....Calling the Socket Connection Method...//
@@ -318,10 +313,11 @@ public class URSSimulationMapInterface extends ApplicationTemplate{
 			new BasicMarkerAttributes(Material.GRAY, BasicMarkerShape.HEADING_ARROW, 1d, 10, 5),
 			new BasicMarkerAttributes(Material.BLUE, BasicMarkerShape.SPHERE, 1d, 10, 5)
 	    };
-		
-		private Marker lastHighlit;
+		private int tmpdroneid=0;
+	    private Marker lastHighlit;
 		private BasicMarkerAttributes lastAttrs;
 	
+		@SuppressWarnings("deprecation")
 		public AppFrame()
 		{
 			super(true, true, false);
@@ -331,40 +327,48 @@ public class URSSimulationMapInterface extends ApplicationTemplate{
 		
 			// create the markers for the drones
 			ArrayList<Marker> markers = new ArrayList<Marker>();
-//			Marker marker = new BasicMarker(Position.fromDegrees(lat, lon, droneElevation), attrs[0]);
-//			marker.setPosition(Position.fromDegrees(lat, lon, droneElevation));
-//			marker.setHeading(Angle.fromDegrees(0));
-//			marker.setPitch(Angle.fromDegrees(90));
-//			markers.add(marker);
-//		
-			// put 4 markers on the corners of the permitted region around nmsu
+			//ArrayList<Marker> dronemarkers = new ArrayList<Marker>();
+			//ArrayList<Marker> pointmarkers = new ArrayList<Marker>();
+			
+			//......Pointing out only drones.........//
+    		Marker marker = new BasicMarker(Position.fromDegrees(lat, lon, droneElevation), attrs[0]);
+    		marker.setPosition(Position.fromDegrees(lat, lon, droneElevation));
+    		marker.setHeading(Angle.fromDegrees(0));
+    		marker.setPitch(Angle.fromDegrees(90));
+    		markers.add(marker);
+    		//....Getting the IDs of the Drone.....//
+    		for (Marker tmpmarker : markers) { 		      
+    			droneid = tmpdroneid;
+    			tmpdroneid++;
+    	      } 
+            //System.out.println("Drones:"+dronemarkers.size());
+    		// put 4 markers on the corners of the permitted region around nmsu
 			double minlat=32.284841;
 			double maxlat = 32.270353 ;
 			double minlon = -106.761522 ;
 			double maxlon = -106.736765;
-//			Marker marker1 = new BasicMarker(Position.fromDegrees(minlat, minlon, droneElevation), attrs[3]);
-//			marker1.setPosition(Position.fromDegrees(minlat, minlon, droneElevation));
-//			marker1.setHeading(Angle.fromDegrees(0));
-//			marker1.setPitch(Angle.fromDegrees(90));
-//			markers.add(marker1);
-//			Marker marker2 = new BasicMarker(Position.fromDegrees(minlat, maxlon, droneElevation), attrs[3]);
-//			marker2.setPosition(Position.fromDegrees(minlat, maxlon, droneElevation));
-//			marker2.setHeading(Angle.fromDegrees(0));
-//			marker2.setPitch(Angle.fromDegrees(90));
-//			markers.add(marker2);
-//			Marker marker3 = new BasicMarker(Position.fromDegrees(maxlat, minlon, droneElevation), attrs[3]);
-//			marker3.setPosition(Position.fromDegrees(maxlat, minlon, droneElevation));
-//			marker3.setHeading(Angle.fromDegrees(0));
-//			marker3.setPitch(Angle.fromDegrees(90));
-//			markers.add(marker3);
-//			Marker marker4 = new BasicMarker(Position.fromDegrees(maxlat, maxlon, droneElevation), attrs[3]);
-//			marker4.setPosition(Position.fromDegrees(maxlat, maxlon, droneElevation));
-//			marker4.setHeading(Angle.fromDegrees(0));
-//			marker4.setPitch(Angle.fromDegrees(90));
-//			markers.add(marker4);
-		
-			final MarkerLayer layer = new MarkerLayer();
-		
+        	Marker marker1 = new BasicMarker(Position.fromDegrees(minlat, minlon, droneElevation), attrs[3]);
+            marker1.setPosition(Position.fromDegrees(minlat, minlon, droneElevation));
+            marker1.setHeading(Angle.fromDegrees(0));
+            marker1.setPitch(Angle.fromDegrees(90));
+            markers.add(marker1);
+        	Marker marker2 = new BasicMarker(Position.fromDegrees(minlat, maxlon, droneElevation), attrs[3]);
+          	marker2.setPosition(Position.fromDegrees(minlat, maxlon, droneElevation));
+            marker2.setHeading(Angle.fromDegrees(0));
+            marker2.setPitch(Angle.fromDegrees(90));
+            markers.add(marker2);
+            Marker marker3 = new BasicMarker(Position.fromDegrees(maxlat, minlon, droneElevation), attrs[3]);
+            marker3.setPosition(Position.fromDegrees(maxlat, minlon, droneElevation));
+          	marker3.setHeading(Angle.fromDegrees(0));
+            marker3.setPitch(Angle.fromDegrees(90));
+            markers.add(marker3);
+            Marker marker4 = new BasicMarker(Position.fromDegrees(maxlat, maxlon, droneElevation), attrs[3]);
+            marker4.setPosition(Position.fromDegrees(maxlat, maxlon, droneElevation));
+            marker4.setHeading(Angle.fromDegrees(0));
+            marker4.setPitch(Angle.fromDegrees(90));
+            markers.add(marker4);
+            //System.out.println("Points:"+pointmarkers.size());
+            final MarkerLayer layer = new MarkerLayer();
 			// highlight selected drones
 			this.getWwd().addSelectListener(new SelectListener()
 			{
@@ -409,36 +413,11 @@ public class URSSimulationMapInterface extends ApplicationTemplate{
 						if (event.getTopPickedObject().getParentLayer() instanceof MarkerLayer)
 						{
 							PickedObject po = event.getTopPickedObject();
-							
-							/*int id= Integer.parseInt(po.getValue(AVKey.PICKED_OBJECT_ID).toString()); 
-							droneid.add(id); //.....Adding Drone ID...//*/
-							
-							droneid= Integer.parseInt(po.getValue(AVKey.PICKED_OBJECT_ID).toString()); 
-							
-							//System.out.println("Drone ID:"+id);
-							
-							/*double latitude = po.getPosition().getLatitude().degrees;
-							dronelatitude.add(latitude); //....Adding Drone Latitude...//*/
-							
-							dronelatitude = po.getPosition().getLatitude().degrees;
-							
-							//System.out.println("Latitude:"+latitude);
-							
-							/*double longitude = po.getPosition().getLongitude().degrees;
-							dronelongitude.add(longitude); //....Adding Drone Longitude...//*/
-							
-							dronelongitude = po.getPosition().getLongitude().degrees;
-							
-							//System.out.println("Longitude:"+longitude);
-							
-							/*double elevation = po.getPosition().getElevation();
-							droneelevation.add(elevation); //....Adding Drone Elevation...//*/
-							
-							droneelevation = po.getPosition().getElevation();
-							
-							//System.out.println("Elevation:"+elevation);
-							
-					        System.out.printf("Track position %s, %s\n",
+						    //droneid= Integer.parseInt(po.getValue(AVKey.PICKED_OBJECT_ID).toString()); //....Drone ID...//
+							dronelatitude = po.getPosition().getLatitude().degrees;   //.....Drone Latitude...//
+							dronelongitude = po.getPosition().getLongitude().degrees; //... Drone Longitude...//
+		                    droneelevation = po.getPosition().getElevation(); //.....Drone Elevation...//
+						    System.out.printf("Track position %s, %s\n",
 							po.getValue(AVKey.PICKED_OBJECT_ID).toString(),
 							po.getPosition());
 						}
@@ -519,12 +498,13 @@ public class URSSimulationMapInterface extends ApplicationTemplate{
 			View view = getWwd().getView();
 			view.setEyePosition(Position.fromDegrees(lat, lon, elevationOffset));
 			insertBeforeCompass(this.getWwd(), layer);
+			this.getLayerPanel().update(this.getWwd());
 			//wwd.setModel(new BasicModel());
-		
-			layer.setOverrideMarkerElevation(true);
+	    	layer.setOverrideMarkerElevation(true);
 			layer.setKeepSeparated(false);
-			layer.setElevation(droneElevation);
-			layer.setMarkers(markers);
+			layer.setElevation(droneElevation); 
+			//layer.setMarkers(dronemarkers);  //....For Drones (Yellow) + Blue Pins...//
+		 	layer.setMarkers(markers);   //.....For Red Pins....//
 			insertBeforePlacenames(this.getWwd(), layer);
 		
 			LineBuilder lineBuilder = new LineBuilder(this.getWwd(), null, null);
