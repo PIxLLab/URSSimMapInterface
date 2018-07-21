@@ -907,7 +907,7 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 	static public void SocketConnection(){
 
 			//Ros ros = new Ros("192.168.1.142", 9090);
-			Ros ros = new Ros("172.20.10.8", 9090);
+			Ros ros = new Ros("localhost", 9090);
 			ros.connect();
 			 
 			// Topic echo = new Topic(ros, "/uav0/ground_truth_to_tf/pose", "std_msgs/String");

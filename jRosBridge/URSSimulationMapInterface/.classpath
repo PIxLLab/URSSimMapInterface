@@ -18,18 +18,22 @@
 	<classpathentry kind="lib" path="lib/protobuf-java-2.6.1.jar"/>
 	<classpathentry kind="lib" path="lib/worldwind.jar"/>
 	<classpathentry kind="lib" path="lib/worldwindx.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/Users/ahmedkhalaf/Downloads/jar_files/grizzly-framework-2.3.3.jar"/>
-	<classpathentry kind="lib" path="/Users/ahmedkhalaf/Downloads/jar_files/grizzly-http-2.3.3.jar"/>
-	<classpathentry kind="lib" path="/Users/ahmedkhalaf/Downloads/jar_files/grizzly-http-server-2.3.3.jar"/>
-	<classpathentry kind="lib" path="/Users/ahmedkhalaf/Downloads/jar_files/grizzly-rcm-2.3.3.jar"/>
-	<classpathentry kind="lib" path="/Users/ahmedkhalaf/Downloads/jar_files/javax.json-1.0.4.jar"/>
-	<classpathentry kind="lib" path="/Users/ahmedkhalaf/Downloads/jar_files/javax.websocket-api-1.0.jar"/>
-	<classpathentry kind="lib" path="/Users/ahmedkhalaf/Downloads/jar_files/jrosbridge-0.2.0.jar"/>
-	<classpathentry kind="lib" path="/Users/ahmedkhalaf/Downloads/jar_files/tyrus-client-1.2.1.jar"/>
-	<classpathentry kind="lib" path="/Users/ahmedkhalaf/Downloads/jar_files/tyrus-container-grizzly-1.2.1.jar"/>
-	<classpathentry kind="lib" path="/Users/ahmedkhalaf/Downloads/jar_files/tyrus-core-1.2.1.jar"/>
-	<classpathentry kind="lib" path="/Users/ahmedkhalaf/Downloads/jar_files/tyrus-spi-1.2.1.jar"/>
-	<classpathentry kind="lib" path="/Users/ahmedkhalaf/Downloads/jar_files/tyrus-websocket-core-1.2.1.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/jrosbridge/grizzly-framework-2.3.3.jar"/>
+	<classpathentry kind="lib" path="lib/jrosbridge/grizzly-http-2.3.3.jar"/>
+	<classpathentry kind="lib" path="lib/jrosbridge/grizzly-http-server-2.3.3.jar"/>
+	<classpathentry kind="lib" path="lib/jrosbridge/grizzly-rcm-2.3.3.jar"/>
+	<classpathentry kind="lib" path="lib/jrosbridge/javax.json-1.0.4.jar"/>
+	<classpathentry kind="lib" path="lib/jrosbridge/javax.websocket-api-1.0.jar"/>
+	<classpathentry kind="lib" path="lib/jrosbridge/jrosbridge-0.2.0.jar"/>
+	<classpathentry kind="lib" path="lib/jrosbridge/tyrus-client-1.2.1.jar"/>
+	<classpathentry kind="lib" path="lib/jrosbridge/tyrus-container-grizzly-1.2.1.jar"/>
+	<classpathentry kind="lib" path="lib/jrosbridge/tyrus-core-1.2.1.jar"/>
+	<classpathentry kind="lib" path="lib/jrosbridge/tyrus-spi-1.2.1.jar"/>
+	<classpathentry kind="lib" path="lib/jrosbridge/tyrus-websocket-core-1.2.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
