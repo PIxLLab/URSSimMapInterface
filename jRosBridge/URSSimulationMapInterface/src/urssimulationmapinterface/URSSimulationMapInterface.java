@@ -23,7 +23,6 @@ import gov.nasa.worldwind.view.orbit.OrbitView;
 
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.TitledBorder;
-import java.io.*;
 import java.awt.AWTException;
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -47,20 +46,17 @@ import gov.nasa.worldwind.layers.RenderableLayer;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.StringReader;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
-import pb_wearable.Wearable.WearableRequest;
-import pb_wearable.Wearable.WearableRequest.SetPoseRepeated;
-import pb_wearable.Wearable.WearableRequest.SetPoseWaypointRepeated;
-import pb_wearable.Wearable.WearableResponse;
-import pb_wearable.Wearable.WearableResponse.WearableResponseType;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
+import javax.json.stream.JsonParsingException;
 
 import edu.wpi.rail.jrosbridge.Ros;
 import edu.wpi.rail.jrosbridge.Service;
@@ -102,6 +98,11 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
     static String uav1pose = null;
     static String uav2pose = null;
     static String uav3pose = null;
+    static double[] uavX = new double[4];
+    static double[] uavY = new double[4];
+    static double[] uavZ = new double[4];
+    static Ros ros = null;
+    
     
 
 	private static class LinePanel extends JPanel {
@@ -138,11 +139,6 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 				}
 			});
 		}
-		
-		private void cornerPoints()
-		{
-			//wwd.set
-		}
 
 		// --------- Includes button and line panel functionalities ----------//
 		private void makePanel(Dimension size) {
@@ -158,14 +154,9 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 			setDroneAltitude.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent actionEvent) {
 					try {
-						droneAltitude = Double.parseDouble(tf1.getText());
-						OutputStream oos = socket.getOutputStream();
-						System.out.println("......Sending Data.......");
-						WearableRequest.Builder objrequest = WearableRequest.newBuilder();
-						objrequest.setType(WearableRequest.WearableRequestType.SET_POSE_REPEATED);
-						objrequest.setSetPoseRepeated(SetPoseRepeated.newBuilder().addSetPose(
-								SetPoseRepeated.SetPose.newBuilder().setUavId(theDroneId).setZ(droneAltitude)));
-						objrequest.build().writeDelimitedTo(oos);
+						 droneAltitude = Double.parseDouble(tf1.getText());
+						 add_location(theDroneId, droneAltitude);
+						 
 					} catch (Exception e) {
 						System.out.println(e);
 					}
@@ -277,7 +268,7 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 			sendButton.addActionListener(new ActionListener() {
 				// .....Connects to the exec_monitor.....//
 				public void actionPerformed(ActionEvent actionEvent) {
-					sendDrone();
+					add_location(theDroneId);
 				}
 			});
 			buttonPanel1.add(sendButton);
@@ -513,6 +504,7 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 						 * ); } else {
 						 */
 						System.out.printf("New Pin ADDED!\n");
+						//add_Location();
 
 						final RenderableLayer layer = new RenderableLayer();
 						PointPlacemark pp = new PointPlacemark(
@@ -614,7 +606,7 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 					// {
 					// System.out.println(e.getKeyCode());
 					if (e.getKeyCode() == 32) {
-						sendDrone();
+						//sendDrone();
 					}
 
 					// }
@@ -669,70 +661,68 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 		 
 	} // ...End of AppFrame Class...//
 
+
 	
-	static public void getTheRegion() {
-		try {
-			OutputStream oos = socket.getOutputStream();
-			WearableRequest.Builder objgotorequest = WearableRequest.newBuilder();
-			objgotorequest.setType(WearableRequest.WearableRequestType.GET_REGION);
-			objgotorequest.build().writeDelimitedTo(oos);
+	static public void add_location(int x)
+	{
+		Service add_Location = new Service(ros, "/urs_wearable/location_add", "urs_wearable/LocationAdd" );
+		double Ysim = ((targetPos.latitude.degrees * 10000) - 322790);
+		System.out.println(Ysim);
+		double Xsim = ((targetPos.longitude.degrees * -10000) - 1067501) / -1;
+		System.out.println(Xsim);
+		double Zsim = uavZ[x];
+		System.out.println(Zsim);
+		ServiceRequest request = new ServiceRequest("{\"pose\": {\"position\": {\"x\": " + Xsim +", \"y\": " + Ysim + ", \"z\": " + Zsim + "},\"orientation\" : {\"x\": 0.0, \"y\": 0.0, \"z\": 1.0}}}");
 
-			InputStream is = socket.getInputStream();
-			WearableResponse objectResponse = WearableResponse.parseDelimitedFrom(is);
-
-			while (!objectResponse.getType().equals(WearableResponseType.REGION)) {
-				objectResponse = WearableResponse.parseDelimitedFrom(is);
-			}
-
-			if (objectResponse.getType().equals(WearableResponseType.REGION)) {
-				System.out.println(objectResponse.getRegion().toString());
-				String region = objectResponse.getRegion().toString();
-				String[] lines = region.split(System.getProperty("line.separator"));
-				for (int i = 0; i < lines.length; i++) {
-					String line = lines[i].trim();
-
-					if (line.indexOf("x0:") == 0) {
-						x0 = Double.parseDouble(line.substring(3));
-					}
-					if (line.indexOf("y0:") == 0) {
-						y0 = Double.parseDouble(line.substring(3));
-					}
-					if (line.indexOf("x1:") == 0) {
-						x1 = Double.parseDouble(line.substring(3));
-					}
-					if (line.indexOf("y1:") == 0) {
-						y1 = Double.parseDouble(line.substring(3));
-					}
-				}
-				// System.out.println(x0 + " " + x1 + " " + y0 + " " + y1);
-			}
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		
+		ServiceResponse response = add_Location.callServiceAndWait(request);
+		//System.out.println(response);
+		String[] locationIDpart = response.toString().split(":");
+		String[] locationID = locationIDpart[1].split("}");
+		sendDrone(theDroneId,Integer.parseInt(locationID[0]));
+	}
+	
+	static public void add_location(int x, double z)
+	{
+		Service add_Location = new Service(ros, "/urs_wearable/location_add", "urs_wearable/LocationAdd" );
+		double Ysim = uavY[x];
+		double Xsim = uavX[x];
+		double Zsim = z;
+		ServiceRequest request = new ServiceRequest("{\"pose\": {\"position\": {\"x\": " + Xsim +", \"y\": " + Ysim + ", \"z\": " + Zsim + "},\"orientation\" : {\"x\": 0.0, \"y\": 0.0, \"z\": 1.0}}}");
+		
+		ServiceResponse response = add_Location.callServiceAndWait(request);
+		//System.out.println(response);
+		String[] locationIDpart = response.toString().split(":");
+		String[] locationID = locationIDpart[1].split("}");
+		sendDrone(theDroneId,Integer.parseInt(locationID[0]));
 	}
 
-	static public void sendDrone() {
-		try {
-			OutputStream oos = socket.getOutputStream();
-			double Ysim = ((targetPos.latitude.degrees * 10000) - 322790);
-			System.out.println("PinY Latitude in WW: " + targetPos.latitude.degrees);
-			double Xsim = ((targetPos.longitude.degrees * -10000) - 1067501) / -1;
-			System.out.println("PinX Latitude in WW: " + targetPos.longitude.degrees);
-			System.out.println();
-			System.out.println("......Sending Data.......");
-			WearableRequest.Builder objrequest = WearableRequest.newBuilder();
-			objrequest.setType(WearableRequest.WearableRequestType.SET_POSE_WAYPOINT_REPEATED);
+	static public void sendDrone(int droneNo, int locationId) {
+		Service set_Goal = new Service(ros, "/urs_wearable/set_goal", "urs_wearable/SetGoal" );
+	         
+	       /* JsonReader reader = Json.createReader(new StringReader(personJSONData));
+	        JsonObject personObject = reader.readObject();
+	        reader.close();*/
+	
+		String feedbackTopic = "";
+		int goalType = 2;
+		ServiceRequest request = new ServiceRequest(
+				"{\"goal\": [{\"type\":"+ goalType
+				+  ", \"predicate_drone_at\": {\"drone_id\": {\"value\": " + droneNo + "}, \"location_id\": {\"value\": " + locationId + "}, \"truth_value\":  " + true  
+				+ "}}]}, {\"feedback_topic_name\":" + feedbackTopic + "}");
+		
+		/*ServiceRequest request = new ServiceRequest(
+				"{\"goal\": [{\"type\":"+ goalType
+				+  ",\"predicate_active_region\":{\"location_id_sw\": {\"value\":"  + 0 + "}, \"location_id_ne\": {\"value\": " + 0 + "}, \"truth_value\":  " + false  
+				+  "}, \"predicate_drone_above\": {\"drone_id\": {\"value\": " + 0 + "}, \"location_id\": {\"value\": " + 0 + "}, \"truth_value\":  " + false 
+				+  "}, \"predicate_drone_at\": {\"drone_id\": {\"value\": " + x + "}, \"location_id\": {\"value\": " + y + "}, \"truth_value\":  " + true 
+				+  "}, \"predicate_key_at\": {\"key_id\": {\"value\": " + 0 + "}, \"location_id\": {\"value\": " + 0 + "}, \"truth_value\":  " + false 
+				+  "}, \"predicate_key_picked\": {\"key_id\": {\"value\": " + 0 + "}, \"drone_id\": {\"value\": " + 0 + "}, \"truth_value\":  " + false 
+				+  "}, \"predicate_took_off\": {\"drone_id\": {\"value\": " + 0 + "}, \"truth_value\":  " + false 
+				+ "}}]}, {\"feedback_topic_name\":" + feedbackTopic + "}");*/
+		
+		set_Goal.callServiceAndWait(request);
 
-			objrequest.setSetPoseWaypointRepeated(SetPoseWaypointRepeated.newBuilder().setUavId(theDroneId)
-					.addSetPoseWaypoint(SetPoseWaypointRepeated.SetPoseWaypoint.newBuilder().setX(Xsim).setY(Ysim)
-							.setZ(droneAlt[theDroneId])));
-			System.out.println(objrequest);
-			objrequest.build().writeDelimitedTo(oos);
-			System.out.println("......Communication Ends.......");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 
 	static public void uav0position() {
@@ -743,16 +733,16 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 		String[] parts2 = parts[2].split(":");
 		String[] parts3 = parts2[3].split(",");
 		String yPose = parts3[0];
-		Double drone0y = (Double.parseDouble(yPose) + 322790) / 10000;
+		uavY[0] = (Double.parseDouble(yPose) + 322790) / 10000;
 		//System.out.println(yPose);
 		parts3 = parts2[4].split(",");
 		String xPose = parts3[0];
-		Double drone0x = (-(Double.parseDouble(xPose)) + 1067501) / -10000;
+		uavX[0] = (-(Double.parseDouble(xPose)) + 1067501) / -10000;
 		//System.out.println(xPose);
 		String zPose = parts2[5];
-		Double drone0z = (Double.parseDouble(zPose));
+		uavZ[0] = (Double.parseDouble(zPose));
 		//System.out.println(zPose);
-		markers.get(0).setPosition(Position.fromDegrees(drone0y, drone0x, drone0z));
+		markers.get(0).setPosition(Position.fromDegrees(uavY[0], uavX[0], uavZ[0]));
 		wwd2.redraw(); // update wwd
 		
 	}
@@ -765,16 +755,16 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 		String[] parts2 = parts[2].split(":");
 		String[] parts3 = parts2[3].split(",");
 		String yPose = parts3[0];
-		Double drone0y = (Double.parseDouble(yPose) + 322790) / 10000;
+		uavY[1] = (Double.parseDouble(yPose) + 322790) / 10000;
 		//System.out.println(yPose);
 		parts3 = parts2[4].split(",");
 		String xPose = parts3[0];
-		Double drone0x = (-(Double.parseDouble(xPose)) + 1067501) / -10000;
+		uavX[1] = (-(Double.parseDouble(xPose)) + 1067501) / -10000;
 		//System.out.println(xPose);
 		String zPose = parts2[5];
-		Double drone0z = (Double.parseDouble(zPose));
+		uavZ[1] = (Double.parseDouble(zPose));
 		//System.out.println(zPose);
-		markers.get(1).setPosition(Position.fromDegrees(drone0y, drone0x, drone0z));
+		markers.get(1).setPosition(Position.fromDegrees(uavY[1], uavX[1], uavZ[1]));
 		wwd2.redraw(); // update wwd
 		
 	}
@@ -787,16 +777,16 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 		String[] parts2 = parts[2].split(":");
 		String[] parts3 = parts2[3].split(",");
 		String yPose = parts3[0];
-		Double drone0y = (Double.parseDouble(yPose) + 322790) / 10000;
+		uavY[2] = (Double.parseDouble(yPose) + 322790) / 10000;
 		//System.out.println(yPose);
 		parts3 = parts2[4].split(",");
 		String xPose = parts3[0];
-		Double drone0x = (-(Double.parseDouble(xPose)) + 1067501) / -10000;
+		uavX[2] = (-(Double.parseDouble(xPose)) + 1067501) / -10000;
 		//System.out.println(xPose);
 		String zPose = parts2[5];
-		Double drone0z = (Double.parseDouble(zPose));
+		uavZ[2] = (Double.parseDouble(zPose));
 		//System.out.println(zPose);
-		markers.get(2).setPosition(Position.fromDegrees(drone0y, drone0x, drone0z));
+		markers.get(2).setPosition(Position.fromDegrees(uavY[2], uavX[2], uavZ[2]));
 		wwd2.redraw(); // update wwd
 		
 	}
@@ -809,71 +799,22 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 		String[] parts2 = parts[2].split(":");
 		String[] parts3 = parts2[3].split(",");
 		String yPose = parts3[0];
-		Double drone0y = (Double.parseDouble(yPose) + 322790) / 10000;
+		uavY[3] = (Double.parseDouble(yPose) + 322790) / 10000;
 		//System.out.println(yPose);
 		parts3 = parts2[4].split(",");
 		String xPose = parts3[0];
-		Double drone0x = (-(Double.parseDouble(xPose)) + 1067501) / -10000;
+		uavX[3] = (-(Double.parseDouble(xPose)) + 1067501) / -10000;
 		//System.out.println(xPose);
 		String zPose = parts2[5];
-		Double drone0z = (Double.parseDouble(zPose));
+		uavZ[3] = (Double.parseDouble(zPose));
 		//System.out.println(zPose);
-		markers.get(3).setPosition(Position.fromDegrees(drone0y, drone0x, drone0z));
+		markers.get(3).setPosition(Position.fromDegrees(uavY[3], uavX[3], uavZ[3]));
 		wwd2.redraw(); // update wwd
 		
 	}
 
-	/*static public void readMsgs() {
-		try {
-			InputStream ois = socket.getInputStream();
-			WearableResponse objgotoresponse = WearableResponse.parseDelimitedFrom(ois);
 
-			if (objgotoresponse.getType().equals(WearableResponse.WearableResponseType.PERIODIC_STATUS)) {
-				String PeriodicStatusMsg = objgotoresponse.getPeriodicStatus().toString();
-				dronePose(PeriodicStatusMsg);
-			}
-			if (ois.markSupported()) {
-				ois.reset();
-			} else {
-				ois.close();
-				SocketConnection();
-			}
 
-		}
-
-		catch (IOException e) {
-			System.out.println(e);
-		}
-	}
-*/
-/*	static private void dronePose(String pos) {
-		int counterX = 0;
-		int counterY = 0;
-		int counterZ = 0;
-		String[] lines = pos.split(System.getProperty("line.separator"));
-		for (int i = 0; i < lines.length; i++) {
-			String line = lines[i].trim();
-
-			if (line.indexOf("x:") == 0) {
-				droneLon[counterX] = (-(Double.parseDouble(line.substring(2))) + 1067501) / -10000;
-				counterX++;
-			}
-			if (line.indexOf("y:") == 0) {
-				droneLat[counterY] = (Double.parseDouble(line.substring(2)) + 322790) / 10000;
-				counterY++;
-			}
-			if (line.indexOf("z:") == 0) {
-				droneAlt[counterZ] = (Double.parseDouble(line.substring(2)));
-				counterZ++;
-			}
-		}
-		for (int i = 0; i < 4; i++) {
-			markers.get(i).setPosition(Position.fromDegrees(droneLat[i], droneLon[i], 1.0));
-		}
-		wwd2.redraw(); // update wwd
-
-	}*/
-	
 	/*static public void getMapPoints()
 	{
 		 try {
@@ -902,12 +843,15 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 			 System.out.println(e);
 		 }
 	}*/
+	
+	
 
+	
 	// ....Function for Socket Connection....//
 	static public void SocketConnection(){
 
-			//Ros ros = new Ros("192.168.1.142", 9090);
-			Ros ros = new Ros("localhost", 9090);
+			//ros = new Ros("172.20.10.8", 9090);
+		        ros = new Ros("localhost", 9090);
 			ros.connect();
 			 
 			// Topic echo = new Topic(ros, "/uav0/ground_truth_to_tf/pose", "std_msgs/String");
@@ -959,17 +903,6 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 						}
 					}
 				});
-			 
-			 //ros.disconnect();
-			// Service addTwoInts = new Service(ros, "/add_two_ints", "rospy_tutorials/AddTwoInts");
-
-			 
-			 ///uav3/controller/position/x/parameter_update
-			 
-
-			// socket=new Socket("192.168.1.142", 9090);//(host.getHostName(), 8080);
-			// System.out.println("54565363546357674656875896776534uyhgdfsdjhggcfa");
-			//socket = new Socket("spitfire.cs.nmsu.edu",8080);
 	
 
 	//	} //catch (IOException e) {
@@ -991,7 +924,10 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 
 				new AppFrame().setVisible(true);
 				SocketConnection();
-				
+				//sendDrone(3,30);
+				//System.out.println("{\"a\": 10, \"b\": 20}");
+			//	add_Location();
+				//set_goal();
 			//	readMsgs();
 			//	getTheRegion();
 			//	tt.start();
