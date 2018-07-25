@@ -35,5 +35,6 @@
 	<classpathentry kind="lib" path="lib/jrosbridge/tyrus-core-1.2.1.jar"/>
 	<classpathentry kind="lib" path="lib/jrosbridge/tyrus-spi-1.2.1.jar"/>
 	<classpathentry kind="lib" path="lib/jrosbridge/tyrus-websocket-core-1.2.1.jar"/>
+	<classpathentry kind="lib" path="lib/json-simple-1.1.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -16,6 +16,7 @@ import gov.nasa.worldwind.render.PointPlacemarkAttributes;
 import gov.nasa.worldwind.event.SelectListener;
 import gov.nasa.worldwind.event.SelectEvent;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.ListIterator;
 import gov.nasa.worldwindx.examples.ApplicationTemplate;
 import gov.nasa.worldwindx.examples.LineBuilder;
@@ -50,13 +51,25 @@ import java.io.StringReader;
 import java.net.InetAddress;
 import java.net.Socket;
 
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonNumber;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
+import javax.json.JsonString;
+import javax.json.JsonValue;
+import javax.json.JsonValue.ValueType;
 import javax.json.stream.JsonParsingException;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 import edu.wpi.rail.jrosbridge.Ros;
 import edu.wpi.rail.jrosbridge.Service;
@@ -851,7 +864,7 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 	static public void SocketConnection(){
 
 			//ros = new Ros("172.20.10.8", 9090);
-		        ros = new Ros("localhost", 9090);
+		    ros = new Ros("localhost", 9090);
 			ros.connect();
 			 
 			// Topic echo = new Topic(ros, "/uav0/ground_truth_to_tf/pose", "std_msgs/String");
@@ -911,8 +924,158 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 		//}
 	} // ....End of Socket Connection Function....//
 
-	// ......Main Function Starts.....//
+	public static int callLocationAddService(double x, double y, double z, double ox, double oy, double oz)
+	{
+		Map<String, Double> position = new HashMap<String, Double>(3);
+		position.put("x", x);
+		position.put("y", y);
+		position.put("z", z);
+		
+		Map<String, Double> orientation = new HashMap<String, Double>(3);
+		orientation.put("x", ox);
+		orientation.put("y", oy);
+		orientation.put("z", oz);
+		
+		Map<String, Map> poseEuler = new HashMap<String, Map>(2);
+		poseEuler.put("position", position);
+		poseEuler.put("orientation", orientation);
+		
+		JSONObject pose = new JSONObject();
+		pose.put("pose", poseEuler);
+		ServiceRequest request = new ServiceRequest(pose.toJSONString());
+		
+		Service locationAddService = new Service(ros, "/urs_wearable/location_add", "urs_wearable/LocationAdd");
+		ServiceResponse response = locationAddService.callServiceAndWait(request);
+		
+		return response.toJsonObject().getInt("location_id");
+	}
 
+	public static JSONObject getPredicateActiveRegion(int locationIDSW, int locationIDNE, boolean truthValue)
+	{
+		Map<String, Integer> locationIDSWObject = new HashMap<String, Integer>(1);
+		locationIDSWObject.put("value", locationIDSW);
+		
+		Map<String, Integer> locationIDNEObject = new HashMap<String, Integer>(1);
+		locationIDNEObject.put("value", locationIDNE);
+		
+		JSONObject predicateActiveRegion = new JSONObject();
+		predicateActiveRegion.put("location_id_sw", locationIDSWObject);
+		predicateActiveRegion.put("location_id_ne", locationIDNEObject);
+		predicateActiveRegion.put("truth_value", truthValue);
+		
+		return predicateActiveRegion;
+	}
+
+	public static JSONObject getPredicateDroneAbove(int droneID, int locationID, boolean truthValue)
+	{
+		Map<String, Integer> droneIDObject = new HashMap<String, Integer>(1);
+		droneIDObject.put("value", droneID);
+		
+		Map<String, Integer> locationIDObject = new HashMap<String, Integer>(1);
+		locationIDObject.put("value", locationID);
+		
+		JSONObject predicateDroneAbove = new JSONObject();
+		predicateDroneAbove.put("drone_id", droneIDObject);
+		predicateDroneAbove.put("location_id", locationIDObject);
+		predicateDroneAbove.put("truth_value", truthValue);
+		
+		return predicateDroneAbove;
+	}
+
+	public static JSONObject getPredicateDroneAt(int droneID, int locationID, boolean truthValue)
+	{
+		Map<String, Integer> droneIDObject = new HashMap<String, Integer>(1);
+		droneIDObject.put("value", droneID);
+		
+		Map<String, Integer> locationIDObject = new HashMap<String, Integer>(1);
+		locationIDObject.put("value", locationID);
+		
+		JSONObject predicateDroneAt = new JSONObject();
+		predicateDroneAt.put("drone_id", droneIDObject);
+		predicateDroneAt.put("location_id", locationIDObject);
+		predicateDroneAt.put("truth_value", truthValue);
+		
+		return predicateDroneAt;
+	}
+
+	public static JSONObject getPredicateKeyAt(int keyID, int locationID, boolean truthValue)
+	{
+		Map<String, Integer> keyIDObject = new HashMap<String, Integer>(1);
+		keyIDObject.put("value", keyID);
+		
+		Map<String, Integer> locationIDObject = new HashMap<String, Integer>(1);
+		locationIDObject.put("value", locationID);
+		
+		JSONObject predicateKeyAt = new JSONObject();
+		predicateKeyAt.put("key_id", keyIDObject);
+		predicateKeyAt.put("location_id", locationIDObject);
+		predicateKeyAt.put("truth_value", truthValue);
+		
+		return predicateKeyAt;
+	}
+
+	public static JSONObject getPredicateKeyPicked(int keyID, int droneID, boolean truthValue)
+	{
+		Map<String, Integer> keyIDObject = new HashMap<String, Integer>(1);
+		keyIDObject.put("value", keyID);
+		
+		Map<String, Integer> droneIDObject = new HashMap<String, Integer>(1);
+		droneIDObject.put("value", droneID);
+		
+		JSONObject predicateKeyPicked = new JSONObject();
+		predicateKeyPicked.put("key_id", keyIDObject);
+		predicateKeyPicked.put("drone_id", droneIDObject);
+		predicateKeyPicked.put("truth_value", truthValue);
+		
+		return predicateKeyPicked;
+	}
+
+	public static JSONObject getPredicateTookOff(int droneID, boolean truthValue)
+	{
+		Map<String, Integer> droneIDObject = new HashMap<String, Integer>(1);
+		droneIDObject.put("value", droneID);
+		
+		JSONObject predicateTookOff = new JSONObject();
+		predicateTookOff.put("drone_id", droneIDObject);
+		predicateTookOff.put("truth_value", truthValue);
+		
+		return predicateTookOff;
+	}
+	
+	public static enum PredicateType {
+		TYPE_ACTIVE_REGION(0),
+		TYPE_DRONE_ABOVE(1),
+		TYPE_DRONE_AT(2),
+		TYPE_KEY_AT(3),
+		TYPE_KEY_PICKED(4),
+		TYPE_TOOK_OFF(5);
+		
+	    private int value;
+
+	    PredicateType(int value) {
+	        this.value = value;
+	    }
+	    
+	    public int getValue() {
+	        return value;
+	    }
+	}
+	
+	public static JSONObject getPredicate(PredicateType type)
+	{
+		JSONObject predicate = new JSONObject();
+		predicate.put("type", type.getValue());
+		predicate.put("predicate_active_region", getPredicateActiveRegion(0, 0, false));
+		predicate.put("predicate_drone_above", getPredicateDroneAbove(0, 0, false));
+		predicate.put("predicate_drone_at", getPredicateDroneAt(0, 0, false));
+		predicate.put("predicate_key_at", getPredicateKeyAt(0, 0, false));
+		predicate.put("predicate_key_picked", getPredicateKeyPicked(0, 0, false));
+		predicate.put("predicate_took_off", getPredicateTookOff(0, false));
+		
+		return predicate;
+	}
+	
+	// ......Main Function Starts.....//
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		java.awt.EventQueue.invokeLater(new Runnable() {
@@ -924,16 +1087,39 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 
 				new AppFrame().setVisible(true);
 				SocketConnection();
-				//sendDrone(3,30);
+				
+/*********************************************************************************************************/
+				int locationID = callLocationAddService(0, 0, 4, 0, 0, 0);
+				
+				JSONObject predicateDroneAt = getPredicate(PredicateType.TYPE_DRONE_AT);
+				predicateDroneAt.put("predicate_drone_at", getPredicateDroneAt(0, locationID, true));
+				
+				JSONArray goal = new JSONArray();
+				goal.add(predicateDroneAt);
+				
+
+				JSONObject requestObject = new JSONObject();
+				requestObject.put("goal", goal);
+				requestObject.put("feedback_topic_name", "");
+				ServiceRequest request = new ServiceRequest(requestObject.toJSONString());
+				
+				Service setGoalService = new Service(ros, "/urs_wearable/set_goal", "urs_wearable/SetGoal");
+				ServiceResponse response = setGoalService.callServiceAndWait(request);
+
+
+/*********************************************************************************************************/
+
+//				String[] locationIDpart = response.toString().split(":");
+//				String[] locationID = locationIDpart[1].split("}");
+//				sendDrone(theDroneId,Integer.parseInt(locationID[0]));
+//				sendDrone(3,30);
+				
 				//System.out.println("{\"a\": 10, \"b\": 20}");
-			//	add_Location();
+
 				//set_goal();
 			//	readMsgs();
 			//	getTheRegion();
 			//	tt.start();
-				
-				
-
 			}
 		});
 		
