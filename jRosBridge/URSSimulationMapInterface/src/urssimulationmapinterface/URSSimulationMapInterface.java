@@ -1075,6 +1075,19 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 		return predicate;
 	}
 	
+	public static void callSetGoalService(JSONArray goal, String feedbackTopicName)
+	{
+		JSONObject requestObject = new JSONObject();
+		requestObject.put("goal", goal);
+		requestObject.put("feedback_topic_name", feedbackTopicName);
+		ServiceRequest request = new ServiceRequest(requestObject.toJSONString());
+		System.out.println(requestObject.toJSONString());
+		
+		Service setGoalService = new Service(ros, "/urs_wearable/set_goal", "urs_wearable/SetGoal");
+//		ServiceResponse response = setGoalService.callServiceAndWait(request);
+		setGoalService.callService(request, null);
+	}
+	
 	// ......Main Function Starts.....//
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -1089,23 +1102,29 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 				SocketConnection();
 				
 /*********************************************************************************************************/
-				int locationID = callLocationAddService(0, 0, 4, 0, 0, 0);
+				int keyID = 0;
+				int keyLocID = callLocationAddService(10, 10, 0, 0, 0, 0);
+				System.out.println(keyLocID);
 				
-				JSONObject predicateDroneAt = getPredicate(PredicateType.TYPE_DRONE_AT);
-				predicateDroneAt.put("predicate_drone_at", getPredicateDroneAt(0, locationID, true));
+				{
+					JSONObject predKeyPicked = getPredicate(PredicateType.TYPE_KEY_PICKED);
+					predKeyPicked.put("predicate_key_picked", getPredicateKeyPicked(keyID, 0, true));
+					
+					JSONArray goal = new JSONArray();
+					goal.add(predKeyPicked);
+					
+					callSetGoalService(goal, "/urs_wearable/feedback_1");
+				}
 				
-				JSONArray goal = new JSONArray();
-				goal.add(predicateDroneAt);
-				
-
-				JSONObject requestObject = new JSONObject();
-				requestObject.put("goal", goal);
-				requestObject.put("feedback_topic_name", "");
-				ServiceRequest request = new ServiceRequest(requestObject.toJSONString());
-				
-				Service setGoalService = new Service(ros, "/urs_wearable/set_goal", "urs_wearable/SetGoal");
-				ServiceResponse response = setGoalService.callServiceAndWait(request);
-
+				{
+					JSONObject predKeyPicked = getPredicate(PredicateType.TYPE_KEY_PICKED);
+					predKeyPicked.put("predicate_key_picked", getPredicateKeyPicked(keyID, 1, true));
+					
+					JSONArray goal = new JSONArray();
+					goal.add(predKeyPicked);
+					
+					callSetGoalService(goal, "/urs_wearable/feedback_2");
+				}
 
 /*********************************************************************************************************/
 
