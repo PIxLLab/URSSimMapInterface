@@ -1014,7 +1014,19 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 		return predicateKeyAt;
 	}
 
-	public static JSONObject getPredicateKeyPicked(int keyID, int droneID, boolean truthValue)
+	public static JSONObject getPredicateKeyPicked(int keyID, boolean truthValue)
+	{
+		Map<String, Integer> keyIDObject = new HashMap<String, Integer>(1);
+		keyIDObject.put("value", keyID);
+		
+		JSONObject predicateKeyPicked = new JSONObject();
+		predicateKeyPicked.put("key_id", keyIDObject);
+		predicateKeyPicked.put("truth_value", truthValue);
+		
+		return predicateKeyPicked;
+	}
+
+	public static JSONObject getPredicateKeyWith(int keyID, int droneID, boolean truthValue)
 	{
 		Map<String, Integer> keyIDObject = new HashMap<String, Integer>(1);
 		keyIDObject.put("value", keyID);
@@ -1022,12 +1034,12 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 		Map<String, Integer> droneIDObject = new HashMap<String, Integer>(1);
 		droneIDObject.put("value", droneID);
 		
-		JSONObject predicateKeyPicked = new JSONObject();
-		predicateKeyPicked.put("key_id", keyIDObject);
-		predicateKeyPicked.put("drone_id", droneIDObject);
-		predicateKeyPicked.put("truth_value", truthValue);
+		JSONObject predicateKeyWith = new JSONObject();
+		predicateKeyWith.put("key_id", keyIDObject);
+		predicateKeyWith.put("drone_id", droneIDObject);
+		predicateKeyWith.put("truth_value", truthValue);
 		
-		return predicateKeyPicked;
+		return predicateKeyWith;
 	}
 
 	public static JSONObject getPredicateTookOff(int droneID, boolean truthValue)
@@ -1048,7 +1060,8 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 		TYPE_DRONE_AT(2),
 		TYPE_KEY_AT(3),
 		TYPE_KEY_PICKED(4),
-		TYPE_TOOK_OFF(5);
+		TYPE_KEY_WITH(5),
+		TYPE_TOOK_OFF(6);
 		
 	    private int value;
 
@@ -1069,7 +1082,8 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 		predicate.put("predicate_drone_above", getPredicateDroneAbove(0, 0, false));
 		predicate.put("predicate_drone_at", getPredicateDroneAt(0, 0, false));
 		predicate.put("predicate_key_at", getPredicateKeyAt(0, 0, false));
-		predicate.put("predicate_key_picked", getPredicateKeyPicked(0, 0, false));
+		predicate.put("predicate_key_picked", getPredicateKeyPicked(0, false));
+		predicate.put("predicate_key_with", getPredicateKeyWith(0, 0, false));
 		predicate.put("predicate_took_off", getPredicateTookOff(0, false));
 		
 		return predicate;
@@ -1089,23 +1103,24 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 				SocketConnection();
 				
 /*********************************************************************************************************/
-				int locationID = callLocationAddService(0, 0, 4, 0, 0, 0);
-				
-				JSONObject predicateDroneAt = getPredicate(PredicateType.TYPE_DRONE_AT);
-				predicateDroneAt.put("predicate_drone_at", getPredicateDroneAt(0, locationID, true));
-				
-				JSONArray goal = new JSONArray();
-				goal.add(predicateDroneAt);
-				
-
-				JSONObject requestObject = new JSONObject();
-				requestObject.put("goal", goal);
-				requestObject.put("feedback_topic_name", "");
-				ServiceRequest request = new ServiceRequest(requestObject.toJSONString());
-				
-				Service setGoalService = new Service(ros, "/urs_wearable/set_goal", "urs_wearable/SetGoal");
-				ServiceResponse response = setGoalService.callServiceAndWait(request);
-
+				// Request 1
+				{
+					int locationID = callLocationAddService(0, 0, 4, 0, 0, 0);
+					
+					JSONObject predicateDroneAt = getPredicate(PredicateType.TYPE_DRONE_AT);
+					predicateDroneAt.put("predicate_drone_at", getPredicateDroneAt(0, locationID, true));
+					
+					JSONArray goal = new JSONArray();
+					goal.add(predicateDroneAt);
+	
+					JSONObject requestObject = new JSONObject();
+					requestObject.put("goal", goal);
+					requestObject.put("feedback_topic_name", "");
+					ServiceRequest request = new ServiceRequest(requestObject.toJSONString());
+					
+					Service setGoalService = new Service(ros, "/urs_wearable/set_goal", "urs_wearable/SetGoal");
+					ServiceResponse response = setGoalService.callServiceAndWait(request);
+				}
 
 /*********************************************************************************************************/
 
