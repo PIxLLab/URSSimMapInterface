@@ -81,6 +81,7 @@ import edu.wpi.rail.jrosbridge.messages.Message;
 import edu.wpi.rail.jrosbridge.services.ServiceRequest;
 import edu.wpi.rail.jrosbridge.services.ServiceResponse;
 
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Skyforce
@@ -1095,7 +1096,6 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 		requestObject.put("goal", goal);
 		requestObject.put("feedback_topic_name", feedbackTopicName);
 		ServiceRequest request = new ServiceRequest(requestObject.toJSONString());
-		System.out.println(requestObject.toJSONString());
 		
 		Service setGoalService = new Service(ros, "/urs_wearable/set_goal", "urs_wearable/SetGoal");
 //		ServiceResponse response = setGoalService.callServiceAndWait(request);
@@ -1116,29 +1116,85 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 				SocketConnection();
 				
 /*********************************************************************************************************/
+				try {
+				    Thread.sleep(50000);
+				} catch(InterruptedException ex) {
+				    Thread.currentThread().interrupt();
+				}
+				
 				int keyID = 0;
 				int keyLocID = callLocationAddService(10, 10, 0, 0, 0, 0);
-				System.out.println(keyLocID);
 				
+				// Request 1
 				{
-					JSONObject predKeyPicked = getPredicate(PredicateType.TYPE_KEY_PICKED);
-					predKeyPicked.put("predicate_key_picked", getPredicateKeyPicked(keyID, true));
+					JSONObject pred1 = getPredicate(PredicateType.TYPE_KEY_AT);
+					pred1.put("predicate_key_at", getPredicateKeyAt(keyID, keyLocID, true));
+					
+					JSONObject pred2 = getPredicate(PredicateType.TYPE_KEY_WITH);
+					pred2.put("predicate_key_with", getPredicateKeyWith(keyID, 0, true));
 					
 					JSONArray goal = new JSONArray();
-					goal.add(predKeyPicked);
+					goal.add(pred1);
+					goal.add(pred2);
 					
 					callSetGoalService(goal, "/urs_wearable/feedback_1");
 				}
+				try {
+				    Thread.sleep(10000);
+				} catch(InterruptedException ex) {
+				    Thread.currentThread().interrupt();
+				}
 				
+				// Request 2
 				{
-					JSONObject predKeyPicked = getPredicate(PredicateType.TYPE_KEY_PICKED);
-					predKeyPicked.put("predicate_key_picked", getPredicateKeyPicked(keyID, true));
+					JSONObject pred = getPredicate(PredicateType.TYPE_KEY_WITH);
+					pred.put("predicate_key_with", getPredicateKeyWith(keyID, 1, true));
 					
 					JSONArray goal = new JSONArray();
-					goal.add(predKeyPicked);
+					goal.add(pred);
 					
 					callSetGoalService(goal, "/urs_wearable/feedback_2");
 				}
+				
+				// Request 3
+				{
+					int locID = callLocationAddService(0, 0, 5, 0, 0, 0);
+					JSONObject pred = getPredicate(PredicateType.TYPE_DRONE_AT);
+					pred.put("predicate_drone_at", getPredicateDroneAt(2, locID, true));
+					
+					JSONArray goal = new JSONArray();
+					goal.add(pred);
+					
+					callSetGoalService(goal, "/urs_wearable/feedback_3");
+				}
+				
+				// Request 4
+				{
+					int locID = callLocationAddService(0, 0, 2, 0, 0, 0);
+					JSONObject pred = getPredicate(PredicateType.TYPE_DRONE_AT);
+					pred.put("predicate_drone_at", getPredicateDroneAt(3, locID, true));
+					
+					JSONArray goal = new JSONArray();
+					goal.add(pred);
+					
+					callSetGoalService(goal, "/urs_wearable/feedback_4");
+				}
+//				try {
+//				    Thread.sleep(10000);
+//				} catch(InterruptedException ex) {
+//				    Thread.currentThread().interrupt();
+//				}
+//				
+//				// Request 5
+//				{
+//					JSONObject pred = getPredicate(PredicateType.TYPE_TOOK_OFF);
+//					pred.put("predicate_took_off", getPredicateTookOff(3, false));
+//					
+//					JSONArray goal = new JSONArray();
+//					goal.add(pred);
+//					
+//					callSetGoalService(goal, "/urs_wearable/feedback_5");
+//				}
 
 /*********************************************************************************************************/
 
