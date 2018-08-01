@@ -999,6 +999,30 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 		return predicateDroneAt;
 	}
 
+	public static JSONObject getPredicateIsLocation(int locationID, boolean truthValue)
+	{
+		Map<String, Integer> locationIDObject = new HashMap<String, Integer>(1);
+		locationIDObject.put("value", locationID);
+		
+		JSONObject predicateIsLocation = new JSONObject();
+		predicateIsLocation.put("location_id", locationIDObject);
+		predicateIsLocation.put("truth_value", truthValue);
+		
+		return predicateIsLocation;
+	}
+
+	public static JSONObject getPredicateIsOccupied(int locationID, boolean truthValue)
+	{
+		Map<String, Integer> locationIDObject = new HashMap<String, Integer>(1);
+		locationIDObject.put("value", locationID);
+		
+		JSONObject predicateIsOccupied = new JSONObject();
+		predicateIsOccupied.put("location_id", locationIDObject);
+		predicateIsOccupied.put("truth_value", truthValue);
+		
+		return predicateIsOccupied;
+	}
+
 	public static JSONObject getPredicateKeyAt(int keyID, int locationID, boolean truthValue)
 	{
 		Map<String, Integer> keyIDObject = new HashMap<String, Integer>(1);
@@ -1059,10 +1083,12 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 		TYPE_ACTIVE_REGION(0),
 		TYPE_DRONE_ABOVE(1),
 		TYPE_DRONE_AT(2),
-		TYPE_KEY_AT(3),
-		TYPE_KEY_PICKED(4),
-		TYPE_KEY_WITH(5),
-		TYPE_TOOK_OFF(6);
+		TYPE_IS_LOCATION(3),
+		TYPE_IS_OCCUPIED(4),
+		TYPE_KEY_AT(5),
+		TYPE_KEY_PICKED(6),
+		TYPE_KEY_WITH(7),
+		TYPE_TOOK_OFF(8);
 		
 	    private int value;
 
@@ -1082,6 +1108,8 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 		predicate.put("predicate_active_region", getPredicateActiveRegion(0, 0, false));
 		predicate.put("predicate_drone_above", getPredicateDroneAbove(0, 0, false));
 		predicate.put("predicate_drone_at", getPredicateDroneAt(0, 0, false));
+		predicate.put("predicate_is_location", getPredicateIsLocation(0, false));
+		predicate.put("predicate_is_occupied", getPredicateIsOccupied(0, false));
 		predicate.put("predicate_key_at", getPredicateKeyAt(0, 0, false));
 		predicate.put("predicate_key_picked", getPredicateKeyPicked(0, false));
 		predicate.put("predicate_key_with", getPredicateKeyWith(0, 0, false));
@@ -1116,22 +1144,21 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 				SocketConnection();
 				
 /*********************************************************************************************************/
-				try {
-				    Thread.sleep(50000);
-				} catch(InterruptedException ex) {
-				    Thread.currentThread().interrupt();
-				}
+//				try {
+//				    Thread.sleep(50000);
+//				} catch(InterruptedException ex) {
+//				    Thread.currentThread().interrupt();
+//				}
 				
-				int keyID = 0;
-				int keyLocID = callLocationAddService(10, 10, 0, 0, 0, 0);
+				int gLocID = callLocationAddService(8, 5, 2, 0, 0, 0);
 				
 				// Request 1
 				{
-					JSONObject pred1 = getPredicate(PredicateType.TYPE_KEY_AT);
-					pred1.put("predicate_key_at", getPredicateKeyAt(keyID, keyLocID, true));
+					JSONObject pred1 = getPredicate(PredicateType.TYPE_IS_LOCATION);
+					pred1.put("predicate_is_location", getPredicateIsLocation(gLocID, true));
 					
-					JSONObject pred2 = getPredicate(PredicateType.TYPE_KEY_WITH);
-					pred2.put("predicate_key_with", getPredicateKeyWith(keyID, 0, true));
+					JSONObject pred2 = getPredicate(PredicateType.TYPE_DRONE_AT);
+					pred2.put("predicate_drone_at", getPredicateDroneAt(0, gLocID, true));
 					
 					JSONArray goal = new JSONArray();
 					goal.add(pred1);
@@ -1140,15 +1167,15 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 					callSetGoalService(goal, "/urs_wearable/feedback_1");
 				}
 				try {
-				    Thread.sleep(10000);
+				    Thread.sleep(20000);
 				} catch(InterruptedException ex) {
 				    Thread.currentThread().interrupt();
 				}
 				
 				// Request 2
 				{
-					JSONObject pred = getPredicate(PredicateType.TYPE_KEY_WITH);
-					pred.put("predicate_key_with", getPredicateKeyWith(keyID, 1, true));
+					JSONObject pred = getPredicate(PredicateType.TYPE_DRONE_AT);
+					pred.put("predicate_drone_at", getPredicateDroneAt(1, gLocID, true));
 					
 					JSONArray goal = new JSONArray();
 					goal.add(pred);
@@ -1159,11 +1186,15 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 				// Request 3
 				{
 					int locID = callLocationAddService(0, 0, 5, 0, 0, 0);
-					JSONObject pred = getPredicate(PredicateType.TYPE_DRONE_AT);
-					pred.put("predicate_drone_at", getPredicateDroneAt(2, locID, true));
+					JSONObject pred1 = getPredicate(PredicateType.TYPE_IS_LOCATION);
+					pred1.put("predicate_is_location", getPredicateIsLocation(locID, true));
+					
+					JSONObject pred2 = getPredicate(PredicateType.TYPE_DRONE_AT);
+					pred2.put("predicate_drone_at", getPredicateDroneAt(2, locID, true));
 					
 					JSONArray goal = new JSONArray();
-					goal.add(pred);
+					goal.add(pred1);
+					goal.add(pred2);
 					
 					callSetGoalService(goal, "/urs_wearable/feedback_3");
 				}
@@ -1171,14 +1202,19 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 				// Request 4
 				{
 					int locID = callLocationAddService(0, 0, 2, 0, 0, 0);
-					JSONObject pred = getPredicate(PredicateType.TYPE_DRONE_AT);
-					pred.put("predicate_drone_at", getPredicateDroneAt(3, locID, true));
+					JSONObject pred1 = getPredicate(PredicateType.TYPE_IS_LOCATION);
+					pred1.put("predicate_is_location", getPredicateIsLocation(locID, true));
+					
+					JSONObject pred2 = getPredicate(PredicateType.TYPE_DRONE_AT);
+					pred2.put("predicate_drone_at", getPredicateDroneAt(3, locID, true));
 					
 					JSONArray goal = new JSONArray();
-					goal.add(pred);
+					goal.add(pred1);
+					goal.add(pred2);
 					
 					callSetGoalService(goal, "/urs_wearable/feedback_4");
 				}
+				
 //				try {
 //				    Thread.sleep(10000);
 //				} catch(InterruptedException ex) {
