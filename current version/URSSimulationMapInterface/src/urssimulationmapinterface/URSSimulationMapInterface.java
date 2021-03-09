@@ -132,12 +132,28 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 	ArrayList<Long> dCiD = new ArrayList<Long>();
 	ArrayList<Long> hCiD = new ArrayList<Long>();
 
+	
+	//NMSU
+	
 	double originlongitude = -106.75239801428688;
 	double originlatitude = 32.2810102009863;
-
 	double dronelatitude = 32.2771;
-	double dronelongitude = -106.7201;	double droneElevation = 10d; // drone location, elevation is in meters
+	double dronelongitude = -106.7201;
+		
+	
+	//Redwood City
+	/*
+	double originlongitude = -122.236115;
+	double originlatitude = 37.487846;
+	double dronelatitude = 32.2771; 
+	double dronelongitude =	-106.7201;
+	
+	*/
+	double droneElevation = 10d; // drone location, elevation is in meters
 	double elevationOffset = 2.3e3d; // camera height from surface (meters)
+	
+	
+	
 	Position targetPos = null;
 	ArrayList<Position> pinPos = new ArrayList<Position>();
 
@@ -237,12 +253,26 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 			scorePanel.add(gsValue);
 			
 //-------- add symbol guide panel ------------//
-			ImageIcon iconLogo1 = new ImageIcon("/Users/urs-wearable/Documents/URSSimulationMapInterface/images/pushpins/plain-green.png");
-			ImageIcon iconLogo2 = new ImageIcon("/Users/urs-wearable/Documents/URSSimulationMapInterface/images/pushpins/plain-blue.png");
-			ImageIcon iconLogo3 = new ImageIcon("/Users/urs-wearable/Documents/URSSimulationMapInterface/images/redDot-H.png");
-			ImageIcon iconLogo4 = new ImageIcon("/Users/urs-wearable/Documents/URSSimulationMapInterface/images/redDot.png");
-			ImageIcon iconLogo5 = new ImageIcon("/Users/urs-wearable/Documents/URSSimulationMapInterface/images/bn.png");
+			//ImageIcon iconLogo1 = new ImageIcon("/Users/urs-wearable/Documents/URSSimulationMapInterface/images/pushpins/plain-green.png");
+			//ImageIcon iconLogo2 = new ImageIcon("/Users/urs-wearable/Documents/URSSimulationMapInterface/images/pushpins/plain-blue.png");
+			//ImageIcon iconLogo3 = new ImageIcon("/Users/urs-wearable/Documents/URSSimulationMapInterface/images/redDot-H.png");
+			//ImageIcon iconLogo4 = new ImageIcon("/Users/urs-wearable/Documents/URSSimulationMapInterface/images/redDot.png");
+			//ImageIcon iconLogo5 = new ImageIcon("/Users/urs-wearable/Documents/URSSimulationMapInterface/images/bn.png");
 
+			/*
+			ImageIcon iconLogo1 = new ImageIcon("/home/redwan/Desktop/NMSU/RA/PIXLRepoGIT/URSSimMapInterface/current version/URSSimulationMapInterface/images/pushpins/plain-green.png");
+			ImageIcon iconLogo2 = new ImageIcon("/home/redwan/Desktop/NMSU/RA/PIXLRepoGIT/URSSimMapInterface/current version/URSSimulationMapInterface/images/pushpins/plain-blue.png");
+			ImageIcon iconLogo3 = new ImageIcon("/home/redwan/Desktop/NMSU/RA/PIXLRepoGIT/URSSimMapInterface/current version/URSSimulationMapInterface/images/redDot-H.png");
+			ImageIcon iconLogo4 = new ImageIcon("/home/redwan/Desktop/NMSU/RA/PIXLRepoGIT/URSSimMapInterface/current version/URSSimulationMapInterface/images/redDot.png");
+			ImageIcon iconLogo5 = new ImageIcon("/home/redwan/Desktop/NMSU/RA/PIXLRepoGIT/URSSimMapInterface/current version/URSSimulationMapInterface/images/bn.png");
+			*/
+			
+			
+			ImageIcon iconLogo1 = new ImageIcon("resources/pushpins/plain-green.png");
+			ImageIcon iconLogo2 = new ImageIcon("resources/pushpins/plain-blue.png");
+			ImageIcon iconLogo3 = new ImageIcon("resources/redDot-H.png");
+			ImageIcon iconLogo4 = new ImageIcon("resources/redDot.png");
+			ImageIcon iconLogo5 = new ImageIcon("resources/bn.png");
 			
 			JLabel DroneClue = new JLabel("Drone Object:", JLabel.LEFT);
 			JLabel DroneClueImg = new JLabel();
@@ -401,7 +431,6 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 			searchButton = new JButton("Search");
 			searchButton.addActionListener(new ActionListener() {
 
-				@Override
 				public void actionPerformed(ActionEvent e) {
 // TODO Auto-generated method stub
 
@@ -512,14 +541,19 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 // create the markers for the drones
 			markers = new ArrayList<Marker>();
 // ........Pointing out only yellow drones.........//
+			
 			for (int i = 0; i < attrs.length; i++) {
+				
+				//System.out.println("AppFrame/(Before)DroneLat: " + droneLat[i]);
 				Marker marker = new BasicMarker(Position.fromDegrees(droneLat[i], droneLon[i], droneAlt[i]), attrs[i]);
 				marker.setPosition(Position.fromDegrees(droneLat[i], droneLon[i], droneAlt[i]));
+				//System.out.println("AppFrame/(After)DroneLat: " + droneLat[i]);
 				marker.setHeading(Angle.fromDegrees(0));
 				marker.setPitch(Angle.fromDegrees(90));
 				markers.add(marker);
 			}
-
+			
+			
 			final MarkerLayer layer = new MarkerLayer();
 // ........... Highlight selected drones ..........//
 			this.getWwd().addSelectListener(new SelectListener() {
@@ -603,7 +637,6 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 
 			this.getWwd().getInputHandler().addKeyListener(new KeyListener() {
 
-				@Override
 				public void keyTyped(KeyEvent e) {
 // TODO Auto-generated method stub
 
@@ -611,7 +644,6 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 
 				
 				// Wearables + commands
-				@Override
 				public void keyPressed(KeyEvent e) {
 					if(wearableInterface == 1)
 					{
@@ -853,7 +885,6 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 				}
 				}
 				// related to leap motion interface
-				@Override
 				public void keyReleased(KeyEvent e) {
 					if(wearableInterface==1)
 					{
@@ -878,6 +909,10 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 // .......... Adjust the view on the drones locations .........//
 			View view = getWwd().getView();
 			view.setEyePosition(Position.fromDegrees(originlatitude, originlongitude, elevationOffset));
+			
+			//redwood city, SF
+			//view.setEyePosition(Position.fromDegrees(37.487846, -122.236115, elevationOffset));
+			
 			insertBeforeCompass(this.getWwd(), layer);
 
 			this.getLayerPanel().update(this.getWwd());
@@ -885,13 +920,28 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 			layer.setKeepSeparated(false);
 			layer.setElevation(droneElevation);
 			layer.setMarkers(markers); // .....For Red Pins....//
+			
+			
+			System.out.print("AppFrame/markers: "+ markers.toString());
+			
 			insertBeforePlacenames(this.getWwd(), layer);
 //////////////////////////////////////
 ///// add shape files /////////////// YOU NEED TO CHANGE THE PATH 
 
-			Shapefile sf2 = new Shapefile(new File("/Users/urs-wearable/Desktop/shape2/lines.shp"));
-			this.getWwd().getModel().getLayers().add(new ShapefileLoader().createLayerFromShapefile(sf2));
-			Shapefile sf3 = new Shapefile(new File("/Users/urs-wearable/Desktop/shape2/GameMap.shp"));
+			//Shapefile sf2 = new Shapefile(new File("/Users/urs-wearable/Desktop/shape2/lines.shp"));
+			
+			//Shapefile sf2 = new Shapefile(new File("/home/redwan/Desktop/NMSU/RA/PIXLRepoGIT/URSSimMapInterface/current version/shape2/lines.shp"));
+			
+			Shapefile sf2 = new Shapefile(new File("resources/shapes/lines.shp"));
+			
+			 this.getWwd().getModel().getLayers().add(new ShapefileLoader().createLayerFromShapefile(sf2));
+			
+			//Shapefile sf3 = new Shapefile(new File("/Users/urs-wearable/Desktop/shape2/GameMap.shp"));
+			
+			//Shapefile sf3 = new Shapefile(new File("/home/redwan/Desktop/NMSU/RA/PIXLRepoGIT/URSSimMapInterface/current version/shape2/GameMap.shp"));
+			
+			 Shapefile sf3 = new Shapefile(new File("resources/shapes/GameMap.shp"));
+			
 			this.getWwd().getModel().getLayers().add(new ShapefileLoader().createLayerFromShapefile(sf3));
 			
 			  final RenderableLayer toolTipLayer = new RenderableLayer();
@@ -961,7 +1011,7 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 	//add a location based on the pin position (used if you only want to change the altitude) 
 	public void add_location(int x, double z) {
 		double Zsim = z;
-		System.out.println(Zsim);
+		System.out.println("add_location2//Z: "+ Zsim);
 		sendDrone(x, droneX[x], droneY[x], Zsim);
 	}
 
@@ -1043,6 +1093,7 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 		pred2.put("scanned", getPredicateScan(theDroneId, area));
 		JSONArray goal = new JSONArray();
 		goal.add(pred2);
+		System.out.println("Goal from scanArea"+goal);
 		callSetGoalService(goal);
 	}
 
@@ -1072,6 +1123,7 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 		ServiceRequest request = new ServiceRequest(pose.toJSONString());
 		Service locationAddService = new Service(ros, "/urs_wearable/add_location", "urs_wearable/LocationAdd");
 		ServiceResponse response = locationAddService.callServiceAndWait(request);
+		System.out.println("CallLocationAddService/location_id: "+ response);
 		return response.toJsonObject().getInt("loc_id");
 	}
 
@@ -1105,6 +1157,7 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 		ServiceRequest request = new ServiceRequest(area.toJSONString());
 		Service areaAddService = new Service(ros, "/urs_wearable/add_area", "urs_wearable/AddArea");
 		ServiceResponse response = areaAddService.callServiceAndWait(request);
+		System.out.println("callAreaAddService/ Add Area Response: "+response.toString());
 		return response.toJsonObject().getInt("area_id");
 	}
 
@@ -1153,8 +1206,10 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 		requestObject.put("player_id", playerID);
 		requestObject.put("goal", goal);
 		ServiceRequest request = new ServiceRequest(requestObject.toJSONString());
-		System.out.println(requestObject.toJSONString());
+		System.out.println("callSetGoalService/Goal: "+ requestObject.toJSONString());
 		Service setGoalService = new Service(ros, "/urs_wearable/set_goal", "urs_wearable/SetGoal");
+		ServiceResponse response = setGoalService.callServiceAndWait(request);
+		System.out.print("callSetGoalService/Response:" + response);
 		setGoalService.callService(request, null);
 	}
 
@@ -1167,7 +1222,7 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 					String t1 = message.toString();
 					JSONParser t = new JSONParser();
 					JSONObject theState = (JSONObject) t.parse(t1);
-					System.out.println(theState);
+					System.out.println("callGetStateService/ response: "+theState);
 				} catch (ParseException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -1198,6 +1253,9 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 
 	// to get the position of each drone and display it on the map
 	public void uavPosition(int x) {
+		
+		//System.out.println("uavPosition/call trace/ drone # : " + x);
+		
 		String[] parts = uavsPose[x].split("}");
 		String[] parts2 = parts[2].split(":");
 		String[] parts3 = parts2[3].split(",");
@@ -1208,8 +1266,70 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 		droneY[x] = Double.parseDouble(yPose);
 		double coef = (Double.parseDouble(yPose)) * 0.0000089;
 		double coef2 = (Double.parseDouble(xPose)) * 0.0000089;
+		
+		
+
+		//For debug only//need to comment
+		/*
+		if (0==x)
+		{
+			
+			System.out.println("uavPosition/xPose: (Drone#1:) " + droneX[x]);
+			System.out.println("uavPosition/yPose: (Drone#1:)" + droneY[x]);
+			
+			System.out.println("uavPosition/coef (Drone#1): "+coef);
+			System.out.println("uavPosition/coef2 (Drone#1): "+coef2);
+			
+			System.out.println("uavPosition/uavY[x] (Drone#1: lat:): "+uavY[x]);
+			System.out.println("uavPosition/uavX[x] (Drone#1: lon:): "+uavX[x]);
+
+		}
+		else if (1==x)
+		{
+			System.out.println("uavPosition/xPose: (Drone#2:) " + droneX[x]);
+			System.out.println("uavPosition/yPose: (Drone#2:)" + droneY[x]);
+			
+			System.out.println("uavPosition/coef (Drone#2): "+coef);
+			System.out.println("uavPosition/coef2 (Drone#2): "+coef2);
+			
+			System.out.println("uavPosition/uavY[x] (Drone#2: lat:): "+uavY[x]);
+			System.out.println("uavPosition/uavX[x] (Drone#2: lon:): "+uavX[x]);		
+			
+		}
+		else if (2==x)
+		{
+			System.out.println("uavPosition/xPose: (Drone#3:) " + droneX[x]);
+			System.out.println("uavPosition/yPose: (Drone#3:)" + droneY[x]);
+			
+			System.out.println("uavPosition/coef (Drone#3): "+coef);
+			System.out.println("uavPosition/coef2 (Drone#3): "+coef2);
+			
+			System.out.println("uavPosition/uavY[x] (Drone#3: lat:): "+uavY[x]);
+			System.out.println("uavPosition/uavX[x] (Drone#3: lon:): "+uavX[x]);
+			
+		}
+		else if (3 == x)
+		{
+			System.out.println("uavPosition/xPose: (Drone#4:) " + droneX[x]);
+			System.out.println("uavPosition/yPose: (Drone#4:)" + droneY[x]);
+			
+			System.out.println("uavPosition/coef (Drone#4): "+coef);
+			System.out.println("uavPosition/coef2 (Drone#4): "+coef2);
+			
+			System.out.println("uavPosition/uavY[x] (Drone#4: lat:): "+uavY[x]);
+			System.out.println("uavPosition/uavX[x] (Drone#4: lon:): "+uavX[x]);
+		}
+		*/
+		
+		
+		
 		uavY[x] = originlatitude + coef;
 		uavX[x] = originlongitude + coef2 / Math.cos(originlatitude * 0.018);
+		
+
+		
+		
+		
 		String zPose = parts2[5];
 		droneZ[x] = Double.parseDouble(zPose);
 		uavZ[x] = (Double.parseDouble(zPose));
@@ -1444,7 +1564,8 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 		ShapeAttributes normalAttrs = new BasicShapeAttributes();
 		normalAttrs.setOutlineMaterial(Material.RED);
 		normalAttrs.setOutlineStippleFactor(3);
-		normalAttrs.setImageSource("/Users/urs-wearable/Documents/URSSimulationMapInterface/images/HDZP.png");
+		//normalAttrs.setImageSource("/home/redwan/Desktop/NMSU/RA/PIXLRepoGIT/URSSimMapInterface/current version/URSSimulationMapInterface/images/pushpins/HDZP.png");
+		normalAttrs.setImageSource("/resources/pushpins/HDZP.png");
 		normalAttrs.setInteriorOpacity(0.75);
 		SurfaceCircle surfaceCircle = new SurfaceCircle(normalAttrs, latlon, radius);
 		layer.addRenderable(surfaceCircle);
@@ -1499,7 +1620,6 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 		// subscribe to drone danger zone topic
 		Topic dDangerousZone = new Topic(ros, "/w_ddzcoordinates", "std_msgs/String");
 		dDangerousZone.subscribe(new TopicCallback() {
-			@Override
 			public void handleMessage(Message message) {
 				if (message != null) {
 					String dDanZone = message.toString();
@@ -1508,7 +1628,7 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 						obj = new JSONParser().parse(dDanZone);
 						JSONObject jo = (JSONObject) obj;
 						String theMessage = (String) jo.get("data");
-						// System.out.println(theMessage);
+					    System.out.println("Drone Danger Zone: "+theMessage);
 						DZpin(theMessage);
 					} catch (ParseException e) {
 						// TODO Auto-generated catch block
@@ -1523,7 +1643,6 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 		// subscribe to the player position topic
 		Topic playerCoordinate = new Topic(ros, "/w_personcoordinates", "std_msgs/String");
 		playerCoordinate.subscribe(new TopicCallback() {
-			@Override
 			public void handleMessage(Message message) {
 				if (message != null) {
 
@@ -1533,7 +1652,7 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 						obj = new JSONParser().parse(playerPosition);
 						JSONObject jo = (JSONObject) obj;
 						String theMessage = (String) jo.get("data");
-						// System.out.println(theMessage);
+						 System.out.println("Player Position: "+theMessage);
 						humanPosition(theMessage);
 					} catch (ParseException e) {
 						// TODO Auto-generated catch block
@@ -1547,7 +1666,6 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 		// subscribe to the human danger zone topic
 		Topic hDangerousZone = new Topic(ros, "/w_hdzcoordinates", "std_msgs/String");
 		hDangerousZone.subscribe(new TopicCallback() {
-			@Override
 			public void handleMessage(Message message) {
 				if (message != null) {
 
@@ -1559,9 +1677,9 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 						JSONObject jo = (JSONObject) obj;
 						String theMessage = (String) jo.get("data");
 						// System.out.println(theMessage);
+						System.out.println("Human Danger Zone: "+theMessage);
 						HDZpin(theMessage);
 					} catch (ParseException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 
@@ -1572,7 +1690,6 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 		// subscribe to the player objects topic
 		Topic hClue = new Topic(ros, "/w_hccoordinates", "std_msgs/String");
 		hClue.subscribe(new TopicCallback() {
-			@Override
 			public void handleMessage(Message message) {
 				if (message != null) {
 
@@ -1582,7 +1699,7 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 						obj = new JSONParser().parse(hCluePosition);
 						JSONObject jo = (JSONObject) obj;
 						String theMessage = (String) jo.get("data");
-						// System.out.println(theMessage);
+						System.out.println("Player Object topic: "+theMessage);
 						HCpos(theMessage);
 					} catch (ParseException e) {
 						// TODO Auto-generated catch block
@@ -1596,7 +1713,6 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 		// subscribe to the player scores topic (not used)
 		Topic pScore = new Topic(ros, "/w_player_score", "std_msgs/String");
 		pScore.subscribe(new TopicCallback() {
-			@Override
 			public void handleMessage(Message message) {
 				if (message != null) {
 
@@ -1606,7 +1722,7 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 						obj = new JSONParser().parse(playerScore);
 						JSONObject jo = (JSONObject) obj;
 						String theMessage = (String) jo.get("data");
-						// System.out.println(theMessage);
+						System.out.println("Player Score(not used): "+theMessage);
 						checkPlayerScore(theMessage);
 					} catch (ParseException e) {
 						// TODO Auto-generated catch block
@@ -1619,7 +1735,6 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 		// subscribe to the player scores topic  
 		Topic pScore2 = new Topic(ros, "/w_player_score2", "std_msgs/String");
 		pScore2.subscribe(new TopicCallback() {
-			@Override
 			public void handleMessage(Message message) {
 				if (message != null) {
 
@@ -1629,7 +1744,7 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 						obj = new JSONParser().parse(playerScore2);
 						JSONObject jo = (JSONObject) obj;
 						String theMessage = (String) jo.get("data");
-						// System.out.println(theMessage);
+						 System.out.println("Player score topic: "+theMessage);
 						checkPlayerScore(theMessage);
 					} catch (ParseException e) {
 						// TODO Auto-generated catch block
@@ -1643,7 +1758,6 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 		//subscribe to drone objects topic
 		Topic dClue = new Topic(ros, "/w_dccoordinates", "std_msgs/String");
 		dClue.subscribe(new TopicCallback() {
-			@Override
 			public void handleMessage(Message message) {
 				if (message != null) {
 
@@ -1653,7 +1767,7 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 						obj = new JSONParser().parse(dCluePosition);
 						JSONObject jo = (JSONObject) obj;
 						String theMessage = (String) jo.get("data");
-						// System.out.println(theMessage);
+						System.out.println("drone objects topic: "+ theMessage);
 						DCpos(theMessage);
 					} catch (ParseException e) {
 						// TODO Auto-generated catch block
@@ -1712,44 +1826,43 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 		//subscribe to drones positions topics (four topics)
 		Topic uav0 = new Topic(ros, "/uav0/ground_truth_to_tf/pose", "geometry_msgs/PoseStamped");
 		uav0.subscribe(new TopicCallback() {
-			@Override
 			public void handleMessage(Message message) {
 //System.out.println(message.toString());
 				if (message != null) {
 					uavsPose[0] = message.toString();
-					//System.out.println(message.toString());
+					//System.out.println("UAV0: "+message.toString());
 					uavPosition(0);
 				}
 			}
 		});
 		Topic uav1 = new Topic(ros, "/uav1/ground_truth_to_tf/pose", "geometry_msgs/PoseStamped");
 		uav1.subscribe(new TopicCallback() {
-			@Override
 			public void handleMessage(Message message) {
 //System.out.println(message.toString());
 				if (message != null) {
 					uavsPose[1] = message.toString();
+					//System.out.println("UAV1: "+message.toString());
 					uavPosition(1);
 				}
 			}
 		});
 		Topic uav2 = new Topic(ros, "/uav2/ground_truth_to_tf/pose", "geometry_msgs/PoseStamped");
 		uav2.subscribe(new TopicCallback() {
-			@Override
 			public void handleMessage(Message message) {
 				if (message != null) {
 					uavsPose[2] = message.toString();
+					//System.out.println("UAV2: "+message.toString());
 					uavPosition(2);
 				}
 			}
 		});
 		Topic uav3 = new Topic(ros, "/uav3/ground_truth_to_tf/pose", "geometry_msgs/PoseStamped");
 		uav3.subscribe(new TopicCallback() {
-			@Override
 			public void handleMessage(Message message) {
 //System.out.println(message.toString());
 				if (message != null) {
 					uavsPose[3] = message.toString();
+					//System.out.println("UAV3: "+message.toString());
 					uavPosition(3);
 
 				}
@@ -1774,10 +1887,10 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 // ......Main Function Starts.....//
 	public static void main(String[] args) {
 // TODO Auto-generated method stub
-		URSSimulationMapInterface ursinterface = new URSSimulationMapInterface();
+		final URSSimulationMapInterface ursinterface = new URSSimulationMapInterface();
 		listener = new LeapData();
 		controller = new Controller();
-		AppFrame appFrame = ursinterface.new AppFrame();
+		final AppFrame appFrame = ursinterface.new AppFrame();
 		multiTh = new multiThread();
 		//voice = new voiceCommand();
 

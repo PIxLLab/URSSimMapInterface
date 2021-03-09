@@ -15,6 +15,7 @@ public class MyServerSocket {
 		 try {
 	        	socket = new Socket("192.168.2.3",11000);
 	        	System.out.println("Connection established");
+	        	System.out.println("RRRRRRR");
 	        	
     	InputStream ois = socket.getInputStream();
     	System.out.println(ois.toString());   
@@ -43,6 +44,7 @@ public class MyServerSocket {
         socket.close();
 		 }
         catch (IOException e) {
+        	System.out.println("MyServerSocket.java: readMsg : Catch Block");
             e.printStackTrace();
         }
 		 }
@@ -57,6 +59,7 @@ public class MyServerSocket {
         }   
 
         catch (IOException e) {
+        	System.out.println("MyServerSocket.java: SocketConnection() : Catch Block");
             e.printStackTrace();
         }
 
