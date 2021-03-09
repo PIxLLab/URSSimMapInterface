@@ -121,6 +121,16 @@ import java.io.IOException;
 import java.util.*;
 
 
+
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.DocumentBuilder;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Node;
+import org.w3c.dom.Element;
+
+
+
 public class URSSimulationMapInterface extends ApplicationTemplate {
 	
 	
@@ -137,8 +147,20 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 	ArrayList<Long> hCiD = new ArrayList<Long>();
 
 	
-	//NMSU
 	
+	
+	double originlongitude = 0.0;
+	double originlatitude =0.0;
+	double dronelatitude = 0.0;
+	double dronelongitude = 0.0;
+	double droneElevation = 0.0; // drone location, elevation is in meters
+	double elevationOffset = 0.0; // camera height from surface (meters)
+	
+	
+	/*
+	 * //NMSU
+	 */
+	/*
 	double originlongitude = -106.75239801428688;
 	double originlatitude = 32.2810102009863;
 	double dronelatitude = 32.2771;
@@ -146,16 +168,15 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 		
 	
 	//Redwood City
-	/*
 	double originlongitude = -122.236115;
 	double originlatitude = 37.487846;
 	double dronelatitude = 32.2771; 
 	double dronelongitude =	-106.7201;
 	
-	*/
+	
 	double droneElevation = 10d; // drone location, elevation is in meters
 	double elevationOffset = 2.3e3d; // camera height from surface (meters)
-	
+	*/
 	
 	
 	Position targetPos = null;
@@ -1601,6 +1622,87 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 			drone[i] = new ToolTipAnnotation(" ");
 	
 	}
+	
+	public void parseAndinitMapCoordinates()
+	{
+		try 
+		{
+		    File fXmlFile = new File("maps/map-nmsu.xml");//Change the URL if new map needs to be loaded
+		    //File fXmlFile = new File("maps/map-RedwoodCity.xml");//Change the URL if new map needs to be loaded
+		    DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+		    DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+		    Document doc = dBuilder.parse(fXmlFile);
+		    doc.getDocumentElement().normalize();
+
+		    System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
+		    NodeList nList = doc.getElementsByTagName("map-name");
+		    System.out.println("----------------------------");
+
+		    for (int temp = 0; temp < nList.getLength(); temp++) 
+		    {
+		        Node nNode = nList.item(temp);
+		        System.out.println("\nCurrent Element :" + nNode.getNodeName());
+		        if (nNode.getNodeType() == Node.ELEMENT_NODE) 
+		        {
+		            Element eElement = (Element) nNode;
+		            
+		            /*
+		            System.out.println("MAP NAME : "+ eElement.getAttribute("name"));
+		            
+		            System.out.println("originlongitude : "
+		                               + eElement.getElementsByTagName("originlongitude")
+		                                 .item(0).getTextContent());
+		            System.out.println("originlatitude : "
+		                               + eElement.getElementsByTagName("originlatitude")
+		                                 .item(0).getTextContent());
+		            
+		            
+		            System.out.println("dronelongitude : "
+		                               + eElement.getElementsByTagName("dronelongitude")
+		                                 .item(0).getTextContent());
+		            System.out.println("dronelatitude : "
+                            + eElement.getElementsByTagName("dronelatitude")
+                              .item(0).getTextContent());
+		            System.out.println("droneElevation : "
+		                               + eElement.getElementsByTagName("droneElevation")
+		                                 .item(0).getTextContent());
+		            
+		            
+		            System.out.println("elevationOffset : "
+                            + eElement.getElementsByTagName("elevationOffset")
+                            		.item(0).getTextContent());
+		            */
+		            
+		          
+		        	String s = new String("");
+		        	
+		        	s = eElement.getElementsByTagName("originlongitude").item(0).getTextContent();
+		        	originlongitude = Double.parseDouble(s);
+		        	
+		        	s = eElement.getElementsByTagName("originlatitude").item(0).getTextContent();
+		        	originlatitude = Double.parseDouble(s);
+		        	
+		        	s = eElement.getElementsByTagName("dronelatitude").item(0).getTextContent();
+		        	dronelatitude = Double.parseDouble(s);
+		        	
+		        	s = eElement.getElementsByTagName("dronelongitude").item(0).getTextContent();
+		        	dronelongitude = Double.parseDouble(s);
+		        	
+		        	s = eElement.getElementsByTagName("droneElevation").item(0).getTextContent();
+		        	droneElevation = Double.parseDouble(s);
+		   
+		        	s = eElement.getElementsByTagName("elevationOffset").item(0).getTextContent();
+		        	elevationOffset = Double.parseDouble(s);	
+		        	
+		        }
+		    }
+		} 
+		catch (Exception e) 
+		{
+		    e.printStackTrace();
+		}
+		
+	}
 
 //....Function for Socket Connection....//
 	public void SocketConnection() {
@@ -1883,6 +1985,7 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 // TODO Auto-generated method stub
 		final URSSimulationMapInterface ursinterface = new URSSimulationMapInterface();
 		ursinterface.toolTipAnnotationInit();
+		ursinterface.parseAndinitMapCoordinates();
 		listener = new LeapData();
 		controller = new Controller();
 

@@ -1,0 +1,11 @@
+<?xml version="1.0"?>  
+    <map>  
+        <map-name name = "NMSU">  
+            <originlongitude>-106.75239801428688</originlongitude>  
+            <originlatitude>32.2810102009863</originlatitude>  
+            <dronelatitude>32.2771</dronelatitude>  
+            <dronelongitude>-106.7201</dronelongitude>  
+            <droneElevation>10d</droneElevation>
+	    <elevationOffset>2.3e3d</elevationOffset>  
+        </map-name>  	     
+   </map>  

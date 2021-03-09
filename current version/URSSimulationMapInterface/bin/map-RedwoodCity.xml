@@ -1,0 +1,11 @@
+<?xml version="1.0"?>  
+    <map>  
+        <map-name name = "Redwood City">  
+            <originlongitude>-122.236115</originlongitude>  
+            <originlatitude>37.487846</originlatitude>  
+            <dronelatitude>32.2771</dronelatitude>  
+            <dronelongitude>-106.7201</dronelongitude>  
+            <droneElevation>10d</droneElevation>
+	    <elevationOffset>2.3e3d</elevationOffset>  
+        </map-name>  	     
+   </map>  
