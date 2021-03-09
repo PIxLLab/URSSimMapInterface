@@ -122,6 +122,10 @@ import java.util.*;
 
 
 public class URSSimulationMapInterface extends ApplicationTemplate {
+	
+	
+	public static final  int NUMBER_OF_DRONES = 4;//change it if number of drones in action is changed
+	
 	boolean LBArm = false;
 	long gameScore = 0;
 	int playerID = 46;
@@ -157,10 +161,18 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 	Position targetPos = null;
 	ArrayList<Position> pinPos = new ArrayList<Position>();
 
+	/*
 	ToolTipAnnotation drone0 = new ToolTipAnnotation("");
 	ToolTipAnnotation drone1 = new ToolTipAnnotation("");
 	ToolTipAnnotation drone2 = new ToolTipAnnotation("");
 	ToolTipAnnotation drone3 = new ToolTipAnnotation("");
+	*/
+	
+	ToolTipAnnotation [] drone  = new ToolTipAnnotation[4];
+	
+	
+	
+	
 	Point[] toolTipOffSet = new Point[4];
 	int theDroneId = 3;
 	double[] droneLon = new double[5]; // x
@@ -202,7 +214,6 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 	boolean userLocationGate = false;
 	
 
-
 	private class LinePanel extends JPanel {
 		private static final long serialVersionUID = 1L;
 		private final WorldWindow wwd;
@@ -215,14 +226,22 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 		private JButton setDroneAltitudeL;
 		private JButton setDroneAltitudeH;
 
+		
+		
 		public LinePanel(WorldWindow wwd, LineBuilder lineBuilder) {
 			super(new BorderLayout());
+			
 			this.wwd = wwd;
 			wwd2 = wwd;
 			this.lineBuilder = lineBuilder;
 			this.makePanel(new Dimension(200, 400));
 			
+			
+			
+			
 		}
+		
+		
 
 // --------- Includes button and line panel functionalities ----------//
 		private void makePanel(Dimension size) {
@@ -523,6 +542,9 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 
 	private class AppFrame extends ApplicationTemplate.AppFrame // javax.swing.JFrame
 	{
+		
+
+
 		private final MarkerAttributes[] attrs = new BasicMarkerAttributes[] {
 				new BasicMarkerAttributes(Material.YELLOW, BasicMarkerShape.SPHERE, 1d, 7, 5),
 				new BasicMarkerAttributes(Material.BLUE, BasicMarkerShape.SPHERE, 1d, 7, 5),
@@ -537,6 +559,7 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 		public AppFrame() {
 
 			super(true, true, false);
+			
 
 // create the markers for the drones
 			markers = new ArrayList<Marker>();
@@ -945,6 +968,7 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 			this.getWwd().getModel().getLayers().add(new ShapefileLoader().createLayerFromShapefile(sf3));
 			
 			  final RenderableLayer toolTipLayer = new RenderableLayer();
+			  /*
 			  toolTipLayer.addRenderable(drone0);
 			  this.getWwd().getModel().getLayers().add(toolTipLayer);
 			  toolTipLayer.addRenderable(drone1);
@@ -952,6 +976,16 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 			  toolTipLayer.addRenderable(drone2);
 			  this.getWwd().getModel().getLayers().add(toolTipLayer);
 			  toolTipLayer.addRenderable(drone3);
+			  */
+			  
+
+			  
+			  for(int i=0 ; i<NUMBER_OF_DRONES; i++)
+			  {
+				  toolTipLayer.addRenderable(drone[i]);
+				  this.getWwd().getModel().getLayers().add(toolTipLayer);
+			  }
+			  
 			  this.getWwd().getModel().getLayers().add(toolTipLayer);
 			 
 
@@ -1268,66 +1302,8 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 		double coef2 = (Double.parseDouble(xPose)) * 0.0000089;
 		
 		
-
-		//For debug only//need to comment
-		/*
-		if (0==x)
-		{
-			
-			System.out.println("uavPosition/xPose: (Drone#1:) " + droneX[x]);
-			System.out.println("uavPosition/yPose: (Drone#1:)" + droneY[x]);
-			
-			System.out.println("uavPosition/coef (Drone#1): "+coef);
-			System.out.println("uavPosition/coef2 (Drone#1): "+coef2);
-			
-			System.out.println("uavPosition/uavY[x] (Drone#1: lat:): "+uavY[x]);
-			System.out.println("uavPosition/uavX[x] (Drone#1: lon:): "+uavX[x]);
-
-		}
-		else if (1==x)
-		{
-			System.out.println("uavPosition/xPose: (Drone#2:) " + droneX[x]);
-			System.out.println("uavPosition/yPose: (Drone#2:)" + droneY[x]);
-			
-			System.out.println("uavPosition/coef (Drone#2): "+coef);
-			System.out.println("uavPosition/coef2 (Drone#2): "+coef2);
-			
-			System.out.println("uavPosition/uavY[x] (Drone#2: lat:): "+uavY[x]);
-			System.out.println("uavPosition/uavX[x] (Drone#2: lon:): "+uavX[x]);		
-			
-		}
-		else if (2==x)
-		{
-			System.out.println("uavPosition/xPose: (Drone#3:) " + droneX[x]);
-			System.out.println("uavPosition/yPose: (Drone#3:)" + droneY[x]);
-			
-			System.out.println("uavPosition/coef (Drone#3): "+coef);
-			System.out.println("uavPosition/coef2 (Drone#3): "+coef2);
-			
-			System.out.println("uavPosition/uavY[x] (Drone#3: lat:): "+uavY[x]);
-			System.out.println("uavPosition/uavX[x] (Drone#3: lon:): "+uavX[x]);
-			
-		}
-		else if (3 == x)
-		{
-			System.out.println("uavPosition/xPose: (Drone#4:) " + droneX[x]);
-			System.out.println("uavPosition/yPose: (Drone#4:)" + droneY[x]);
-			
-			System.out.println("uavPosition/coef (Drone#4): "+coef);
-			System.out.println("uavPosition/coef2 (Drone#4): "+coef2);
-			
-			System.out.println("uavPosition/uavY[x] (Drone#4: lat:): "+uavY[x]);
-			System.out.println("uavPosition/uavX[x] (Drone#4: lon:): "+uavX[x]);
-		}
-		*/
-		
-		
-		
 		uavY[x] = originlatitude + coef;
 		uavX[x] = originlongitude + coef2 / Math.cos(originlatitude * 0.018);
-		
-
-		
 		
 		
 		String zPose = parts2[5];
@@ -1336,7 +1312,15 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 		markers.get(x).setPosition(Position.fromDegrees(uavY[x], uavX[x], uavZ[x]));
 
 		//markers.get(4).setPosition(Position.fromDegrees(32.28091248359882,-106.75242456217656, uavZ[x]));
-		 
+		
+ 
+			 
+		drone[x].setPosition(Position.fromDegrees(uavY[x],uavX[x],uavZ[x]));
+		drone[x].setText(new DecimalFormat("##.#").format(uavZ[x])); 
+		
+		
+		/*
+		
 		if(x==0) { 
 		 drone0.setPosition(Position.fromDegrees(uavY[x],uavX[x],uavZ[x]));
 		 drone0.setText(new DecimalFormat("##.#").format(uavZ[x]));
@@ -1355,6 +1339,7 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 		  if(x==3) {
 		  drone3.setPosition(Position.fromDegrees(uavY[x],uavX[x],uavZ[x]));
 		  drone3.setText(new DecimalFormat("##.#").format(uavZ[x])); }
+		 */
 		 
 		wwd2.redraw();
 	}
@@ -1608,6 +1593,13 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 		Message toSend = new Message("{\"data\": \"player_id:" + playerID + ", score:" + gameScore + "\"}");//(obj.toString());
 		System.out.println("TEST: "+toSend.toString());
 		currentScore.publish(toSend);
+	}
+	
+	public void toolTipAnnotationInit()
+	{
+		for(int i=0 ; i<NUMBER_OF_DRONES; i++)
+			drone[i] = new ToolTipAnnotation(" ");
+	
 	}
 
 //....Function for Socket Connection....//
@@ -1870,6 +1862,8 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 		});
 
 	} // ....End of Socket Connection Function....//
+	
+	
 
 	/*
 	 * public void voiceCommands(){ if(voice.d1) { drone0Button.setEnabled(false);
@@ -1888,8 +1882,10 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 	public static void main(String[] args) {
 // TODO Auto-generated method stub
 		final URSSimulationMapInterface ursinterface = new URSSimulationMapInterface();
+		ursinterface.toolTipAnnotationInit();
 		listener = new LeapData();
 		controller = new Controller();
+
 		final AppFrame appFrame = ursinterface.new AppFrame();
 		multiTh = new multiThread();
 		//voice = new voiceCommand();
