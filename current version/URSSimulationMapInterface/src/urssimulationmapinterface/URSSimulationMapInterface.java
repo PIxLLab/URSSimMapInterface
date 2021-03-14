@@ -129,6 +129,9 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 
+import wearable.MyKeyListener;
+import wearable.voiceCommand;
+
 
 
 public class URSSimulationMapInterface extends ApplicationTemplate {
@@ -141,7 +144,7 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 	boolean LBArm = false;
 	long gameScore = 0;
 	int playerID = 46;
-	int wearableInterface = 3;
+	public int wearableInterface = 3;
 	ArrayList<Long> droneCluePos = new ArrayList<Long>();
 	ArrayList<Long> humanCluePos = new ArrayList<Long>();
 	ArrayList<Long> buildingNumber = new ArrayList<Long>();
@@ -197,7 +200,7 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 	
 	
 	Point[] toolTipOffSet = new Point[4];
-	int theDroneId = 3;
+	public int theDroneId = 3;
 	double[] droneLon = new double[5]; // x
 	double[] droneLat = new double[5]; // y
 	double[] droneAlt = new double[5]; // z
@@ -227,12 +230,12 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 	static voiceCommand voice = null;
 	static Controller controller = null;
 	static multiThread multiTh = null;
-	 JButton drone0Button;
-	 JButton drone1Button;
-	 JButton drone2Button;
-	 JButton drone3Button;
+	public JButton drone0Button;
+	public JButton drone1Button;
+	public JButton drone2Button;
+	public JButton drone3Button;
 	 JLabel gsValue;
-	 JLabel gestureInput;
+	 public JLabel gestureInput;
 	boolean altitudeGate = false;
 	boolean userLocationGate = false;
 	

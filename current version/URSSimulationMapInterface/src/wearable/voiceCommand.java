@@ -10,7 +10,7 @@
  *
  */
 
-package urssimulationmapinterface;
+package wearable;
 
 import edu.cmu.sphinx.frontend.util.Microphone;
 import edu.cmu.sphinx.recognizer.Recognizer;
@@ -22,6 +22,8 @@ import edu.cmu.sphinx.util.props.PropertyException;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+
+import urssimulationmapinterface.URSSimulationMapInterface;
 
 import com.leapmotion.leap.Listener;
 
@@ -47,7 +49,7 @@ public class voiceCommand extends Thread
  
  URSSimulationMapInterface  ursInterface;
  
- voiceCommand(final URSSimulationMapInterface ursInterface)
+ public voiceCommand(final URSSimulationMapInterface ursInterface)
  {
 	 this.ursInterface = ursInterface;
  }

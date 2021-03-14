@@ -1,7 +1,9 @@
-package urssimulationmapinterface;
+package wearable;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+
+import urssimulationmapinterface.URSSimulationMapInterface;
 
 import com.leapmotion.leap.Controller;
 
@@ -12,7 +14,7 @@ public class MyKeyListener implements KeyListener
 	static LeapData listener = null;
 	static Controller controller = null;
 		
-	MyKeyListener(final URSSimulationMapInterface ursinterface)
+	public MyKeyListener(final URSSimulationMapInterface ursinterface)
 	{
 		this.ursinterface = ursinterface; 
 		listener = new LeapData();

@@ -1,4 +1,4 @@
-package urssimulationmapinterface;
+package wearable;
 
 import com.thalmic.myo.AbstractDeviceListener;
 import com.thalmic.myo.Myo;

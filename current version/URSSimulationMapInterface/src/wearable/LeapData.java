@@ -1,4 +1,4 @@
-package urssimulationmapinterface;
+package wearable;
 
 import com.leapmotion.leap.Controller;
 import com.leapmotion.leap.Finger;
