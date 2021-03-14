@@ -25,7 +25,7 @@ public class MyKeyListener implements KeyListener
 	public void keyPressed(KeyEvent e) 
 	{
 		// TODO Auto-generated method stub
-		if(ursinterface.wearableInterface == 1)
+		if(ursinterface.getwearableInterface() == 1)
 		{
 			if (e.getKeyCode() == 16) 
 			{
@@ -38,64 +38,64 @@ public class MyKeyListener implements KeyListener
 			{
 				System.out.println("17 is being pressed");
 			
-				if(ursinterface.gestureInput.getText().equals("Land"))
+				if(ursinterface.getgestureInput().getText().equals("Land"))
 				{
-					ursinterface.droneLand(ursinterface.theDroneId);
+					ursinterface.droneLand(ursinterface.gettheDroneId());
 				}
-				if(ursinterface.gestureInput.getText().equals("Send"))
+				if(ursinterface.getgestureInput().getText().equals("Send"))
 				{
-					ursinterface.add_location(ursinterface.theDroneId);
+					ursinterface.add_location(ursinterface.gettheDroneId());
 				}
-				if(ursinterface.gestureInput.getText().equals("Search"))
+				if(ursinterface.getgestureInput().getText().equals("Search"))
 				{
 					ursinterface.search();
 				}
-				if(ursinterface.gestureInput.getText().equals("Low Altitude"))
+				if(ursinterface.getgestureInput().getText().equals("Low Altitude"))
 				{
-					ursinterface.add_location(ursinterface.theDroneId, 15);
+					ursinterface.add_location(ursinterface.gettheDroneId(), 15);
 				}
-				if(ursinterface.gestureInput.getText().equals("High Altitude"))
+				if(ursinterface.getgestureInput().getText().equals("High Altitude"))
 				{
-					ursinterface.add_location(ursinterface.theDroneId, 25);
+					ursinterface.add_location(ursinterface.gettheDroneId(), 25);
 				}
 			}
 		
 
 			if (e.getKeyCode() == 65) 
 			{
-				ursinterface.drone0Button.setEnabled(false);
-				ursinterface.drone1Button.setEnabled(true);
-				ursinterface.drone2Button.setEnabled(true);
-				ursinterface.drone3Button.setEnabled(true);
-				ursinterface.theDroneId = 0;
+				ursinterface.getdrone0Button().setEnabled(false);
+				ursinterface.getdrone1Button().setEnabled(true);
+				ursinterface.getdrone2Button().setEnabled(true);
+				ursinterface.getdrone3Button().setEnabled(true);
+				ursinterface.settheDroneId(0);
 			}
 			if (e.getKeyCode() == 66) 
 			{
-				ursinterface.drone0Button.setEnabled(true);
-				ursinterface.drone1Button.setEnabled(false);
-				ursinterface.drone2Button.setEnabled(true);
-				ursinterface.drone3Button.setEnabled(true);
-				ursinterface.theDroneId = 1;
+				ursinterface.getdrone0Button().setEnabled(true);
+				ursinterface.getdrone1Button().setEnabled(false);
+				ursinterface.getdrone2Button().setEnabled(true);
+				ursinterface.getdrone3Button().setEnabled(true);
+				ursinterface.settheDroneId(1);
 			}
 			if (e.getKeyCode() == 67) 
 			{
-				ursinterface.drone0Button.setEnabled(true);
-				ursinterface.drone1Button.setEnabled(true);
-				ursinterface.drone2Button.setEnabled(false);
-				ursinterface.drone3Button.setEnabled(true);
-				ursinterface.theDroneId = 2;
+				ursinterface.getdrone0Button().setEnabled(true);
+				ursinterface.getdrone1Button().setEnabled(true);
+				ursinterface.getdrone2Button().setEnabled(false);
+				ursinterface.getdrone3Button().setEnabled(true);
+				ursinterface.settheDroneId(2);
 			}
 			if (e.getKeyCode() == 68) 
 			{
-				ursinterface.drone0Button.setEnabled(true);
-				ursinterface.drone1Button.setEnabled(true);
-				ursinterface.drone2Button.setEnabled(true);
-				ursinterface.drone3Button.setEnabled(false);
-				ursinterface.theDroneId = 3;
+				ursinterface.getdrone0Button().setEnabled(true);
+				ursinterface.getdrone1Button().setEnabled(true);
+				ursinterface.getdrone2Button().setEnabled(true);
+				ursinterface.getdrone3Button().setEnabled(false);
+				ursinterface.settheDroneId(3);
 			}
 		}
 		
-		if (ursinterface.wearableInterface == 2)
+		if (ursinterface.getwearableInterface() == 2)
 		{
 			if (e.getKeyCode() == 16) 
 			{
@@ -104,23 +104,23 @@ public class MyKeyListener implements KeyListener
 				//gestureInput.setText(mData.gesture);
 				if(this.mData.gesture.equals("REST"))
 				{
-					ursinterface.gestureInput.setText("Land");
+					ursinterface.getgestureInput().setText("Land");
 				}
 				if(this.mData.gesture.equals("FIST"))
 				{
-					ursinterface.gestureInput.setText("Send");
+					ursinterface.getgestureInput().setText("Send");
 				}
 				if(this.mData.gesture.equals("FINGERS_SPREAD"))
 				{
-					ursinterface.gestureInput.setText("Search");
+					ursinterface.getgestureInput().setText("Search");
 				}
 				if(this.mData.gesture.equals("WAVE_IN"))
 				{
-					ursinterface.gestureInput.setText("Low Altitude");
+					ursinterface.getgestureInput().setText("Low Altitude");
 				}
 				if(this.mData.gesture.equals("WAVE_OUT"))
 				{
-					ursinterface.gestureInput.setText("High Altitude");
+					ursinterface.getgestureInput().setText("High Altitude");
 				}
 			
 				System.out.println(this.mData.gesture);
@@ -130,77 +130,77 @@ public class MyKeyListener implements KeyListener
 			{
 				System.out.println("17 is being pressed");
 			
-			if(ursinterface.gestureInput.getText().equals("Land"))
+			if(ursinterface.getgestureInput().getText().equals("Land"))
 			{
 				System.out.println("test1");
-				ursinterface.droneLand(ursinterface.theDroneId);
+				ursinterface.droneLand(ursinterface.gettheDroneId());
 			}
-			if(ursinterface.gestureInput.getText().equals("Send"))
+			if(ursinterface.getgestureInput().getText().equals("Send"))
 			{
 				System.out.println("test2");
-				ursinterface.add_location(ursinterface.theDroneId);
+				ursinterface.add_location(ursinterface.gettheDroneId());
 			}
-			if(ursinterface.gestureInput.getText().equals("Search"))
+			if(ursinterface.getgestureInput().getText().equals("Search"))
 			{
 				System.out.println("test3");
 				ursinterface.search();
 			}
-			if(ursinterface.gestureInput.getText().equals("Low Altitude"))
+			if(ursinterface.getgestureInput().getText().equals("Low Altitude"))
 			{
 				System.out.println("test4");
-				ursinterface.add_location(ursinterface.theDroneId, 15);
+				ursinterface.add_location(ursinterface.gettheDroneId(), 15);
 			}
-			if(ursinterface.gestureInput.getText().equals("High Altitude"))
+			if(ursinterface.getgestureInput().getText().equals("High Altitude"))
 			{
 				System.out.println("test5");
-				ursinterface.add_location(ursinterface.theDroneId, 25);
+				ursinterface.add_location(ursinterface.gettheDroneId(), 25);
 			}
 		}
 			if (e.getKeyCode() == 65) 
 			{
-				ursinterface.drone0Button.setEnabled(false);
-				ursinterface.drone1Button.setEnabled(true);
-				ursinterface.drone2Button.setEnabled(true);
-				ursinterface.drone3Button.setEnabled(true);
-				ursinterface.theDroneId = 0;
+				ursinterface.getdrone0Button().setEnabled(false);
+				ursinterface.getdrone1Button().setEnabled(true);
+				ursinterface.getdrone2Button().setEnabled(true);
+				ursinterface.getdrone3Button().setEnabled(true);
+				ursinterface.settheDroneId(0);
 			}
 			
 			if (e.getKeyCode() == 66) 
 			{
-				ursinterface.drone0Button.setEnabled(true);
-				ursinterface.drone1Button.setEnabled(false);
-				ursinterface.drone2Button.setEnabled(true);
-				ursinterface.drone3Button.setEnabled(true);
-				ursinterface.theDroneId = 1;
+				ursinterface.getdrone0Button().setEnabled(true);
+				ursinterface.getdrone1Button().setEnabled(false);
+				ursinterface.getdrone2Button().setEnabled(true);
+				ursinterface.getdrone3Button().setEnabled(true);
+				ursinterface.settheDroneId(1);
 			}
 			if (e.getKeyCode() == 67) 
 			{
-				ursinterface.drone0Button.setEnabled(true);
-				ursinterface.drone1Button.setEnabled(true);
-				ursinterface.drone2Button.setEnabled(false);
-				ursinterface.drone3Button.setEnabled(true);
-				ursinterface.theDroneId = 2;
+				ursinterface.getdrone0Button().setEnabled(true);
+				ursinterface.getdrone1Button().setEnabled(true);
+				ursinterface.getdrone2Button().setEnabled(false);
+				ursinterface.getdrone3Button().setEnabled(true);
+				ursinterface.settheDroneId(2);
 			}
 		
 			if (e.getKeyCode() == 68) 
 			{
-				ursinterface.drone0Button.setEnabled(true);
-				ursinterface.drone1Button.setEnabled(true);
-				ursinterface.drone2Button.setEnabled(true);
-				ursinterface.drone3Button.setEnabled(false);
-				ursinterface.theDroneId = 3;
+				ursinterface.getdrone0Button().setEnabled(true);
+				ursinterface.getdrone1Button().setEnabled(true);
+				ursinterface.getdrone2Button().setEnabled(true);
+				ursinterface.getdrone3Button().setEnabled(false);
+				ursinterface.settheDroneId(3);
 			}
 		
 		
 		}
 	
-		if (ursinterface.wearableInterface==3)
+		if (ursinterface.getwearableInterface() == 3)
 		{
 		
 			if (e.getKeyCode() == 83) 
 			{
 			
-				ursinterface.gestureInput.setText("Send");
+				ursinterface.getgestureInput().setText("Send");
 		
 			}
 		
@@ -208,45 +208,45 @@ public class MyKeyListener implements KeyListener
 			if (e.getKeyCode() == 81) 
 			{
 			
-				ursinterface.gestureInput.setText("Search");
+				ursinterface.getgestureInput().setText("Search");
 		
 			}
 		
 			if (e.getKeyCode() == 76) 
 			{
-				ursinterface.gestureInput.setText("Land");
+				ursinterface.getgestureInput().setText("Land");
 		
 			}
 		
 			if (e.getKeyCode() == 84) 
 			{
-				ursinterface.gestureInput.setText("Low Altitude");
+				ursinterface.getgestureInput().setText("Low Altitude");
 			}
 		
 		
 			if (e.getKeyCode() == 72) 
 			{
-				ursinterface.gestureInput.setText("High Altitude");
+				ursinterface.getgestureInput().setText("High Altitude");
 			}
 		
 			if (e.getKeyCode() == 8) 
 			{
 			//gestureInput.setText("High Altitude");
-				if(ursinterface.gestureInput.getText().equals("Land"))
+				if(ursinterface.getgestureInput().getText().equals("Land"))
 			
 				{
 					System.out.println("test1");
-					ursinterface.droneLand(ursinterface.theDroneId);
+					ursinterface.droneLand(ursinterface.gettheDroneId());
 			
 				}
 			
-				if(ursinterface.gestureInput.getText().equals("Send"))
+				if(ursinterface.getgestureInput().getText().equals("Send"))
 				{
 					System.out.println("test2");
-					ursinterface.add_location(ursinterface.theDroneId);
+					ursinterface.add_location(ursinterface.gettheDroneId());
 				}
 			
-				if(ursinterface.gestureInput.getText().equals("Search"))
+				if(ursinterface.getgestureInput().getText().equals("Search"))
 				{
 				
 					System.out.println("test3");
@@ -255,71 +255,57 @@ public class MyKeyListener implements KeyListener
 			
 				}
 			
-				if(ursinterface.gestureInput.getText().equals("Low Altitude"))
-			
+				if(ursinterface.getgestureInput().getText().equals("Low Altitude"))
 				{
-				
 					System.out.println("test4");
 				
-					ursinterface.add_location(ursinterface.theDroneId, 15);
+					ursinterface.add_location(ursinterface.gettheDroneId(), 15);
 			
 				}
-				if(ursinterface.gestureInput.getText().equals("High Altitude"))
+				if(ursinterface.getgestureInput().getText().equals("High Altitude"))
 				{
 					System.out.println("test5");
-					ursinterface.add_location(ursinterface.theDroneId, 25);
+					ursinterface.add_location(ursinterface.gettheDroneId(), 25);
 				}
 			}
 		
 		
 			if (e.getKeyCode() == 65) 
 			{
-				ursinterface.drone0Button.setEnabled(false);
-			
-				ursinterface.drone1Button.setEnabled(true);
-			
-				ursinterface.drone2Button.setEnabled(true);
-			
-				ursinterface.drone3Button.setEnabled(true);
-			
-				ursinterface.theDroneId = 0;
+				ursinterface.getdrone0Button().setEnabled(false);
+				ursinterface.getdrone1Button().setEnabled(true);
+				ursinterface.getdrone2Button().setEnabled(true);
+				ursinterface.getdrone3Button().setEnabled(true);
+				ursinterface.settheDroneId(0);
 			}
 		
 			if (e.getKeyCode() == 66) 
 			{
 			
-				ursinterface.drone0Button.setEnabled(true);
-			
-				ursinterface.drone1Button.setEnabled(false);
-			
-				ursinterface.drone2Button.setEnabled(true);
-			
-				ursinterface.drone3Button.setEnabled(true);
-			
-				ursinterface.theDroneId = 1;
+				ursinterface.getdrone0Button().setEnabled(true);
+				ursinterface.getdrone1Button().setEnabled(false);
+				ursinterface.getdrone2Button().setEnabled(true);
+				ursinterface.getdrone3Button().setEnabled(true);
+				ursinterface.settheDroneId(1);
 		
 			}
 		
 			if (e.getKeyCode() == 67) 
 			{
-				ursinterface.drone0Button.setEnabled(true);
-			
-				ursinterface.drone1Button.setEnabled(true);
-			
-				ursinterface.drone2Button.setEnabled(false);
-			
-				ursinterface.drone3Button.setEnabled(true);
-			
-				ursinterface.theDroneId = 2;
+				ursinterface.getdrone0Button().setEnabled(true);
+				ursinterface.getdrone1Button().setEnabled(true);
+				ursinterface.getdrone2Button().setEnabled(false);
+				ursinterface.getdrone3Button().setEnabled(true);
+				ursinterface.settheDroneId(2);
 			}
 			
 			if (e.getKeyCode() == 68) 
 			{
-				ursinterface.drone0Button.setEnabled(true);
-				ursinterface.drone1Button.setEnabled(true);
-				ursinterface.drone2Button.setEnabled(true);
-				ursinterface.drone3Button.setEnabled(false);
-				ursinterface.theDroneId = 3;
+				ursinterface.getdrone0Button().setEnabled(true);
+				ursinterface.getdrone1Button().setEnabled(true);
+				ursinterface.getdrone2Button().setEnabled(true);
+				ursinterface.getdrone3Button().setEnabled(false);
+				ursinterface.settheDroneId (3);
 			}
 		
 		}
@@ -329,22 +315,22 @@ public class MyKeyListener implements KeyListener
 	public void keyReleased(KeyEvent e) 
 	{
 		// TODO Auto-generated method stub
-		if(ursinterface.wearableInterface==1)
+		if(ursinterface.getwearableInterface() == 1)
 		{
 			if (e.getKeyCode() == 16) 
 			{
 				controller.removeListener(listener);
 				
 				if(listener.closeHand)
-					ursinterface.gestureInput.setText("Send");
+					ursinterface.getgestureInput().setText("Send");
 				if(listener.openHand)
-					ursinterface.gestureInput.setText("Search");
+					ursinterface.getgestureInput().setText("Search");
 				if(listener.oneFinger)
-					ursinterface.gestureInput.setText("Land");
+					ursinterface.getgestureInput().setText("Land");
 				if(listener.twoFinger)
-					ursinterface.gestureInput.setText("Low Altitude");
+					ursinterface.getgestureInput().setText("Low Altitude");
 				if(listener.threeFinger)
-					ursinterface.gestureInput.setText("High Altitude");
+					ursinterface.getgestureInput().setText("High Altitude");
 			}	
 		}
 		

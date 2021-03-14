@@ -144,7 +144,7 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 	boolean LBArm = false;
 	long gameScore = 0;
 	int playerID = 46;
-	public int wearableInterface = 3;
+	private int wearableInterface = 3;
 	ArrayList<Long> droneCluePos = new ArrayList<Long>();
 	ArrayList<Long> humanCluePos = new ArrayList<Long>();
 	ArrayList<Long> buildingNumber = new ArrayList<Long>();
@@ -200,7 +200,7 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 	
 	
 	Point[] toolTipOffSet = new Point[4];
-	public int theDroneId = 3;
+	private int theDroneId = 3;
 	double[] droneLon = new double[5]; // x
 	double[] droneLat = new double[5]; // y
 	double[] droneAlt = new double[5]; // z
@@ -230,12 +230,12 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 	static voiceCommand voice = null;
 	static Controller controller = null;
 	static multiThread multiTh = null;
-	public JButton drone0Button;
-	public JButton drone1Button;
-	public JButton drone2Button;
-	public JButton drone3Button;
+	private JButton drone0Button;
+	private JButton drone1Button;
+	private JButton drone2Button;
+	private JButton drone3Button;
 	 JLabel gsValue;
-	 public JLabel gestureInput;
+	private JLabel gestureInput;
 	boolean altitudeGate = false;
 	boolean userLocationGate = false;
 	
@@ -2041,6 +2041,73 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 	 * drone3Button.setEnabled(false); theDroneId=3; } if(voice.send) {
 	 * add_location(theDroneId); } if(voice.search) { search(); } }
 	 */
+	
+	
+	//Getter Setters
+	
+	
+	  public int gettheDroneId() 
+	  {
+	    return theDroneId;
+	  }
+	  public void settheDroneId(int newName) 
+	  {
+	    this.theDroneId = newName;
+	  }
+	  
+	  public int getwearableInterface() 
+	  {
+		    return wearableInterface;
+	  }
+	  public void setwearableInterface(int newName) 
+	  {
+	    this.wearableInterface = newName;
+	  }
+	  
+	  public JButton getdrone0Button()
+	  {
+		  return drone0Button;
+	  }
+	  public void setdrone0Button(JButton button)
+	  {
+		  this.drone0Button = button;
+	  }
+	  
+	  public JButton getdrone1Button()
+	  {
+		  return this.drone1Button;
+	  }
+	  public void setdrone1Button(JButton button)
+	  {
+		  this.drone1Button = button;
+	  }
+	  
+	  public JButton getdrone2Button()
+	  {
+		  return this.drone2Button;
+	  }
+	  public void setdrone2Button(JButton button)
+	  {
+		  this.drone2Button  = button;
+	  }
+	  
+	  public JButton getdrone3Button()
+	  {
+		  return this.drone3Button;
+	  }
+	  public void setdrone3Button(JButton button)
+	  {
+		  this.drone3Button = button;
+	  }
+		  
+	  public JLabel getgestureInput()
+	  {
+		  return this.gestureInput;
+	  }
+	  public void setgestureInput(JLabel label)
+	  {
+		  this.gestureInput = label;
+	  }
 	
 	
 // ......Main Function Starts.....//

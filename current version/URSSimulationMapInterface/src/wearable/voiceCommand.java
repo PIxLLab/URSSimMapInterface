@@ -206,42 +206,42 @@ public class voiceCommand extends Thread
 	 {   
 		 if(this.d1) 
 		 { 
-			 ursInterface.drone0Button.setEnabled(false);
-			 ursInterface.drone1Button.setEnabled(true); 
-			 ursInterface.drone2Button.setEnabled(true);
-			 ursInterface.drone3Button.setEnabled(true); 
-			 ursInterface.theDroneId=0; 
+			 ursInterface.getdrone0Button().setEnabled(false);
+			 ursInterface.getdrone1Button().setEnabled(true); 
+			 ursInterface.getdrone2Button().setEnabled(true);
+			 ursInterface.getdrone3Button().setEnabled(true); 
+			 ursInterface.settheDroneId(0); 
 		 } 
 		 	
 		 if(this.d2) 
 		 {
-			 ursInterface.drone0Button.setEnabled(true); 
-			 ursInterface.drone1Button.setEnabled(false);
-			 ursInterface.drone2Button.setEnabled(true); 
-			 ursInterface.drone3Button.setEnabled(true); 
-			 ursInterface.theDroneId=1; 
+			 ursInterface.getdrone0Button().setEnabled(true); 
+			 ursInterface.getdrone1Button().setEnabled(false);
+			 ursInterface.getdrone2Button().setEnabled(true); 
+			 ursInterface.getdrone3Button().setEnabled(true); 
+			 ursInterface.settheDroneId(1); 
 		 }
 		 
 		 if(this.d3) 
 		 { 
-			 ursInterface.drone0Button.setEnabled(true); 
-			 ursInterface.drone1Button.setEnabled(true);
-			 ursInterface.drone2Button.setEnabled(false); 
-			 ursInterface.drone3Button.setEnabled(true); 
-			 ursInterface.theDroneId=2;
+			 ursInterface.getdrone0Button().setEnabled(true); 
+			 ursInterface.getdrone1Button().setEnabled(true);
+			 ursInterface.getdrone2Button().setEnabled(false); 
+			 ursInterface.getdrone3Button().setEnabled(true); 
+			 ursInterface.settheDroneId(2);
 		 } 
 		 
 		 if(this.d4) 
 		 { 
-			 ursInterface.drone0Button.setEnabled(true);
-			 ursInterface.drone1Button.setEnabled(true); 
-			 ursInterface.drone2Button.setEnabled(true);
-			 ursInterface.drone3Button.setEnabled(false); 
-			 ursInterface.theDroneId=3; 
+			 ursInterface.getdrone0Button().setEnabled(true);
+			 ursInterface.getdrone1Button().setEnabled(true); 
+			 ursInterface.getdrone2Button().setEnabled(true);
+			 ursInterface.getdrone3Button().setEnabled(false); 
+			 ursInterface.settheDroneId(3); 
 		 } 
 		 if(this.send) 
 		 {
-			 ursInterface.add_location(ursInterface.theDroneId); 
+			 ursInterface.add_location(ursInterface.gettheDroneId()); 
 		 } 
 		 
 		 if(this.search) 
