@@ -6,7 +6,7 @@ import com.thalmic.myo.DeviceListener;
 
 
 
-
+//Wearable_Seperate
 public class MyoData{
 	String gesture = "";
 	public void testtheMyo() {

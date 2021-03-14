@@ -9,6 +9,7 @@ import com.leapmotion.leap.Listener;
 
 import urssimulationmapinterface.URSSimulationMapInterface;
 
+//Wearable_Seperate
 class LeapData extends Listener{
     	URSSimulationMapInterface  ursInterface = new URSSimulationMapInterface();
     	public float handAltitude = 0;

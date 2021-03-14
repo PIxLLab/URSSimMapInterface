@@ -136,6 +136,8 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 	
 	public static final  int NUMBER_OF_DRONES = 4;//change it if number of drones in action is changed
 	
+	static URSSimulationMapInterface ursinterface;
+	
 	boolean LBArm = false;
 	long gameScore = 0;
 	int playerID = 46;
@@ -150,7 +152,7 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 	
 	
 	double originlongitude = 0.0;
-	double originlatitude =0.0;
+	double originlatitude = 0.0;
 	double dronelatitude = 0.0;
 	double dronelongitude = 0.0;
 	double droneElevation = 0.0; // drone location, elevation is in meters
@@ -678,261 +680,308 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 
 			});
 			
+			//Wearable_Seperate
+			MyKeyListener wearableKeyListener = new MyKeyListener(ursinterface);
+			this.getWwd().getInputHandler().addKeyListener((KeyListener)wearableKeyListener);
 
-			this.getWwd().getInputHandler().addKeyListener(new KeyListener() {
+			/*
+			this.getWwd().getInputHandler().addKeyListener(new KeyListener() 
+			{
+				@Override
+				public void keyPressed(KeyEvent e) 
+				{
+					// TODO Auto-generated method stub
 
-				public void keyTyped(KeyEvent e) {
-// TODO Auto-generated method stub
-
-				}
-
-				
-				// Wearables + commands
-				public void keyPressed(KeyEvent e) {
 					if(wearableInterface == 1)
 					{
-					if (e.getKeyCode() == 16) {
-						System.out.println("16 is being pressed");
-						controller.addListener(listener);
+						if (e.getKeyCode() == 16) 
+						{
+							System.out.println("16 is being pressed");
+							controller.addListener(listener);
 						
+						}
+					
+						if (e.getKeyCode() == 17) 
+						{
+							System.out.println("17 is being pressed");
+						
+							if(gestureInput.getText().equals("Land"))
+							{
+								droneLand(theDroneId);
+							}
+							if(gestureInput.getText().equals("Send"))
+							{
+								add_location(theDroneId);
+							}
+							if(gestureInput.getText().equals("Search"))
+							{
+								search();
+							}
+							if(gestureInput.getText().equals("Low Altitude"))
+							{
+								add_location(theDroneId, 15);
+							}
+							if(gestureInput.getText().equals("High Altitude"))
+							{
+								add_location(theDroneId, 25);
+							}
+						}
+					
+
+						if (e.getKeyCode() == 65) 
+						{
+							drone0Button.setEnabled(false);
+							drone1Button.setEnabled(true);
+							drone2Button.setEnabled(true);
+							drone3Button.setEnabled(true);
+							theDroneId = 0;
+						}
+						if (e.getKeyCode() == 66) 
+						{
+							drone0Button.setEnabled(true);
+							drone1Button.setEnabled(false);
+							drone2Button.setEnabled(true);
+							drone3Button.setEnabled(true);
+							theDroneId = 1;
+						}
+						if (e.getKeyCode() == 67) 
+						{
+							drone0Button.setEnabled(true);
+							drone1Button.setEnabled(true);
+							drone2Button.setEnabled(false);
+							drone3Button.setEnabled(true);
+							theDroneId = 2;
+						}
+						if (e.getKeyCode() == 68) 
+						{
+							drone0Button.setEnabled(true);
+							drone1Button.setEnabled(true);
+							drone2Button.setEnabled(true);
+							drone3Button.setEnabled(false);
+							theDroneId = 3;
+						}
 					}
 					
-					if (e.getKeyCode() == 17) {
-						System.out.println("17 is being pressed");
+					if (wearableInterface == 2)
+					{
+						if (e.getKeyCode() == 16) 
+						{
+							System.out.println("16 is being pressed");
+							mData.testtheMyo();
+							//gestureInput.setText(mData.gesture);
+							if(mData.gesture.equals("REST"))
+							{
+								gestureInput.setText("Land");
+							}
+							if(mData.gesture.equals("FIST"))
+							{
+								gestureInput.setText("Send");
+							}
+							if(mData.gesture.equals("FINGERS_SPREAD"))
+							{
+								gestureInput.setText("Search");
+							}
+							if(mData.gesture.equals("WAVE_IN"))
+							{
+								gestureInput.setText("Low Altitude");
+							}
+							if(mData.gesture.equals("WAVE_OUT"))
+							{
+								gestureInput.setText("High Altitude");
+							}
+						
+							System.out.println(mData.gesture);
+						}
+						
+						if (e.getKeyCode() == 17) 
+						{
+							System.out.println("17 is being pressed");
 						
 						if(gestureInput.getText().equals("Land"))
 						{
+							System.out.println("test1");
 							droneLand(theDroneId);
 						}
 						if(gestureInput.getText().equals("Send"))
 						{
+							System.out.println("test2");
 							add_location(theDroneId);
 						}
 						if(gestureInput.getText().equals("Search"))
 						{
+							System.out.println("test3");
 							search();
 						}
 						if(gestureInput.getText().equals("Low Altitude"))
 						{
-							add_location(theDroneId, 15);
+							System.out.println("test4");
+							add_location(ursinterface.theDroneId, 15);
 						}
 						if(gestureInput.getText().equals("High Altitude"))
 						{
-							add_location(theDroneId, 25);
+							System.out.println("test5");
+							add_location(ursinterface.theDroneId, 25);
 						}
+					}
+						if (e.getKeyCode() == 65) 
+						{
+							drone0Button.setEnabled(false);
+							drone1Button.setEnabled(true);
+							drone2Button.setEnabled(true);
+							drone3Button.setEnabled(true);
+							theDroneId = 0;
+						}
+						
+						if (e.getKeyCode() == 66) 
+						{
+							drone0Button.setEnabled(true);
+							drone1Button.setEnabled(false);
+							drone2Button.setEnabled(true);
+							drone3Button.setEnabled(true);
+							theDroneId = 1;
+						}
+						if (e.getKeyCode() == 67) 
+						{
+							drone0Button.setEnabled(true);
+							drone1Button.setEnabled(true);
+							drone2Button.setEnabled(false);
+							drone3Button.setEnabled(true);
+							theDroneId = 2;
 						}
 					
-
-					if (e.getKeyCode() == 65) {
-						drone0Button.setEnabled(false);
-						drone1Button.setEnabled(true);
-						drone2Button.setEnabled(true);
-						drone3Button.setEnabled(true);
-						theDroneId = 0;
-					}
-					if (e.getKeyCode() == 66) {
-						drone0Button.setEnabled(true);
-						drone1Button.setEnabled(false);
-						drone2Button.setEnabled(true);
-						drone3Button.setEnabled(true);
-						theDroneId = 1;
-					}
-					if (e.getKeyCode() == 67) {
-						drone0Button.setEnabled(true);
-						drone1Button.setEnabled(true);
-						drone2Button.setEnabled(false);
-						drone3Button.setEnabled(true);
-						theDroneId = 2;
-					}
-					if (e.getKeyCode() == 68) {
-						drone0Button.setEnabled(true);
-						drone1Button.setEnabled(true);
-						drone2Button.setEnabled(true);
-						drone3Button.setEnabled(false);
-						theDroneId = 3;
-					}
-				 }
+						if (e.getKeyCode() == 68) 
+						{
+							drone0Button.setEnabled(true);
+							drone1Button.setEnabled(true);
+							drone2Button.setEnabled(true);
+							drone3Button.setEnabled(false);
+							theDroneId = 3;
+						}
 					
-				if (wearableInterface == 2)
-				{
-					if (e.getKeyCode() == 16) {
-						System.out.println("16 is being pressed");
-						mData.testtheMyo();
-						//gestureInput.setText(mData.gesture);
-						if(mData.gesture.equals("REST"))
+					
+					}
+				
+					if (wearableInterface==3)
+					{
+					
+						if (e.getKeyCode() == 83) 
+						{
+						
+							gestureInput.setText("Send");
+					
+						}
+					
+					
+						if (e.getKeyCode() == 81) 
+						{
+						
+							gestureInput.setText("Search");
+					
+						}
+					
+						if (e.getKeyCode() == 76) 
 						{
 							gestureInput.setText("Land");
+					
 						}
-						if(mData.gesture.equals("FIST"))
-						{
-							gestureInput.setText("Send");
-						}
-						if(mData.gesture.equals("FINGERS_SPREAD"))
-						{
-							gestureInput.setText("Search");
-						}
-						if(mData.gesture.equals("WAVE_IN"))
+					
+						if (e.getKeyCode() == 84) 
 						{
 							gestureInput.setText("Low Altitude");
 						}
-						if(mData.gesture.equals("WAVE_OUT"))
+					
+					
+						if (e.getKeyCode() == 72) 
 						{
 							gestureInput.setText("High Altitude");
 						}
-						
-						System.out.println(mData.gesture);
-					}
-					if (e.getKeyCode() == 17) {
-						System.out.println("17 is being pressed");
-						
-						if(gestureInput.getText().equals("Land"))
+					
+						if (e.getKeyCode() == 8) 
 						{
-							System.out.println("test1");
-							droneLand(theDroneId);
-						}
-						if(gestureInput.getText().equals("Send"))
-						{
-							System.out.println("test2");
-							add_location(theDroneId);
-						}
-						if(gestureInput.getText().equals("Search"))
-						{
-							System.out.println("test3");
-							search();
-						}
-						if(gestureInput.getText().equals("Low Altitude"))
-						{
-							System.out.println("test4");
-							add_location(theDroneId, 15);
-						}
-						if(gestureInput.getText().equals("High Altitude"))
-						{
-							System.out.println("test5");
-							add_location(theDroneId, 25);
-						}
-						
-						
-						
-					}
-					if (e.getKeyCode() == 65) {
-						drone0Button.setEnabled(false);
-						drone1Button.setEnabled(true);
-						drone2Button.setEnabled(true);
-						drone3Button.setEnabled(true);
-						theDroneId = 0;
-					}
-					if (e.getKeyCode() == 66) {
-						drone0Button.setEnabled(true);
-						drone1Button.setEnabled(false);
-						drone2Button.setEnabled(true);
-						drone3Button.setEnabled(true);
-						theDroneId = 1;
-					}
-					if (e.getKeyCode() == 67) {
-						drone0Button.setEnabled(true);
-						drone1Button.setEnabled(true);
-						drone2Button.setEnabled(false);
-						drone3Button.setEnabled(true);
-						theDroneId = 2;
-					}
-					if (e.getKeyCode() == 68) {
-						drone0Button.setEnabled(true);
-						drone1Button.setEnabled(true);
-						drone2Button.setEnabled(true);
-						drone3Button.setEnabled(false);
-						theDroneId = 3;
-					}
-					
-					
-				}
-				if (wearableInterface==3)
-				{
-					if (e.getKeyCode() == 83) {
-						gestureInput.setText("Send");
-					}
-					
-					if (e.getKeyCode() == 81) {
-						gestureInput.setText("Search");
-					}
-					if (e.getKeyCode() == 76) {
-						gestureInput.setText("Land");
-					}
-					
-					if (e.getKeyCode() == 84) {
-						gestureInput.setText("Low Altitude");
-					}
-					
-					if (e.getKeyCode() == 72) {
-						gestureInput.setText("High Altitude");
-					}
-					
-					if (e.getKeyCode() == 8) {
 						//gestureInput.setText("High Altitude");
-						if(gestureInput.getText().equals("Land"))
-						{
-							System.out.println("test1");
-							droneLand(theDroneId);
+							if(gestureInput.getText().equals("Land"))
+						
+							{
+								System.out.println("test1");
+								droneLand(ursinterface.theDroneId);
+						
+							}
+						
+							if(ursinterface.gestureInput.getText().equals("Send"))
+							{
+								System.out.println("test2");
+								add_location(ursinterface.theDroneId);
+							}
+						
+							if(gestureInput.getText().equals("Search"))
+							{
+								System.out.println("test3");
+								search();
+							}
+						
+							if(gestureInput.getText().equals("Low Altitude"))
+							{
+								System.out.println("test4");
+								add_location(ursinterface.theDroneId, 15);
+							}
+							if(gestureInput.getText().equals("High Altitude"))
+							{
+								System.out.println("test5");
+								add_location(ursinterface.theDroneId, 25);
+							}
 						}
-						if(gestureInput.getText().equals("Send"))
-						{
-							System.out.println("test2");
-							add_location(theDroneId);
-						}
-						if(gestureInput.getText().equals("Search"))
-						{
-							System.out.println("test3");
-							search();
-						}
-						if(gestureInput.getText().equals("Low Altitude"))
-						{
-							System.out.println("test4");
-							add_location(theDroneId, 15);
-						}
-						if(gestureInput.getText().equals("High Altitude"))
-						{
-							System.out.println("test5");
-							add_location(theDroneId, 25);
-						}
-					}
-					
-					if (e.getKeyCode() == 65) {
-						drone0Button.setEnabled(false);
-						drone1Button.setEnabled(true);
-						drone2Button.setEnabled(true);
-						drone3Button.setEnabled(true);
-						theDroneId = 0;
-					}
-					if (e.getKeyCode() == 66) {
-						drone0Button.setEnabled(true);
-						drone1Button.setEnabled(false);
-						drone2Button.setEnabled(true);
-						drone3Button.setEnabled(true);
-						theDroneId = 1;
-					}
-					if (e.getKeyCode() == 67) {
-						drone0Button.setEnabled(true);
-						drone1Button.setEnabled(true);
-						drone2Button.setEnabled(false);
-						drone3Button.setEnabled(true);
-						theDroneId = 2;
-					}
-					if (e.getKeyCode() == 68) {
-						drone0Button.setEnabled(true);
-						drone1Button.setEnabled(true);
-						drone2Button.setEnabled(true);
-						drone3Button.setEnabled(false);
-						theDroneId = 3;
-					}
 					
 					
+						if (e.getKeyCode() == 65) 
+						{
+							drone0Button.setEnabled(false);
+							drone1Button.setEnabled(true);
+							drone2Button.setEnabled(true);
+							drone3Button.setEnabled(true);
+						
+							theDroneId = 0;
+						}
 					
+						if (e.getKeyCode() == 66) 
+						{
+						
+							drone0Button.setEnabled(true);
+							drone1Button.setEnabled(false);
+							drone2Button.setEnabled(true);
+							drone3Button.setEnabled(true);
+						
+							theDroneId = 1;
+						}
+					
+						if (e.getKeyCode() == 67) 
+						{
+							drone0Button.setEnabled(true);
+							drone1Button.setEnabled(true);
+							drone2Button.setEnabled(false);
+							drone3Button.setEnabled(true);
+							theDroneId = 2;
+						}
+						
+						if (e.getKeyCode() == 68) 
+						{
+							drone0Button.setEnabled(true);
+							drone1Button.setEnabled(true);
+							drone2Button.setEnabled(true);
+							drone3Button.setEnabled(false);
+							theDroneId = 3;
+						}
+					
+					}
 				}
-				}
-				// related to leap motion interface
-				public void keyReleased(KeyEvent e) {
+
+				@Override
+				public void keyReleased(KeyEvent e) 
+				{
+					// TODO Auto-generated method stub
 					if(wearableInterface==1)
 					{
-						if (e.getKeyCode() == 16) {
+						if (e.getKeyCode() == 16) 
+						{
 							controller.removeListener(listener);
 							if(listener.closeHand)
 								gestureInput.setText("Send");
@@ -946,10 +995,19 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 								gestureInput.setText("High Altitude");
 						}	
 					}
+					
 				}
 
+				@Override
+				public void keyTyped(KeyEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
 			});
-
+			*/
+			
+			
 // .......... Adjust the view on the drones locations .........//
 			View view = getWwd().getView();
 			view.setEyePosition(Position.fromDegrees(originlatitude, originlongitude, elevationOffset));
@@ -1983,10 +2041,13 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 // ......Main Function Starts.....//
 	public static void main(String[] args) {
 // TODO Auto-generated method stub
-		final URSSimulationMapInterface ursinterface = new URSSimulationMapInterface();
+		ursinterface = new URSSimulationMapInterface();
 		ursinterface.toolTipAnnotationInit();
 		ursinterface.parseAndinitMapCoordinates();
+		
+		//Wearable_Seperate
 		listener = new LeapData();
+		
 		controller = new Controller();
 
 		final AppFrame appFrame = ursinterface.new AppFrame();

@@ -31,6 +31,8 @@ import com.leapmotion.leap.Listener;
  * built using Sphinx-4. This application uses the Sphinx-4 endpointer,
  * which automatically segments incoming audio into utterances and silences.
  */
+
+//Wearable_Seperate
 public class voiceCommand extends Thread{
  boolean voiceGate = false;
  boolean d1 = false;
