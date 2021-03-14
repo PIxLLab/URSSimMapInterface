@@ -3,30 +3,32 @@ package urssimulationmapinterface;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import com.leapmotion.leap.Controller;
+
 public class MyKeyListener implements KeyListener
 {
 	URSSimulationMapInterface ursinterface;
+	MyoData mData = new MyoData();
+	static LeapData listener = null;
+	static Controller controller = null;
 		
 	MyKeyListener(final URSSimulationMapInterface ursinterface)
 	{
 		this.ursinterface = ursinterface; 
+		listener = new LeapData();
+		controller = new Controller();
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) 
 	{
 		// TODO Auto-generated method stub
-		
-
-		// TODO Auto-generated method stub
-		
-
 		if(ursinterface.wearableInterface == 1)
 		{
 			if (e.getKeyCode() == 16) 
 			{
 				System.out.println("16 is being pressed");
-				ursinterface.controller.addListener(ursinterface.listener);
+				controller.addListener(listener);
 			
 			}
 		
@@ -96,30 +98,30 @@ public class MyKeyListener implements KeyListener
 			if (e.getKeyCode() == 16) 
 			{
 				System.out.println("16 is being pressed");
-				ursinterface.mData.testtheMyo();
+				this.mData.testtheMyo();
 				//gestureInput.setText(mData.gesture);
-				if(ursinterface.mData.gesture.equals("REST"))
+				if(this.mData.gesture.equals("REST"))
 				{
 					ursinterface.gestureInput.setText("Land");
 				}
-				if(ursinterface.mData.gesture.equals("FIST"))
+				if(this.mData.gesture.equals("FIST"))
 				{
 					ursinterface.gestureInput.setText("Send");
 				}
-				if(ursinterface.mData.gesture.equals("FINGERS_SPREAD"))
+				if(this.mData.gesture.equals("FINGERS_SPREAD"))
 				{
 					ursinterface.gestureInput.setText("Search");
 				}
-				if(ursinterface.mData.gesture.equals("WAVE_IN"))
+				if(this.mData.gesture.equals("WAVE_IN"))
 				{
 					ursinterface.gestureInput.setText("Low Altitude");
 				}
-				if(ursinterface.mData.gesture.equals("WAVE_OUT"))
+				if(this.mData.gesture.equals("WAVE_OUT"))
 				{
 					ursinterface.gestureInput.setText("High Altitude");
 				}
 			
-				System.out.println(ursinterface.mData.gesture);
+				System.out.println(this.mData.gesture);
 			}
 			
 			if (e.getKeyCode() == 17) 
@@ -329,16 +331,17 @@ public class MyKeyListener implements KeyListener
 		{
 			if (e.getKeyCode() == 16) 
 			{
-				ursinterface.controller.removeListener(ursinterface.listener);
-				if(ursinterface.listener.closeHand)
+				controller.removeListener(listener);
+				
+				if(listener.closeHand)
 					ursinterface.gestureInput.setText("Send");
-				if(ursinterface.listener.openHand)
+				if(listener.openHand)
 					ursinterface.gestureInput.setText("Search");
-				if(ursinterface.listener.oneFinger)
+				if(listener.oneFinger)
 					ursinterface.gestureInput.setText("Land");
-				if(ursinterface.listener.twoFinger)
+				if(listener.twoFinger)
 					ursinterface.gestureInput.setText("Low Altitude");
-				if(ursinterface.listener.threeFinger)
+				if(listener.threeFinger)
 					ursinterface.gestureInput.setText("High Altitude");
 			}	
 		}

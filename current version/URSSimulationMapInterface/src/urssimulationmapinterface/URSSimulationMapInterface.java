@@ -222,8 +222,8 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 	Ros ros = null;
 	int globalCounter = 0;
 	//public JTextField tf1;
-	static LeapData listener = null;
-	MyoData mData = new MyoData();
+	//static LeapData listener = null;
+	//MyoData mData = new MyoData();
 	static voiceCommand voice = null;
 	static Controller controller = null;
 	static multiThread multiTh = null;
@@ -2038,21 +2038,21 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 	 * drone3Button.setEnabled(false); theDroneId=3; } if(voice.send) {
 	 * add_location(theDroneId); } if(voice.search) { search(); } }
 	 */
+	
+	
 // ......Main Function Starts.....//
 	public static void main(String[] args) {
 // TODO Auto-generated method stub
 		ursinterface = new URSSimulationMapInterface();
 		ursinterface.toolTipAnnotationInit();
 		ursinterface.parseAndinitMapCoordinates();
-		
-		//Wearable_Seperate
-		listener = new LeapData();
-		
-		controller = new Controller();
 
 		final AppFrame appFrame = ursinterface.new AppFrame();
 		multiTh = new multiThread();
-		//voice = new voiceCommand();
+		
+		//Wearable_Seperate
+		voice = new voiceCommand(ursinterface);
+		voice.voiceCommands();
 
 		java.awt.EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -2061,9 +2061,6 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 				ursinterface.SocketConnection();
 				//ursinterface.callGetStateService();
 				//ursinterface.newTestM();
-				
-				
-
 			}
 		});
 	}// ...End of Main Function...//

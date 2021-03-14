@@ -33,7 +33,8 @@ import com.leapmotion.leap.Listener;
  */
 
 //Wearable_Seperate
-public class voiceCommand extends Thread{
+public class voiceCommand extends Thread
+{
  boolean voiceGate = false;
  boolean d1 = false;
  boolean d2 = false;
@@ -42,8 +43,17 @@ public class voiceCommand extends Thread{
  boolean send = false;
  boolean search = false;
  int counter = 0;
- URSSimulationMapInterface  ursInterface = new URSSimulationMapInterface();
-    /**
+ //URSSimulationMapInterface  ursInterface = new URSSimulationMapInterface();
+ 
+ URSSimulationMapInterface  ursInterface;
+ 
+ voiceCommand(final URSSimulationMapInterface ursInterface)
+ {
+	 this.ursInterface = ursInterface;
+ }
+ 
+ 
+ /**
      * Main method for running the HelloWorld demo.
      */
     public  void runTest(){
@@ -188,6 +198,56 @@ public class voiceCommand extends Thread{
             e.printStackTrace();
         }
     }
+    
+    
+	 public void voiceCommands()
+	 {   
+		 if(this.d1) 
+		 { 
+			 ursInterface.drone0Button.setEnabled(false);
+			 ursInterface.drone1Button.setEnabled(true); 
+			 ursInterface.drone2Button.setEnabled(true);
+			 ursInterface.drone3Button.setEnabled(true); 
+			 ursInterface.theDroneId=0; 
+		 } 
+		 	
+		 if(this.d2) 
+		 {
+			 ursInterface.drone0Button.setEnabled(true); 
+			 ursInterface.drone1Button.setEnabled(false);
+			 ursInterface.drone2Button.setEnabled(true); 
+			 ursInterface.drone3Button.setEnabled(true); 
+			 ursInterface.theDroneId=1; 
+		 }
+		 
+		 if(this.d3) 
+		 { 
+			 ursInterface.drone0Button.setEnabled(true); 
+			 ursInterface.drone1Button.setEnabled(true);
+			 ursInterface.drone2Button.setEnabled(false); 
+			 ursInterface.drone3Button.setEnabled(true); 
+			 ursInterface.theDroneId=2;
+		 } 
+		 
+		 if(this.d4) 
+		 { 
+			 ursInterface.drone0Button.setEnabled(true);
+			 ursInterface.drone1Button.setEnabled(true); 
+			 ursInterface.drone2Button.setEnabled(true);
+			 ursInterface.drone3Button.setEnabled(false); 
+			 ursInterface.theDroneId=3; 
+		 } 
+		 if(this.send) 
+		 {
+			 ursInterface.add_location(ursInterface.theDroneId); 
+		 } 
+		 
+		 if(this.search) 
+		 { 
+			 ursInterface.search(); 
+		 } 
+	 }
+	 
     
     public void run() {
         
