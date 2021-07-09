@@ -1,6 +1,6 @@
 // NEW SYSTEM
 
-package urssimulationmapinterface;
+package com.pixl.mapinterface;
 
 import com.leapmotion.leap.*;
 import com.leapmotion.leap.Gesture.*;
@@ -117,6 +117,9 @@ import java.util.concurrent.TimeUnit;
 
 import com.leapmotion.leap.*;
 import com.leapmotion.leap.Gesture.*;
+import com.pixl.wearable.MyKeyListener;
+import com.pixl.wearable.voiceCommand;
+
 import java.io.IOException;
 import java.util.*;
 
@@ -129,8 +132,6 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 
-import wearable.MyKeyListener;
-import wearable.voiceCommand;
 
 
 
@@ -298,11 +299,11 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 			scorePanel.add(gsValue);
 			
 //-------- add symbol guide panel ------------//
-			//ImageIcon iconLogo1 = new ImageIcon("/Users/urs-wearable/Documents/URSSimulationMapInterface/images/pushpins/plain-green.png");
-			//ImageIcon iconLogo2 = new ImageIcon("/Users/urs-wearable/Documents/URSSimulationMapInterface/images/pushpins/plain-blue.png");
-			//ImageIcon iconLogo3 = new ImageIcon("/Users/urs-wearable/Documents/URSSimulationMapInterface/images/redDot-H.png");
-			//ImageIcon iconLogo4 = new ImageIcon("/Users/urs-wearable/Documents/URSSimulationMapInterface/images/redDot.png");
-			//ImageIcon iconLogo5 = new ImageIcon("/Users/urs-wearable/Documents/URSSimulationMapInterface/images/bn.png");
+			//ImageIcon iconLogo1 = new ImageIcon("/Users/urs-com/Documents/URSSimulationMapInterface/images/pushpins/plain-green.png");
+			//ImageIcon iconLogo2 = new ImageIcon("/Users/urs-com/Documents/URSSimulationMapInterface/images/pushpins/plain-blue.png");
+			//ImageIcon iconLogo3 = new ImageIcon("/Users/urs-com/Documents/URSSimulationMapInterface/images/redDot-H.png");
+			//ImageIcon iconLogo4 = new ImageIcon("/Users/urs-com/Documents/URSSimulationMapInterface/images/redDot.png");
+			//ImageIcon iconLogo5 = new ImageIcon("/Users/urs-com/Documents/URSSimulationMapInterface/images/bn.png");
 
 			/*
 			ImageIcon iconLogo1 = new ImageIcon("/home/redwan/Desktop/NMSU/RA/PIXLRepoGIT/URSSimMapInterface/current version/URSSimulationMapInterface/images/pushpins/plain-green.png");
@@ -1033,7 +1034,7 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 //////////////////////////////////////
 ///// add shape files /////////////// YOU NEED TO CHANGE THE PATH 
 
-			//Shapefile sf2 = new Shapefile(new File("/Users/urs-wearable/Desktop/shape2/lines.shp"));
+			//Shapefile sf2 = new Shapefile(new File("/Users/urs-com/Desktop/shape2/lines.shp"));
 			
 			//Shapefile sf2 = new Shapefile(new File("/home/redwan/Desktop/NMSU/RA/PIXLRepoGIT/URSSimMapInterface/current version/shape2/lines.shp"));
 			
@@ -1041,7 +1042,7 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 			
 			 this.getWwd().getModel().getLayers().add(new ShapefileLoader().createLayerFromShapefile(sf2));
 			
-			//Shapefile sf3 = new Shapefile(new File("/Users/urs-wearable/Desktop/shape2/GameMap.shp"));
+			//Shapefile sf3 = new Shapefile(new File("/Users/urs-com/Desktop/shape2/GameMap.shp"));
 			
 			//Shapefile sf3 = new Shapefile(new File("/home/redwan/Desktop/NMSU/RA/PIXLRepoGIT/URSSimMapInterface/current version/shape2/GameMap.shp"));
 			
@@ -1359,7 +1360,7 @@ public class URSSimulationMapInterface extends ApplicationTemplate {
 		LatLon latlon = new LatLon(Angle.fromDegrees(32.280777691888545), Angle.fromDegrees(-106.7513664059102));
 		double radius = 10.0;
 		ShapeAttributes normalAttrs = new BasicShapeAttributes();
-		normalAttrs.setImageSource("/Users/urs-wearable/Documents/URSSimulationMapInterface/images/HDZP.png");
+		normalAttrs.setImageSource("/Users/urs-com/Documents/URSSimulationMapInterface/images/HDZP.png");
 		normalAttrs.setOutlineMaterial(Material.RED);
 		normalAttrs.setInteriorOpacity(0.75);
 		SurfaceCircle surfaceCircle = new SurfaceCircle(normalAttrs, latlon, radius);

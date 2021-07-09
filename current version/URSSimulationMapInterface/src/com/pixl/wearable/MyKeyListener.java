@@ -1,11 +1,11 @@
-package wearable;
+package com.pixl.wearable;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import urssimulationmapinterface.URSSimulationMapInterface;
 
 import com.leapmotion.leap.Controller;
+import com.pixl.mapinterface.URSSimulationMapInterface;
 
 public class MyKeyListener implements KeyListener
 {

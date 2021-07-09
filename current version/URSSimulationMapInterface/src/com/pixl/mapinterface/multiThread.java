@@ -1,4 +1,4 @@
-package urssimulationmapinterface;
+package com.pixl.mapinterface;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -73,6 +73,7 @@ public void run() {
 public void start()
 {
 	try {
+		//socket1 = new Socket("192.168.2.2",11000);
 		socket1 = new Socket("172.24.109.70",11000);
 		run();
 	} catch (IOException e) {

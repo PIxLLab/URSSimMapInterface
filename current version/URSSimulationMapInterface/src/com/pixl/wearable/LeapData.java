@@ -1,4 +1,4 @@
-package wearable;
+package com.pixl.wearable;
 
 import com.leapmotion.leap.Controller;
 import com.leapmotion.leap.Finger;
@@ -6,8 +6,8 @@ import com.leapmotion.leap.Frame;
 import com.leapmotion.leap.Gesture;
 import com.leapmotion.leap.Hand;
 import com.leapmotion.leap.Listener;
+import com.pixl.mapinterface.URSSimulationMapInterface;
 
-import urssimulationmapinterface.URSSimulationMapInterface;
 
 //Wearable_Seperate
 class LeapData extends Listener{

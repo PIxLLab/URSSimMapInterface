@@ -5,4 +5,4 @@
  * @author redwan
  *
  */
-package wearable;
+package com.pixl.wearable;

@@ -1,4 +1,4 @@
-package wearable;
+package com.pixl.wearable;
 
 import com.thalmic.myo.AbstractDeviceListener;
 import com.thalmic.myo.Myo;

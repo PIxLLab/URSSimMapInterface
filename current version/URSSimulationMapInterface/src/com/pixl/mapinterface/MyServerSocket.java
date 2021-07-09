@@ -1,4 +1,4 @@
-package urssimulationmapinterface;
+package com.pixl.mapinterface;
 
 import java.io.BufferedReader;
 import java.io.IOException;

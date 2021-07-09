@@ -1,4 +1,4 @@
-package urssimulationmapinterface;
+package com.pixl.mapinterface;
 
 import java.util.HashMap;
 import java.util.Map;

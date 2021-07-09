@@ -3,7 +3,7 @@ syntax = "proto2";
 package pb_wearable;
 
 /* ******************************************/
-/* A request message from a wearable device */
+/* A request message from a com device */
 /* ******************************************/
 message WearableRequest {
   required WearableRequestType type = 1;
@@ -59,7 +59,7 @@ message WearableRequest {
 }
 
 /* *****************************************/
-/* A response message to a wearable device */
+/* A response message to a com device */
 /* *****************************************/
 message WearableResponse {
   required WearableResponseType type = 1;

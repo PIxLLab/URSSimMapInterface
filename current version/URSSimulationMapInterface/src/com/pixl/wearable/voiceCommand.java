@@ -10,7 +10,7 @@
  *
  */
 
-package wearable;
+package com.pixl.wearable;
 
 import edu.cmu.sphinx.frontend.util.Microphone;
 import edu.cmu.sphinx.recognizer.Recognizer;
@@ -23,9 +23,9 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
-import urssimulationmapinterface.URSSimulationMapInterface;
 
 import com.leapmotion.leap.Listener;
+import com.pixl.mapinterface.URSSimulationMapInterface;
 
 
 /**
